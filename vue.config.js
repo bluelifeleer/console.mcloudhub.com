@@ -6,5 +6,9 @@ module.exports = {
   assetsDir: 'assets/', // 设置编译后的静态资源目录
   css: {
     sourceMap: true
+  },
+  devServer: {
+    // host:'localhost',
+    // port:8080
   }
 }

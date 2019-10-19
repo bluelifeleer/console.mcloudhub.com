@@ -10,7 +10,8 @@
           <input type="text"
                  name="name"
                  :placeholder="form.name.placeholder"
-                 v-model="form.name.value" />
+                 v-model="form.name.value"
+                 autocomplete="off" />
           <span class="input-tip"
                 v-if="form.name.showTips">{{form.name.tips}}</span>
         </div>
@@ -20,7 +21,8 @@
           <input type="password"
                  name="password"
                  :placeholder="form.password.placeholder"
-                 v-model="form.password.value" />
+                 v-model="form.password.value"
+                 autocomplete="off" />
           <span class="input-tip"
                 v-if="form.password.showTips">{{form.password.tips}}</span>
         </div>
@@ -31,6 +33,7 @@
                  name="verify-code"
                  :placeholder="form.verifyCode.placeholder"
                  v-model="form.verifyCode.value"
+                 autocomplete="off"
                  style="width:120px;" />
           <a href="javascript:void(0);"
              class="verify-code-box"><img src=""
@@ -101,7 +104,7 @@ export default {
 }
 
 .login-box {
-  width: 20%;
+  width: 27%;
   height: auto;
   background: #fff;
   border-radius: 5px;
