@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Dashboard from './views/Dashboard.vue'
+import ImgToBase from './views/tools/ImgToBase.vue'
 import Login from './views/login.vue'
 
 Vue.use(Router)
@@ -12,6 +14,19 @@ export default new Router({
 			path: '/',
 			name: 'home',
 			component: Home
+		}, {
+			path: '/dashboard',
+			name: 'dashboard',
+			component: Dashboard
+		}, {
+			path: '/tootl',
+			name: 'tootl',
+			component: Home,
+			children: [{
+				path: 'img2base64',
+				name: 'img2base64',
+				component: ImgToBase,
+			}]
 		}, {
 			path: '/login',
 			name: 'login',

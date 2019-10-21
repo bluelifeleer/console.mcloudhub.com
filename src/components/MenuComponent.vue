@@ -1,0 +1,140 @@
+<template>
+	<div class="menu-component" :style="{'width':width+'px'}">
+		<ul class="menu-list-group">
+			<li class="meni-list-items" v-for="(menu,$index) in menus" :key="$index" :index="menu.index">
+				<div class="menu-list-items-tap"><a :href="menu.alink" class="menu-list-items-tap-alink"><i class="icon menu-list-items-tap-icon"></i><span class="menu-list-items-tap-text">{{menu.text}}</span></a></div>
+				<div class="menu-list-childs-box" v-if="menu.childs.length">
+					<ul class="menu-list-items-child-list-group">
+						<li class="menu-list-items-child-list-items" v-for="(child,$index) in menu.childs" :key="$index" :index="menu.index+'-'+child.index">
+							<div class="menu-list-items-child-list-items-tap"><a :href="child.alink" class="menu-list-items-child-list-items-tap-alink"><i class="icon menu-list-items-child-list-items-tap-icon"></i><span class="menu-list-items-child-list-items-tap-text">{{child.text}}</span></a></div>
+						</li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</div>
+</template>
+
+<script>
+	export default{
+		name:'MenuComponent',
+		props:['width'],
+		data(){
+			return {
+				menus:[{
+					index:0,
+					text:'开发工具',
+					icon:'',
+					alink:'',
+					childs:[{
+						index:0,
+						text:'图片转Base64',
+						icon:'',
+						alink:'/tootl/img2base64',
+						childs:[]
+					},{
+						index:1,
+						text:'正则测试',
+						icon:'',
+						alink:'',
+						childs:[]
+					},{
+						index:2,
+						text:'URL编/解码',
+						icon:'',
+						alink:'',
+						childs:[]
+					},{
+						index:3,
+						text:'二维码生成',
+						icon:'',
+						alink:'',
+						childs:[]
+					},{
+						index:4,
+						text:'接口调试',
+						icon:'',
+						alink:'',
+						childs:[]
+					}]
+				},{
+					index:1,
+					text:'快速记事',
+					icon:'',
+					alink:'',
+					childs:[]
+				},{
+					index:2,
+					text:'代码片段',
+					icon:'',
+					alink:'',
+					childs:[]
+				},{
+					index:3,
+					text:'财务记录',
+					icon:'',
+					alink:'',
+					childs:[]
+				}]
+			}
+		},
+		created(){
+
+		},
+		methods:{
+
+		},
+		mounted(){
+
+		}
+	}
+</script>
+<style scoped>
+	.menu-component{}
+
+	.menu-component a{
+		display:block;
+		width:100%;
+		height:50px;
+		color:#909399;
+	}
+
+	.menu-list-group{
+		width:100%;
+		height:auto;
+		background:#
+	}
+
+	.meni-list-items{
+		width:100%;
+		height:auto;
+		position:relative;
+	}
+
+	.menu-list-items-tap{
+		width:100%;
+		height:50px;
+		padding:0 0 0 10%;
+	}
+
+	.menu-list-childs-box{
+		width:100%;
+		height:auto;
+	}
+
+	.menu-list-items-child-list-group{
+		width:100%;
+		height:auto;
+	}
+
+	.menu-list-items-child-list-items{
+		width:100%;
+		height:auto;
+	}
+
+	.menu-list-items-child-list-items-tap{
+		width:100%;
+		height:50px;
+		padding:0 0 0 20%;
+	}
+</style>

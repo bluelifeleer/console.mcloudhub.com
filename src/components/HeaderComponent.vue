@@ -5,7 +5,7 @@
 </template>
 <script>
   export default {
-    name: 'Header',
+    name: 'HeaderComponent',
     data() {
       return {
 
@@ -22,9 +22,10 @@
   .header-container {
     width: 100%;
     height: 50px;
-    background: #000;
-    opacity: .4;
-    filter: alpha(opacity:40);
+    background: #fff;
+    -opacity: .4;
+    -filter: alpha(opacity:40);
+    box-shadow:0 0 8px #ccc;
     position: fixed;
     left: 0;
     top: 0;
