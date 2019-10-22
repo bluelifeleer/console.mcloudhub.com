@@ -2,11 +2,11 @@
 	<div class="menu-component" :style="{'width':width+'px'}">
 		<ul class="menu-list-group">
 			<li class="meni-list-items" v-for="(menu,$index) in menus" :key="$index" :index="menu.index">
-				<div class="menu-list-items-tap"><a :href="menu.alink" class="menu-list-items-tap-alink"><i class="icon menu-list-items-tap-icon"></i><span class="menu-list-items-tap-text">{{menu.text}}</span></a></div>
+				<div class="menu-list-items-tap"><a :href="menu.alink" class="menu-list-items-tap-alink"><span class="menu-list-items-tap-text">{{menu.text}}</span><i class="icon menu-list-items-tap-icon iconfont" v-if="menu.childs.length">&#xe63a;</i><i class="icon menu-list-items-tap-icon" v-else></i></a></div>
 				<div class="menu-list-childs-box" v-if="menu.childs.length">
 					<ul class="menu-list-items-child-list-group">
 						<li class="menu-list-items-child-list-items" v-for="(child,$index) in menu.childs" :key="$index" :index="menu.index+'-'+child.index">
-							<div class="menu-list-items-child-list-items-tap"><a :href="child.alink" class="menu-list-items-child-list-items-tap-alink"><i class="icon menu-list-items-child-list-items-tap-icon"></i><span class="menu-list-items-child-list-items-tap-text">{{child.text}}</span></a></div>
+							<div class="menu-list-items-child-list-items-tap"><a :href="child.alink" class="menu-list-items-child-list-items-tap-alink"><span class="menu-list-items-child-list-items-tap-text">{{child.text}}</span><i class="icon menu-list-items-child-list-items-tap-icon"></i></a></div>
 						</li>
 					</ul>
 				</div>
@@ -59,7 +59,7 @@
 					}]
 				},{
 					index:1,
-					text:'快速记事',
+					text:'工作记录',
 					icon:'',
 					alink:'',
 					childs:[]
@@ -117,6 +117,17 @@
 		padding:0 0 0 10%;
 	}
 
+	.menu-list-items-tap .menu-list-items-tap-text{
+		height:50px;
+		line-height:50px;
+	}
+
+	.menu-list-items-tap-icon{
+		position:absolute;
+		right:20px;
+		top:15px;
+	}
+
 	.menu-list-childs-box{
 		width:100%;
 		height:auto;
@@ -136,5 +147,10 @@
 		width:100%;
 		height:50px;
 		padding:0 0 0 20%;
+	}
+
+	.menu-list-items-child-list-items-tap .menu-list-items-child-list-items-tap-text{
+		height:50px;
+		line-height:50px;
 	}
 </style>

@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Dashboard from './views/Dashboard.vue'
 import ImgToBase from './views/tools/ImgToBase.vue'
+import ArticleLists from './views/article/ArticleLists.vue'
+import ArticleAdd from './views/article/ArticleAdd.vue'
 import Login from './views/login.vue'
 
 Vue.use(Router)
@@ -26,6 +28,19 @@ export default new Router({
 				path: 'img2base64',
 				name: 'img2base64',
 				component: ImgToBase,
+			}]
+		}, {
+			path: '/article',
+			name: 'article',
+			component: Home,
+			children: [{
+				path: 'list',
+				name: 'articleLists',
+				component: ArticleLists
+			}, {
+				path: 'add',
+				name: 'articleAdd',
+				component: ArticleAdd
 			}]
 		}, {
 			path: '/login',

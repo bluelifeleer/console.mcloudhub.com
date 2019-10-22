@@ -3,7 +3,7 @@
 	  <div class="header-box"><HeaderComponent /></div>
 	  <div class="article-box">
 	  	<div class="menu-layout-box">
-	  		<MenuComponent width="300"></MenuComponent>
+	  		<MenuComponent width="280"></MenuComponent>
 	  	</div>
 			<div class="right-layout-box">
 				<router-view />
@@ -47,13 +47,13 @@
 
 	.menu-layout-box{
 		float:left;
-		width:20%;
+		width:15%;
 		height:auto;
 	}
 
 	.right-layout-box{
 		float:left;
-		width:80%;
+		width:85%;
 		height:auto;
 	}
 
