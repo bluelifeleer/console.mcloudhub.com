@@ -2,7 +2,7 @@
  * @Author: bluelife
  * @Date:   2019-10-10 23:41:42
  * @Last Modified by:   lipeng
- * @Last Modified time: 2019-10-22 09:48:51
+ * @Last Modified time: 2019-10-23 15:22:07
  */
 'use tsrict'
 const os = require('os')
@@ -76,7 +76,6 @@ app.use(cookieParser('session_id', {
 //     assert.ifError(error);
 //     assert.ok(false);
 // });
-
 // app.use(session({
 //     genid: function (req) {
 //         return uuidv4() // use UUIDs for session IDs
@@ -89,6 +88,7 @@ app.use(cookieParser('session_id', {
 //         secure: true,
 //         maxAge: 1800000,
 //     },
+
 //     rolling: true
 // }));
 
@@ -142,6 +142,9 @@ app.use(history({
 	rewrites: [{
 		from: /\//,
 		to: '/'
+	}, {
+		from: /\/api/,
+		to: '/api'
 	}]
 }))
 // 设置网站ico
@@ -150,6 +153,7 @@ app.use(favicon(path.join(__dirname, 'dist', 'favicon.ico')))
 app.use('/assets', express.static(path.join(__dirname, '/dist/assets')))
 // 定义路由
 app.use('/', require(path.join(__dirname, '/routers/index')))
+app.use('/api', require(path.join(__dirname, '/routers/api')))
 
 // mongoose.connect('mongodb://localhost:27017/console', {
 //     useNewUrlParser: true,
