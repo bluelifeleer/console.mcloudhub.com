@@ -1,11 +1,11 @@
 <template>
-	<div class="article-editor"></div>
+	<div class="article-details"></div>
 </template>
 <script>
 	export default{
-		name:'ArticleEditor',
+		name:'ArticleDetails',
 		data(){
-			return{
+			return {
 
 			}
 		},
@@ -15,7 +15,7 @@
 	}
 </script>
 <style scoped>
-	.article-editor{
+	.article-details{
 		width:100%;
 		height:auto;
 	}

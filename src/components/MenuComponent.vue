@@ -61,7 +61,7 @@
 					index:1,
 					text:'工作记录',
 					icon:'',
-					alink:'',
+					alink:'/article/list',
 					childs:[]
 				},{
 					index:2,
