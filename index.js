@@ -2,7 +2,7 @@
  * @Author: bluelife
  * @Date:   2019-10-10 23:41:42
  * @Last Modified by:   lipeng
- * @Last Modified time: 2019-10-23 15:22:07
+ * @Last Modified time: 2019-10-23 18:24:59
  */
 'use tsrict'
 const os = require('os')
@@ -37,7 +37,7 @@ const compression = require('compression')
 // 是否启动记录访问日志
 const STARTLOG = true
 // 设置模板引擎
-app.set('views', path.join(__dirname, '/dist'))
+app.set('views', path.join(__dirname, '/www/views'))
 app.set('view engine', 'ejs')
 app.engine('html', ejs.renderFile)
 // 启动gzip压缩
@@ -137,7 +137,7 @@ if (STARTLOG) {
 }
 // 设置vue使用history模式
 app.use(history({
-	index: path.join(__dirname, 'dist/', 'index.html'),
+	index: path.join(__dirname, 'www/views', 'index.html'),
 	htmlAcceptHeaders: ['text/html', 'application/xhtml+xml'],
 	rewrites: [{
 		from: /\//,
@@ -148,12 +148,12 @@ app.use(history({
 	}]
 }))
 // 设置网站ico
-app.use(favicon(path.join(__dirname, 'dist', 'favicon.ico')))
-// 设置静态资源文件
-app.use('/assets', express.static(path.join(__dirname, '/dist/assets')))
-// 定义路由
-app.use('/', require(path.join(__dirname, '/routers/index')))
-app.use('/api', require(path.join(__dirname, '/routers/api')))
+app.use(favicon(path.join(__dirname, 'www/views', 'favicon.ico')))
+// // 设置静态资源文件
+// app.use('/assets', express.static(path.join(__dirname, '/www/views/assets')))
+// // 定义路由
+// app.use('/', require(path.join(__dirname, '/www/routers/index')))
+// app.use('/api', require(path.join(__dirname, '/www/routers/api')))
 
 // mongoose.connect('mongodb://localhost:27017/console', {
 //     useNewUrlParser: true,
