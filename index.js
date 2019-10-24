@@ -2,7 +2,7 @@
  * @Author: bluelife
  * @Date:   2019-10-10 23:41:42
  * @Last Modified by:   lipeng
- * @Last Modified time: 2019-10-23 18:24:59
+ * @Last Modified time: 2019-10-24 09:22:32
  */
 'use tsrict'
 const os = require('os')
@@ -137,7 +137,7 @@ if (STARTLOG) {
 }
 // 设置vue使用history模式
 app.use(history({
-	index: path.join(__dirname, 'www/views', 'index.html'),
+	index: path.join(__dirname, '/www/views', 'index.html'),
 	htmlAcceptHeaders: ['text/html', 'application/xhtml+xml'],
 	rewrites: [{
 		from: /\//,
@@ -148,12 +148,13 @@ app.use(history({
 	}]
 }))
 // 设置网站ico
-app.use(favicon(path.join(__dirname, 'www/views', 'favicon.ico')))
+app.use(favicon(path.join(__dirname, '/www/views', 'favicon.ico')))
 // // 设置静态资源文件
-// app.use('/assets', express.static(path.join(__dirname, '/www/views/assets')))
+app.use('/assets', express.static(path.join(__dirname, '/www/views/assets')))
 // // 定义路由
-// app.use('/', require(path.join(__dirname, '/www/routers/index')))
-// app.use('/api', require(path.join(__dirname, '/www/routers/api')))
+app.use('/', require(path.join(__dirname, '/www/routers/index')))
+app.use('/api/user', require(path.join(__dirname, '/www/routers/api/user')))
+app.use('/api/article', require(path.join(__dirname, '/www/routers/api/article')))
 
 // mongoose.connect('mongodb://localhost:27017/console', {
 //     useNewUrlParser: true,
