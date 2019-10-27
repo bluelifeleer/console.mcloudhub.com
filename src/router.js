@@ -3,6 +3,10 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Dashboard from './views/Dashboard.vue'
 import ImgToBase from './views/tools/ImgToBase.vue'
+import ApiTest from './views/tools/apiTest'
+import urlMarkQuery from './views/tools/urlMarkQuery'
+import QrCode from './views/tools/qrcode'
+import Active from './views/tools/active'
 import ArticleLists from './views/article/ArticleLists.vue'
 import ArticleAdd from './views/article/ArticleAdd.vue'
 import Login from './views/login.vue'
@@ -28,6 +32,22 @@ export default new Router({
 				path: 'img2base64',
 				name: 'img2base64',
 				component: ImgToBase,
+			},{
+				path: 'active',
+				name: 'active',
+				component: Active,
+			},{
+				path: 'qrcode',
+				name: 'qrcode',
+				component: QrCode,
+			},{
+				path:'apitest',
+				name:'apitest',
+				component:ApiTest
+			},{
+				path:'urlmq',
+				name:'urlmq',
+				component:urlMarkQuery
 			}]
 		}, {
 			path: '/article',

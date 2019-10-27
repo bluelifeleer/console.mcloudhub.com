@@ -4,13 +4,36 @@
 			<div class="article-title"><input type="text" name="article-title" value="" v-model="article.title" placeholder="输入文章标题"></div>
 			<div class="article-content-box"><mavon-editor v-model="article.content" @change="getEditorValue" ref="markerdown" /></div>
 			<div class="article-targets-box">
-				<label for="">选择标签：</label>
+				<div class="article-targets-title"><label for="targets">选择标签：</label><a href="javascript:void(0);" class="add-target-but" @click="targetAddDialog=true">添加标签</a></div>
 				<div class="article-targets-selector-options"><a href="javascript:void(0);" class="targets-selector-options" v-for="(target,$index) in targets" :key="$index" :index="target.index" :title="target.text" @click="selectItems(target)" :class="{'targets-selector-options-active':target.selected}">{{target.text}}</a></div>
 			</div>
 			<div class="article-add-form-submit-box">
 				<a href="javascript:void(0);" class="article-add-form-submit" @click="articleFormSubmit($event)">保存</a>
 			</div>
 		</div>
+		<el-dialog title="添加标签:" :visible.sync="targetAddDialog" width="40%">
+		  <el-form :model="addTargtForm">
+		  	<el-form-item label="标签排序：" :label-width="formLabelWidth">
+		      <el-input v-model="addTargtForm.index" auto-complete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="标签名称：" :label-width="formLabelWidth">
+		      <el-input v-model="addTargtForm.name" auto-complete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="标签icon：" :label-width="formLabelWidth">
+		      <el-input v-model="addTargtForm.icon" auto-complete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="标签连接：" :label-width="formLabelWidth">
+		      <el-input v-model="addTargtForm.link" auto-complete="off"></el-input>
+		    </el-form-item>
+		    <el-form-item label="标签描述：" :label-width="formLabelWidth">
+		    	<el-input type="textarea" v-model="addTargtForm.desc"></el-input>
+		    </el-form-item>
+		  </el-form>
+		  <div slot="footer" class="dialog-footer">
+		    <el-button @click="targetAddDialog = false">取 消</el-button>
+		    <el-button type="success" @click="targetAddFormSubmit($event)">确 定</el-button>
+		  </div>
+		</el-dialog>
 	</div>
 </template>
 
@@ -19,9 +42,20 @@
 		name:'ArticleAdd',
 		data(){
 			return {
+				targetAddDialog:false,
+				formLabelWidth: '120px',
+				addTargtForm:{
+					index:'',
+					name:'',
+					icon:'',
+					desc:'',
+					link:''
+				},
 				article:{
 					title:'',
 					content:'',
+					html:'',
+					markDown:'',
 					targets:[]
 				},
 				targets:[{
@@ -125,14 +159,41 @@
 		},
 		methods:{
 			selectItems(item){
+				this.article.targets = [];
 				item.selected = !item.selected;
+				this.targets.forEach((item)=>{
+					if(item.selected){
+						this.article.targets.push(item.value);
+					}
+				});
 			},
-			articleFormSubmit(e){
-				console.log(this.article.content)
+			targetAddFormSubmit(e){
+				this.targetAddDialog = false;
+				this.$axios({
+					url:'/api/target/add',
+					method:'POST',
+					data:this.addTargtForm
+				}).then(res=>{
+					console.log(res)
+				}).catch(err=>{
+					console.log(err)
+				});
 			},
 			getEditorValue(value, render){
-				console.log(value)
-				console.log(render)
+				this.article.html = value;
+				this.article.content = render;
+				this.article.markDown = value;
+			},
+			articleFormSubmit(e){
+				this.$axios({
+					url:'/api/article/add',
+					method:'POST',
+					data:this.article
+				}).then(res=>{
+					console.log(res)
+				}).catch(err=>{
+					console.log(err)
+				});
 			}
 		}
 	}
@@ -180,11 +241,33 @@
 		overflow:hidden;
 	}
 
-	.article-targets-box label{
-		display:block;
+	.article-targets-box .article-targets-title{
 		width:100%;
-		height:40px;
-		line-height:40px;
+		height:auto;
+		overflow:hidden;
+		margin:0 0 10px 0;
+	}
+
+	.article-targets-title label{
+		display:block;
+		float:left;
+		width:auto;
+		height:30px;
+		line-height:30px;
+		padding:0 10px;
+	}
+
+	.article-targets-title a{
+		display:block;
+		float:left;
+		width:auto;
+		height:30px;
+		line-height:30px;
+		padding:0 20px;
+		border-radius:15px;
+		background:#5D9D3E;
+		color:#fff;
+		margin:0 0 0 20px;
 	}
 
 	.article-targets-selector-options{

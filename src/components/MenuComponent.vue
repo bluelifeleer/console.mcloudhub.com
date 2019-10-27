@@ -42,19 +42,25 @@
 						index:2,
 						text:'URL编/解码',
 						icon:'',
-						alink:'',
+						alink:'/tootl/urlmq',
 						childs:[]
 					},{
 						index:3,
 						text:'二维码生成',
 						icon:'',
-						alink:'',
+						alink:'/tootl/qrcode',
 						childs:[]
 					},{
 						index:4,
 						text:'接口调试',
 						icon:'',
-						alink:'',
+						alink:'/tootl/apitest',
+						childs:[]
+					},{
+						index:5,
+						text:'活动页面生成',
+						icon:'',
+						alink:'/tootl/active',
 						childs:[]
 					}]
 				},{

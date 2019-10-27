@@ -7,17 +7,17 @@
 const path = require('path');
 const express = require('express');
 const router = express.Router();
-const User = require('../../models/userModel');
+const Target = require('../../models/targetModel');
 
-router.get('/signin', (req, res, next) => {
+router.post('/signin', (req, res, next) => {
+  console.log(res.body)
+});
+
+router.post('/register', (req, res, next) => {
 
 });
 
-router.get('/register', (req, res, next) => {
-
-});
-
-router.get('/signout', (req, res, next) => {
+router.post('/signout', (req, res, next) => {
 
 });
 
