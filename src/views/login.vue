@@ -19,8 +19,8 @@
           <label for="verify-code" :class="{'request':form.verifyCode.request}">验证码：</label>
           <input type="text" name="verify-code" :placeholder="form.verifyCode.placeholder"
             v-model="form.verifyCode.value" autocomplete="off" style="width:120px;" />
-          <a href="javascript:void(0);" class="verify-code-box" title="点击刷新二维码"><img src="../assets/captcha.svg"
-              alt=""></a>
+          <a href="javascript:void(0);" class="verify-code-box" title="点击刷新验证码" @click="refreshVerifyCode($event)"><img
+              src="/captcha/verifyCode" alt="" ref="verifyCodeImg"></a>
           <span class="input-tip" v-if="form.verifyCode.showTips">{{form.verifyCode.tips}}</span>
         </div>
         <div class="login-form-items">
@@ -64,6 +64,10 @@
     },
     created() {},
     methods: {
+      refreshVerifyCode(e) {
+        let nowDate = new Date();
+        this.$refs.verifyCodeImg.src = '/captcha/verifyCode?timer=' + nowDate.getTime();
+      },
       loginFormSubmit() {
         this.$axios({
           url: '/api/user/signin',
@@ -99,7 +103,7 @@
   }
 
   .login-box {
-    width: 27%;
+    width: 24%;
     height: auto;
     background: #fff;
     border-radius: 5px;
@@ -143,7 +147,7 @@
   .login-form-items input {
     display: block;
     float: left;
-    width: 75%;
+    width: 71%;
     height: 38px;
     line-height: 38px;
     border: 1px solid #c1c1c1;

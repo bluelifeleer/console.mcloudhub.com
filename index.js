@@ -149,9 +149,9 @@ app.use(history({
 
 // 设置网站ico
 app.use(favicon(path.join(__dirname, '/www/views', 'favicon.ico')))
-// // 设置静态资源文件
+// 设置静态资源文件
 app.use('/assets', express.static(path.join(__dirname, '/www/views/assets')))
-// // 定义路由
+// 定义路由
 app.use('/', require(path.join(__dirname, '/www/routers/index')))
 app.use('/api/user', require(path.join(__dirname, '/www/routers/api/user')))
 app.use('/api/article', require(path.join(__dirname, '/www/routers/api/article')))
