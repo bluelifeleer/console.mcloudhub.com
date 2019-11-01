@@ -1,8 +1,8 @@
 /*
  * @Author: bluelife
  * @Date:   2019-10-10 23:41:42
- * @Last Modified by:   bluelife
- * @Last Modified time: 2019-10-26 02:37:56
+ * @Last Modified by:   lipeng
+ * @Last Modified time: 2019-10-31 17:42:27
  */
 'use tsrict'
 const os = require('os')
@@ -65,7 +65,7 @@ app.use(cookieParser('session_id', {
 }))
 
 const store = new MongoDBStore({
-  uri: 'mongodb://localhost:27017',
+  uri: 'mongodb://192.168.1.187:27017',
   databaseName: 'console',
   collection: 'sessions'
 }, err => {
@@ -77,7 +77,7 @@ store.on('error', error => {
   assert.ok(false);
 });
 app.use(session({
-  genid: function (req) {
+  genid: function(req) {
     return uuidv4() // use UUIDs for session IDs
   },
   secret: 'session_id', // 与cookieParser中的一致
@@ -93,7 +93,7 @@ app.use(session({
 }));
 
 // 服务器启动时默认配置/动作
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   // 将登录后的用户信息附加到request头信息中
   if (req.cookies.uid && req.cookies.uid != '') {
     try {
@@ -113,7 +113,7 @@ app.use(csurf({
   cookie: true,
   ignoreMethods: ['GET', 'POST']
 }))
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
   if (err.code !== 'EBADCSRFTOKEN') return next(err)
   // handle CSRF token errors here
   res.status(403)
@@ -160,7 +160,7 @@ app.use('/captcha', require(path.join(__dirname, '/www/routers/api/captcha')))
 
 
 
-mongoose.connect('mongodb://localhost:27017/console', {
+mongoose.connect('mongodb://192.168.1.187:27017/console', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, (err, res) => {
