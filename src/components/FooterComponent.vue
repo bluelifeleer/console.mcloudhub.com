@@ -1,18 +1,18 @@
 <template>
-	<div class="footer-container">
-	</div>
+  <div class="footer-container">
+  </div>
 </template>
-
 <script>
-	export default{
-		name:'FooterComponent',
-		data(){
-			return {
+export default {
+  name: 'FooterComponent',
+  data() {
+    return {
 
-			}
-		},
-		created(){},
-		methods:{},
-		mounted(){}
-	}
+    }
+  },
+  created() {},
+  methods: {},
+  mounted() {}
+}
+
 </script>

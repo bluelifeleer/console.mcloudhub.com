@@ -1,13 +1,13 @@
 /*
- * @Author: lipeng
- * @Date:   2019-10-24 09:22:59
+ * @Author: bluelife
+ * @Date:   2019-11-10 03:33:01
  * @Last Modified by:   bluelife
- * @Last Modified time: 2019-11-09 13:54:45
+ * @Last Modified time: 2019-11-10 03:57:25
  */
 const path = require('path');
 const express = require('express');
 const router = express.Router();
-const Article = require('../../models/articleModel');
+const Active = require('../../models/activeModel');
 const User = require('../../models/userModel');
 let output = {
   code: 0,
@@ -18,31 +18,29 @@ let output = {
 
 router.get('/list', (req, res, next) => {
   let uid = req.query.uid;
-  let offset = parseInt(req.query.offset) || 1;
+  let offset = parseInt(req.query.offset);
+  let nums = parseInt(req.query.nums);
   let sort = req.query.sort;
-  let nums = parseInt(req.query.nums) || 10;
-  Article.countDocuments({
+  Active.countDocuments({
     uid: uid
   }, (err, count) => {
-    Article.find({
+    Active.find({
       uid: uid
     }).populate([{
       path: 'own',
       select: 'name'
-    }, {
-      path: 'targets',
-      select: 'name'
-    }]).skip(parseInt(nums * (offset - 1))).limit(nums).then(articles => {
-      if (articles) {
+    }]).skip(parseInt(nums * (offset - 1))).limit(nums).then(actives => {
+      if (actives) {
         output = {
           code: 1,
           msg: 'SUCCESS',
           ok: true,
           data: {
-            count: count,
-            offset: offset,
+            offset: offSet,
             nums: nums,
-            list: articles
+            sort: sort,
+            count: count,
+            list: actives
           }
         };
         res.json(output);
@@ -50,25 +48,21 @@ router.get('/list', (req, res, next) => {
     }).catch(err => {
       console.log(err)
     })
-  })
-
+  });
 });
 
 router.get('/get', (req, res, next) => {
   let id = req.query.id;
-  Article.findById(id).populate([{
+  Active.findById(id).populate([{
     path: 'own',
     select: 'name'
-  }, {
-    path: 'targets',
-    select: 'name'
-  }]).then(article => {
-    if (article) {
+  }]).then(active => {
+    if (active) {
       output = {
         code: 1,
         msg: 'SUCCESS',
         ok: true,
-        data: article
+        data: active
       };
       res.json(output);
     }
@@ -77,29 +71,32 @@ router.get('/get', (req, res, next) => {
   })
 });
 
+router.get('/delete', (req, res, next) => {
+
+});
+
+router.post('/update', (req, res, next) => {
+
+});
+
 router.post('/add', (req, res, next) => {
   let uid = req.body.uid;
-  let title = req.body.title;
-  let content = req.body.content;
-  let html = req.body.html;
-  let markDown = req.body.markDown;
-  let targets = req.body.targets;
   User.findById(uid).then(user => {
     if (user) {
-      new Article({
+      new Active({
         uid: user._id,
-        title: title,
-        html: html,
-        markDowm: markDown,
-        content: content,
-        createTime: new Date(),
-        modifyTime: new Date(),
-        delete: false,
+        companyName: req.body.companyName,
+        projectName: req.body.projectName,
+        projectUrl: req.body.projectUrl,
+        projectDir: req.body.projectDir,
+        name: req.body.name,
+        url: req.body.url,
+        desc: req.body.desc,
         own: user,
-        targets: targets,
-        keyNumbers: 0
-      }).save().then(article => {
-        if (article) {
+        createTime: new Date(),
+        modifyTime: new Date()
+      }).save().then(active => {
+        if (active) {
           output = {
             code: 1,
             msg: 'SUCCESS',
@@ -115,14 +112,6 @@ router.post('/add', (req, res, next) => {
   }).catch(err => {
     console.log(err)
   })
-});
-
-router.get('/modify', (req, res, next) => {
-
-});
-
-router.get('/delete', (req, res, next) => {
-
 });
 
 module.exports = router;

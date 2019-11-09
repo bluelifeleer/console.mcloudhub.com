@@ -1,26 +1,25 @@
 <template>
-	<div class="qrcode-container">
-		
-	</div>
+  <div class="qrcode-container">
+  </div>
 </template>
-
 <script>
-	export default{
-		name:'qrCode',
-		data(){
-			return {
+export default {
+  name: 'qrCode',
+  data() {
+    return {
 
-			}
-		},
-		created(){},
-		methods:{},
-		mounted(){}
-	}
+    }
+  },
+  created() {},
+  methods: {},
+  mounted() {}
+}
+
 </script>
-
 <style>
-	.qrcode-container{
-		width:100%;
-		height:auto;
-	}
+.qrcode-container {
+  width: 100%;
+  height: auto;
+}
+
 </style>

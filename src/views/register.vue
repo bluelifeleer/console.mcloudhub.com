@@ -1,10 +1,10 @@
 <template>
   <div class="login-page" :style="{'height':height+'px'}">
     <div class="login-box">
-      <div class="login-title">登录</div>
+      <div class="login-title">注册</div>
       <div class="login-form-box">
         <div class="login-form-items">
-          <label for="name" :class="{'request':form.name.request}">登录帐号：</label>
+          <label for="name" :class="{'request':form.name.request}">帐号：</label>
           <input type="text" name="name" :placeholder="form.name.placeholder" v-model="form.name.value" autocomplete="off" />
           <span class="input-tip" v-if="form.name.showTips">{{form.name.tips}}</span>
         </div>
@@ -20,10 +20,10 @@
           <span class="input-tip" v-if="form.verifyCode.showTips">{{form.verifyCode.tips}}</span>
         </div>
         <div class="login-form-items">
-          <a href="javascript:void(0);" class="login-form-submit" @click="loginFormSubmit()">登录</a>
+          <a href="javascript:void(0);" class="login-form-submit" @click="loginFormSubmit()">注册</a>
         </div>
         <div class="login-form-items">
-          <div class="goto-register-box">没有帐号？<a href="/register" class="goto-register">注册</a></div>
+          <div class="goto-register-box">已有帐号？<a href="/login" class="goto-register">登录</a></div>
         </div>
       </div>
     </div>
@@ -68,25 +68,24 @@ export default {
     },
     loginFormSubmit() {
       this.$axios({
-        url: '/api/user/signin',
         method: 'post',
+        url: '/api/user/register',
         data: {
           name: this.form.name.value,
           password: this.$md5(this.form.password.value),
           verifyCode: this.form.verifyCode.value
         }
       }).then(res => {
+        console.log(res)
         if (res.data.ok && res.data.code) {
-          let result = res.data.data;
-          sessionStorage.setItem('userInfo', JSON.stringify(result));
-          this.$router.push({ path: '/' });
+          this.$router.push({
+            path: "/login"
+          });
         }
       }).catch(err => {
         console.log(err)
       });
-      // this.$router.push({
-      //   path: "/"
-      // });
+
     }
   },
   mounted() {

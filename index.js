@@ -1,8 +1,8 @@
 /*
  * @Author: bluelife
  * @Date:   2019-10-10 23:41:42
- * @Last Modified by:   lipeng
- * @Last Modified time: 2019-10-31 17:42:27
+ * @Last Modified by:   bluelife
+ * @Last Modified time: 2019-11-09 01:37:58
  */
 'use tsrict'
 const os = require('os')
@@ -65,7 +65,7 @@ app.use(cookieParser('session_id', {
 }))
 
 const store = new MongoDBStore({
-  uri: 'mongodb://192.168.1.187:27017',
+  uri: 'mongodb://localhost:27017',
   databaseName: 'console',
   collection: 'sessions'
 }, err => {
@@ -160,7 +160,7 @@ app.use('/captcha', require(path.join(__dirname, '/www/routers/api/captcha')))
 
 
 
-mongoose.connect('mongodb://192.168.1.187:27017/console', {
+mongoose.connect('mongodb://localhost:27017/console', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, (err, res) => {

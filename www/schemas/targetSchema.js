@@ -6,16 +6,16 @@
  */
 const mongoose = require('mongoose');
 module.exports = new mongoose.Schema({
-	index: Number,
-	name: String,
-	icon: String,
-	enable: Boolean,
-	desc: String,
-	link: String,
-	createTime: Date,
-	modifyTime: Date,
-	own: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
-	}
+  index: Number,
+  name: String,
+  icon: String,
+  enable: Boolean,
+  desc: String,
+  link: String,
+  createTime: Date,
+  modifyTime: Date,
+  own: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }
 })

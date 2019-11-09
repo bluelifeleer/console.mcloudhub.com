@@ -8,13 +8,18 @@ import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import md5 from 'md5'
 
 
 Vue.config.productionTip = false
+Vue.prototype.$md5 = md5;
 Vue.prototype.$axios = axios.create({
   baseURL: 'http://console.mcloudhub.com/',
-  timeout: 1000,
-  headers: {}
+  timeout: 3600,
+  headers: {},
+  transformResponse: function(data) {
+    return JSON.parse(data);
+  }
 });
 
 Vue.prototype.$clipboard = clipboard

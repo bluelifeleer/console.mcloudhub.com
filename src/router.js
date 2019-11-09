@@ -9,7 +9,9 @@ import QrCode from './views/tools/qrcode'
 import Active from './views/tools/active'
 import ArticleLists from './views/article/ArticleLists.vue'
 import ArticleAdd from './views/article/ArticleAdd.vue'
+import ArticleDetails from './views/article/ArticleDetails.vue'
 import Login from './views/login.vue'
+import Register from './views/register.vue'
 
 Vue.use(Router)
 
@@ -32,22 +34,22 @@ export default new Router({
 				path: 'img2base64',
 				name: 'img2base64',
 				component: ImgToBase,
-			},{
+			}, {
 				path: 'active',
 				name: 'active',
 				component: Active,
-			},{
+			}, {
 				path: 'qrcode',
 				name: 'qrcode',
 				component: QrCode,
-			},{
-				path:'apitest',
-				name:'apitest',
-				component:ApiTest
-			},{
-				path:'urlmq',
-				name:'urlmq',
-				component:urlMarkQuery
+			}, {
+				path: 'apitest',
+				name: 'apitest',
+				component: ApiTest
+			}, {
+				path: 'urlmq',
+				name: 'urlmq',
+				component: urlMarkQuery
 			}]
 		}, {
 			path: '/article',
@@ -61,11 +63,22 @@ export default new Router({
 				path: 'add',
 				name: 'articleAdd',
 				component: ArticleAdd
+			}, {
+				path: 'details',
+				name: 'details',
+				component: ArticleDetails,
+				props: (route) => ({
+					id: route.query.id
+				})
 			}]
 		}, {
 			path: '/login',
 			name: 'login',
 			component: Login
+		}, {
+			path: '/register',
+			name: 'register',
+			component: Register
 		}
 		// {
 		//   path: '/about',

@@ -6,12 +6,12 @@
  */
 const mongoose = require('mongoose');
 module.exports = new mongoose.Schema({
-	name: String,
-	password: String,
-	sale: String,
-	avatar: String,
-	email: String,
-	phone: String,
-	createTime: Date,
-	enable: Boolean
+  name: String,
+  password: String,
+  sale: String,
+  avatar: String,
+  email: String,
+  phone: String,
+  createTime: Date,
+  enable: Boolean
 });

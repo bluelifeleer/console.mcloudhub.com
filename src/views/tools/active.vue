@@ -29,7 +29,7 @@
           <label>活动页连接：</label><input type="text" name="" value="" :placeholder="activeForm.pages.url.placeholder" v-model="activeForm.pages.url.value" />
         </div>
         <div class="active-container-form-items">
-          <a hef="javascript:void(0);" class="active-container-form-submit-but">保存</a>
+          <a hef="javascript:void(0);" class="active-container-form-submit-but" @click="activeFormSubmit($event)">保存</a>
         </div>
       </div>
     </div>
@@ -40,6 +40,7 @@ export default {
   name: 'activeContainer',
   data() {
     return {
+      user: {},
       activeForm: {
         companys: {
           name: {
@@ -101,9 +102,31 @@ export default {
         tmp += str.substr((Math.random() * (str.length - 1)), 1);
       }
       return tmp;
+    },
+    activeFormSubmit(e) {
+      this.$axios({
+        method: 'post',
+        url: '/api/active/add',
+        data: {
+          uid: this.user._id,
+          companyName: this.activeForm.companys.name.value,
+          projectName: this.activeForm.project.name.value,
+          projectUrl: this.activeForm.project.url.value,
+          projectDir: this.activeForm.project.dir.value,
+          name: this.activeForm.pages.name.value,
+          url: this.activeForm.pages.url.value,
+          desc: this.activeForm.pages.desc.value
+        }
+      }).then(res => {
+
+      }).catch(err => {
+        console.log(err)
+      })
     }
   },
-  mounted() {}
+  mounted() {
+    this.user = JSON.parse(sessionStorage.getItem('userInfo'));
+  }
 }
 
 </script>
