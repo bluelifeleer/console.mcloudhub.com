@@ -2,7 +2,7 @@
  * @Author: lipeng
  * @Date:   2019-10-24 08:56:58
  * @Last Modified by:   bluelife
- * @Last Modified time: 2019-11-09 12:48:17
+ * @Last Modified time: 2019-11-10 09:41:34
  */
 const path = require('path');
 const express = require('express');
@@ -114,6 +114,18 @@ router.post('/register', (req, res, next) => {
 router.post('/signout', (req, res, next) => {
 
 });
+
+router.get('/islogin', (req, res, next) => {
+  output = {
+    code: 1,
+    msg: 'SUCCESS',
+    ok: true,
+    data: {
+      islogin: (req.session.uid && req.session.name ? true : false)
+    }
+  };
+  res.json(output);
+})
 
 
 module.exports = router;

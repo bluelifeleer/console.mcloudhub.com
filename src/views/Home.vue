@@ -33,6 +33,25 @@ export default {
     return {
 
     }
+  },
+  methods: {
+    isLogin() {
+      this.$axios({
+        method: 'get',
+        url: '/api/user/islogin'
+      }).then(res => {
+        if (res.data.ok && res.data.code) {
+          if (!res.data.data.islogin) {
+            this.$router.push('/login');
+          }
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  },
+  mounted() {
+    // this.isLogin();
   }
 }
 

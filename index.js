@@ -2,7 +2,7 @@
  * @Author: bluelife
  * @Date:   2019-10-10 23:41:42
  * @Last Modified by:   bluelife
- * @Last Modified time: 2019-11-09 01:37:58
+ * @Last Modified time: 2019-11-10 09:55:51
  */
 'use tsrict'
 const os = require('os')
@@ -88,7 +88,6 @@ app.use(session({
     secure: true,
     maxAge: 1800000,
   },
-
   rolling: true
 }));
 

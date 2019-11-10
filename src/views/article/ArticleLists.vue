@@ -135,12 +135,13 @@ export default {
   overflow: hidden;
   margin: 0 0 20px 0;
   padding: 1%;
-  border-radius: 4px;
+  border-bottom: 1px solid #f9fafc;
 }
 
 .article-list-items:hover {
   cursor: pointer;
   background: #f9fafc;
+  border-radius: 4px;
 }
 
 .article-list-items-header {

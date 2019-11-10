@@ -1,36 +1,43 @@
 <template>
   <div class="tootl-img-to-base64">
     <div class="header">图片转base64工具</div>
-    <div class="upload-file-bar">
-      <label for="upload-file">上传图片：</label>
-      <input type="file" name="upload-file" id="upload-file" class="upload-file" @change="selectedFiles($event)" />
-      <div class="upload-file-marker"><span style="display:inline-block;width:20px;height:38px;line-height:38px;text-align:center;font-weight: bold;font-size: 22px;">+</span>点击上传图片</div>
-    </div>
-    <div class="upload-file-preview">
-      <h3>预览：</h3>
-      <div class="upload-file-preview-img-box"><img :src="previewSrc" alt=""></div>
-    </div>
-    <div class="upload-file-infos">
-      <h3>上传图片信息：</h3>
-      <div class="file-infos-items">
-        <label for="file-infos-name">名称：</label>
-        <span id="file-infos-name">{{fileInfo.name}}</span>
+    <div class="tootl-image-body">
+      <div class="upload-file-bar">
+        <label for="upload-file">上传图片：</label>
+        <input type="file" name="upload-file" id="upload-file" class="upload-file" @change="selectedFiles($event)" />
+        <div class="upload-file-marker" v-if="fileInfo.name">{{fileInfo.name}}</div>
+        <div class="upload-file-marker" v-else><span style="display:inline-block;width:20px;height:38px;line-height:38px;text-align:center;font-weight: bold;font-size: 22px;">+</span>点击上传图片</div>
       </div>
-      <div class="file-infos-items">
-        <label for="file-infos-size">大小：</label>
-        <span id="file-infos-size">{{fileInfo.size}}</span>
+      <div class="upload-file-preview">
+        <h3>预览：</h3>
+        <div class="upload-file-preview-img-box"><img :src="previewSrc" alt=""></div>
       </div>
-      <div class="file-infos-items">
-        <label for="file-infos-type">类型：</label>
-        <span id="file-infos-type">{{fileInfo.type}}</span>
-      </div>
-      <div class="file-infos-items">
-        <label for="file-infos-modify-date">最后修改时间：</label>
-        <span id="file-infos-modify-date">{{fileInfo.lastModifyDate}}</span>
-      </div>
-      <div class="file-infos-items">
-        <h3>BASE_64连接：</h3>
-        <textarea name="base64-url" id="base64-container" contenteditable="true" v-model="baseUrl"></textarea>
+      <div class="upload-file-infos">
+        <h3>上传图片信息：</h3>
+        <div class="file-infos-items">
+          <label for="file-infos-name">名称：</label>
+          <span id="file-infos-name">{{fileInfo.name}}</span>
+        </div>
+        <div class="file-infos-items">
+          <label for="file-infos-size">大小：</label>
+          <span id="file-infos-size">{{fileInfo.size}}</span>
+        </div>
+        <div class="file-infos-items">
+          <label for="file-infos-type">类型：</label>
+          <span id="file-infos-type">{{fileInfo.type}}</span>
+        </div>
+        <div class="file-infos-items">
+          <label for="file-infos-modify-date">最后修改时间：</label>
+          <span id="file-infos-modify-date">{{fileInfo.lastModifyDate}}</span>
+        </div>
+        <div class="file-infos-items">
+          <div class="file-info-items-title-box">
+            <h3>BASE_64连接：</h3><a href="javascript:void(0);" @click="copyImgSrc($event)" class="copy-src" data-clipboard-target="#base64-container" data-clipboard-action="copy">复制连接</a>
+          </div>
+          <div class="file-info-items-texarea">
+            <textarea name="base64-url" id="base64-container" contenteditable="true" v-model="baseUrl"></textarea>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -70,6 +77,18 @@ export default {
         _this.baseUrl = _this.previewSrc = _this.fileReader.result;
       }, false);
     },
+    copyImgSrc(e) {
+      let copyBtn = new this.$clipboard('.copy-src');
+      copyBtn.on("success", function(e) {
+        // 复制成功
+        alert('复制成功');
+        e.clearSelection();
+      });
+      copyBtn.on("error", function(e) {
+        //复制失败；
+        console.log(e.action)
+      });
+    },
     formateDate(time) {
       var nowDate = new Date(time);
       var fullYears = nowDate.getFullYear();
@@ -86,9 +105,8 @@ export default {
 </script>
 <style scoped>
 .tootl-img-to-base64 {
-  width: 60%;
+  width: 100%;
   height: auto;
-  margin: 0 auto;
 }
 
 .header {
@@ -96,13 +114,20 @@ export default {
   height: 80px;
   line-height: 80px;
   padding: 0 0 0 1%;
-  text-align: center;
   font-weight: bold;
   font-size: 30px;
+  border-bottom: 1px solid #c1c1c1;
+}
+
+.tootl-image-body {
+  width: 96%;
+  height: auto;
+  padding: 2%;
+  overflow: hidden;
 }
 
 .upload-file-bar {
-  width: 100%;
+  width: 96%;
   height: 40px;
   position: relative;
 }
@@ -114,16 +139,18 @@ export default {
   height: 40px;
   line-height: 40px;
   text-align: left;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .upload-file-bar input {
   display: block;
-  width: 88%;
+  width: 20%;
   height: 38px;
   line-height: 38px;
   border: 1px solid #c1c1c1;
   position: absolute;
-  right: 0;
+  left: 14%;
   top: 0;
   z-index: 10;
   opacity: 0;
@@ -131,13 +158,13 @@ export default {
 
 .upload-file-bar .upload-file-marker {
   display: block;
-  width: 87%;
+  width: 19%;
   height: 38px;
   line-height: 38px;
   border: 1px solid #c1c1c1;
   padding: 0 0 0 1%;
   position: absolute;
-  right: 0;
+  left: 14%;
   top: 0;
   z-index: 9;
 }
@@ -157,7 +184,7 @@ export default {
 .file-infos-items label {
   display: block;
   float: left;
-  width: 20%;
+  width: 10%;
   height: 30px;
   line-height: 30px;
   text-align: right;
@@ -173,7 +200,7 @@ export default {
 }
 
 #base64-container {
-  width: 97.3%;
+  width: 97.8%;
   height: 300px;
   padding: 1%;
   border: 1px solid #c1c1c1;
@@ -188,6 +215,38 @@ export default {
 .upload-file-preview-img-box img {
   display: block;
   width: 100%;
+}
+
+.file-info-items-title-box {
+  width: 100%;
+  height: 50px;
+  position: relative;
+}
+
+.file-info-items-title-box h3 {
+  display: block;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+}
+
+.copy-src {
+  display: block;
+  width: 120px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #fff;
+  background: #5d9d3e;
+  border-radius: 4px;
+  position: absolute;
+  right: 0;
+  top: 5px;
+}
+
+.file-info-items-texarea {
+  width: 100%;
+  height: auto;
 }
 
 </style>
