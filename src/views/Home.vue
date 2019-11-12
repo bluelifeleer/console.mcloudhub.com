@@ -34,24 +34,11 @@ export default {
 
     }
   },
-  methods: {
-    isLogin() {
-      this.$axios({
-        method: 'get',
-        url: '/api/user/islogin'
-      }).then(res => {
-        if (res.data.ok && res.data.code) {
-          if (!res.data.data.islogin) {
-            this.$router.push('/login');
-          }
-        }
-      }).catch(err => {
-        console.log(err)
-      })
-    }
-  },
+  methods: {},
   mounted() {
-    // this.isLogin();
+    if (!this.$cookies.get('name') && !this.$cookies.get('uid')) {
+      this.$router.push({ path: '/login' })
+    }
   }
 }
 

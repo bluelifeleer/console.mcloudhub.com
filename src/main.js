@@ -9,6 +9,7 @@ import 'mavon-editor/dist/css/index.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import md5 from 'md5'
+import VueCookies from 'vue-cookies'
 
 
 Vue.config.productionTip = false
@@ -26,6 +27,7 @@ Vue.prototype.$clipboard = clipboard
 // use
 Vue.use(ElementUI)
 Vue.use(mavonEditor)
+Vue.use(VueCookies)
 
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */

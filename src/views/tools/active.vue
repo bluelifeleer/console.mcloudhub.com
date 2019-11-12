@@ -110,9 +110,9 @@ export default {
         data: {
           uid: this.user._id,
           companyName: this.activeForm.companys.name.value,
-          projectName: this.activeForm.project.name.value,
-          projectUrl: this.activeForm.project.url.value,
-          projectDir: this.activeForm.project.dir.value,
+          projectName: this.activeForm.projects.name.value,
+          projectUrl: this.activeForm.projects.url.value,
+          projectDir: this.activeForm.projects.dir.value,
           name: this.activeForm.pages.name.value,
           url: this.activeForm.pages.url.value,
           desc: this.activeForm.pages.desc.value

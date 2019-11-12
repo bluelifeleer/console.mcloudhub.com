@@ -2,7 +2,7 @@
   <div class="article-details">
     <div class="article-details-header">
       <div class="article-details-title">{{article.title}}</div>
-      <div class="article-details-status-bar">{{article.createTime}} <i v-if="article.createTime!=article.modifyTime" class="icon iconfont" :title="article.modifyTime"></i></div>
+      <div class="article-details-status-bar">{{article.createTime}} <i v-if="article.createTime!=article.modifyTime" class="icon iconfont" :title="article.modifyTime">&#xe637;</i></div>
     </div>
     <div class="article-details-body">
       <div class="article-details-content markdown-body" v-html="article.html"></div>

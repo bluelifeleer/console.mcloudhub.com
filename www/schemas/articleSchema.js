@@ -2,14 +2,14 @@
  * @Author: lipeng
  * @Date:   2019-10-23 09:41:27
  * @Last Modified by:   bluelife
- * @Last Modified time: 2019-11-09 03:16:55
+ * @Last Modified time: 2019-11-12 01:06:17
  */
 const mongoose = require('mongoose');
 module.exports = new mongoose.Schema({
   uid: String,
   title: String,
   html: String,
-  markDowm: String,
+  markDown: String,
   content: String,
   createTime: Date,
   modifyTime: Date,

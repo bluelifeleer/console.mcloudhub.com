@@ -3,12 +3,16 @@
     <div class="article-lists-title">文章列表 <a href="/article/add" class="add-article-but">添加文章</a></div>
     <div class="article-list-box">
       <ul class="article-list-item-group">
-        <li class="article-list-items" v-for="(article,$index) in articles.list" :key="$index" :data-id="article._id">
+        <li class="article-list-items" v-for="(article,$index) in articles.list" :key="$index" :data-id="article._id" @mouseenter="articleItemHover($event,$index)">
           <div class="article-list-items-header"><a :href="article.href">{{article.title}}</a></div>
-          <div class="article-list-items-body"><a :href="article.href">{{article.html}}</a></div>
+          <div class="article-list-items-body"><a :href="article.href">{{article.miniText.length>=128?(article.miniText.substr(0,128)+'......'):article.miniText}}</a></div>
           <div class="article-list-items-footer">
             <a href="javascript:void(0);" class="article-list-items-targets" v-for="(target,$index) in article.targets" :key="$index" :data-target-id="target._id">{{target.name}}</a>
             <span class="article-list-items-date">{{article.createTime}}</span>
+          </div>
+          <div class="list-items-operation-box" v-if="article.isHover">
+            <a href="javascript:void(0);" class="list-items-article-delete-but" @click="articleDelete($event,article._id)">删除</a>
+            <a href="javascript:void(0);" class="list-items-article-edit-but" @click="articleEdit($event,article._id)">编辑</a>
           </div>
         </li>
       </ul>
@@ -46,9 +50,11 @@ export default {
           this.articles.sort = res.data.data.sort;
           this.articles.count = res.data.data.count;
           res.data.data.list.forEach(item => {
+            item.miniText = item.html.replace(/<[^<>]+>/g, '');
             item.href = "/article/details?id=" + item._id;
             item.createTime = this.formateDate(item.createTime);
             item.modifyTime = this.formateDate(item.modifyTime);
+            item.isHover = false
           })
           this.articles.list = res.data.data.list;
 
@@ -64,6 +70,16 @@ export default {
     handleCurrentChange(offset) {
       this.articles.offset = offset;
       this.getArticles();
+    },
+    articleItemHover(e, index) {
+      this.articles.list.forEach(item => {
+        item.isHover = false;
+      });
+      this.articles.list[index].isHover = true;
+    },
+    articleDelete(e, id) {},
+    articleEdit(e, id) {
+      this.$router.push({ path: `/article/edit?id=${id}` })
     },
     formateDate(timer) {
       let nowDate = timer ? new Date(timer) : new Date();
@@ -136,6 +152,7 @@ export default {
   margin: 0 0 20px 0;
   padding: 1%;
   border-bottom: 1px solid #f9fafc;
+  position: relative;
 }
 
 .article-list-items:hover {
@@ -190,6 +207,39 @@ export default {
   position: absolute;
   right: 0;
   top: 5px;
+}
+
+.list-items-operation-box {
+  width: auto;
+  heihgt: auto;
+  position: absolute;
+  right: 0;
+  top: 0
+}
+
+.list-items-article-delete-but {
+  display: block;
+  float: left;
+  width: auto;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 8px;
+  color: #F56C6C;
+  background: #E4E7Ed;
+  border-radius: 3px;
+  margin: 0 10px 0 0;
+}
+
+.list-items-article-edit-but {
+  display: block;
+  float: left;
+  width: auto;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 8px;
+  color: #67C23A;
+  background: #E4E7Ed;
+  border-radius: 3px;
 }
 
 .article-list-page-bar {

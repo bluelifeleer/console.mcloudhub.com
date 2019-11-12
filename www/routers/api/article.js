@@ -2,7 +2,7 @@
  * @Author: lipeng
  * @Date:   2019-10-24 09:22:59
  * @Last Modified by:   bluelife
- * @Last Modified time: 2019-11-09 13:54:45
+ * @Last Modified time: 2019-11-12 01:23:05
  */
 const path = require('path');
 const express = require('express');
@@ -56,10 +56,7 @@ router.get('/list', (req, res, next) => {
 
 router.get('/get', (req, res, next) => {
   let id = req.query.id;
-  Article.findById(id).populate([{
-    path: 'own',
-    select: 'name'
-  }, {
+  Article.findById(id, 'uid title html markDown content targets createTime modifyTime').populate([{
     path: 'targets',
     select: 'name'
   }]).then(article => {
@@ -90,7 +87,7 @@ router.post('/add', (req, res, next) => {
         uid: user._id,
         title: title,
         html: html,
-        markDowm: markDown,
+        markDown: markDown,
         content: content,
         createTime: new Date(),
         modifyTime: new Date(),
@@ -117,7 +114,31 @@ router.post('/add', (req, res, next) => {
   })
 });
 
-router.get('/modify', (req, res, next) => {
+router.post('/update', (req, res, next) => {
+  let id = req.body._id;
+  Article.findByIdAndUpdate(id, {
+    title: req.body.title,
+    html: req.body.html,
+    markDown: req.body.markDown,
+    content: req.body.content,
+    targets: req.body.targets,
+    modifyTime: new Date()
+  }, {
+    new: true,
+    runValidators: true
+  }).then(article => {
+    if (article) {
+      output = {
+        code: 1,
+        msg: 'SUCCESS',
+        ok: true,
+        data: {}
+      };
+      res.json(output);
+    }
+  }).catch(err => {
+    console.log(err)
+  })
 
 });
 

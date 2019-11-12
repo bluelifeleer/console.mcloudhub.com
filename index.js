@@ -2,7 +2,7 @@
  * @Author: bluelife
  * @Date:   2019-10-10 23:41:42
  * @Last Modified by:   bluelife
- * @Last Modified time: 2019-11-10 09:55:51
+ * @Last Modified time: 2019-11-12 01:16:09
  */
 'use tsrict'
 const os = require('os')
@@ -161,7 +161,8 @@ app.use('/captcha', require(path.join(__dirname, '/www/routers/api/captcha')))
 
 mongoose.connect('mongodb://localhost:27017/console', {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify: false
 }, (err, res) => {
   if (err) {
     debug(err);
