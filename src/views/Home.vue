@@ -34,24 +34,11 @@ export default {
 
     }
   },
-  methods: {
-    isLogin() {
-      this.$axios({
-        method: 'get',
-        url: '/api/user/islogin'
-      }).then(res => {
-        if (res.data.ok && res.data.code) {
-          if (!res.data.data.islogin) {
-            this.$router.push('/login');
-          }
-        }
-      }).catch(err => {
-        console.log(err)
-      })
-    }
-  },
+  methods: {},
   mounted() {
-    // this.isLogin();
+    if (!this.$cookie.get('name') && !this.$cookie.get('uid')) {
+      this.$router.push({ path: '/login' })
+    }
   }
 }
 
@@ -76,13 +63,14 @@ export default {
 
 .menu-layout-box {
   float: left;
-  width: 15%;
+  width: auto;
   height: auto;
+  overflow: hidden;
 }
 
 .right-layout-box {
   float: left;
-  width: 81%;
+  width: 75%;
   height: auto;
   padding: 0 2%;
 }

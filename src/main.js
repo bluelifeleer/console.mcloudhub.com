@@ -9,6 +9,7 @@ import 'mavon-editor/dist/css/index.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import md5 from 'md5'
+import VueCookie from 'vue-cookie';
 
 
 Vue.config.productionTip = false
@@ -21,11 +22,30 @@ Vue.prototype.$axios = axios.create({
     return JSON.parse(data);
   }
 });
+Vue.prototype.$axios.interceptors.request.use(function(config) {
+  // Do something before request is sent
+  return config;
+}, function(error) {
+  // Do something with request error
+  return Promise.reject(error);
+});
+
+// Add a response interceptor
+Vue.prototype.$axios.interceptors.response.use(function(response) {
+  // Do something with response data
+  console.log(this)
+  return response;
+}, function(error) {
+  // Do something with response error
+  return Promise.reject(error);
+});
 
 Vue.prototype.$clipboard = clipboard
 // use
 Vue.use(ElementUI)
 Vue.use(mavonEditor)
+// Tell Vue to use the plugin
+Vue.use(VueCookie);
 
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */
