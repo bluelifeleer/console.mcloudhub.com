@@ -104,7 +104,7 @@ export default {
 }
 
 .login-box {
-  width: 24%;
+  width: 30%;
   height: auto;
   background: #fff;
   border-radius: 5px;

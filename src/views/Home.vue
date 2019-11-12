@@ -63,13 +63,14 @@ export default {
 
 .menu-layout-box {
   float: left;
-  width: 15%;
+  width: auto;
   height: auto;
+  overflow: hidden;
 }
 
 .right-layout-box {
   float: left;
-  width: 81%;
+  width: 75%;
   height: auto;
   padding: 0 2%;
 }
