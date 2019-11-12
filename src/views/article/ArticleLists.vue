@@ -5,7 +5,7 @@
       <ul class="article-list-item-group">
         <li class="article-list-items" v-for="(article,$index) in articles.list" :key="$index" :data-id="article._id">
           <div class="article-list-items-header"><a :href="article.href">{{article.title}}</a></div>
-          <div class="article-list-items-body"><a :href="article.href">{{article.html}}</a></div>
+          <div class="article-list-items-body"><a :href="article.href">{{article.miniText.length>=128?(article.miniText.substr(0,128)+'......'):article.miniText}}</a></div>
           <div class="article-list-items-footer">
             <a href="javascript:void(0);" class="article-list-items-targets" v-for="(target,$index) in article.targets" :key="$index" :data-target-id="target._id">{{target.name}}</a>
             <span class="article-list-items-date">{{article.createTime}}</span>
@@ -46,6 +46,7 @@ export default {
           this.articles.sort = res.data.data.sort;
           this.articles.count = res.data.data.count;
           res.data.data.list.forEach(item => {
+            item.miniText = item.html.replace(/<[^<>]+>/g, '');
             item.href = "/article/details?id=" + item._id;
             item.createTime = this.formateDate(item.createTime);
             item.modifyTime = this.formateDate(item.modifyTime);
