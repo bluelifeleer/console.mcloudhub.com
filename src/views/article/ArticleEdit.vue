@@ -100,6 +100,13 @@ export default {
         data: this.article
       }).then(res => {
         console.log(res)
+        if (res.data.ok && res.data.code) {
+          this.$message({
+            type: 'success',
+            message: '修改成功',
+            // center: true
+          });
+        }
       }).catch(err => {
         console.log(err)
       });
@@ -193,10 +200,10 @@ export default {
 .targets-selector-options {
   display: block;
   float: left;
-  width: 80px;
+  width: auto;
   height: 40px;
   line-height: 40px;
-  text-align: center;
+  padding: 0 8px;
   margin: 8px;
   color: #333;
   background: #F2F6FC;

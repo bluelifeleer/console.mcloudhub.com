@@ -36,9 +36,10 @@ export default {
   },
   methods: {},
   mounted() {
-    if (!this.$cookies.get('name') && !this.$cookies.get('uid')) {
-      this.$router.push({ path: '/login' })
-    }
+    // if (!this.$cookies.get('name') && !this.$cookies.get('uid')) {
+// this.$router.push({ path: '/login' })
+// }
+
   }
 }
 

@@ -103,8 +103,14 @@ export default {
         method: 'post',
         data: this.addTargtForm
       }).then(res => {
-        console.log(res);
-        this.getTargets();
+        if (res.data.code && res.data.ok) {
+          this.$message({
+            type: 'success',
+            message: '标签添加成功',
+            // center: true
+          });
+          this.getTargets();
+        }
       }).catch(err => {
         console.log(err)
       });
@@ -121,7 +127,13 @@ export default {
         method: 'post',
         data: this.article
       }).then(res => {
-        console.log(res)
+        if (res.data.code && res.data.ok) {
+          this.$message({
+            type: 'success',
+            message: '文章添加成功',
+            // center: true
+          });
+        }
       }).catch(err => {
         console.log(err)
       });
@@ -214,10 +226,10 @@ export default {
 .targets-selector-options {
   display: block;
   float: left;
-  width: 80px;
+  width: auto;
   height: 40px;
   line-height: 40px;
-  text-align: center;
+  padding: 0 8px;
   margin: 8px;
   color: #333;
   background: #F2F6FC;

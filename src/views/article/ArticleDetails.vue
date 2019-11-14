@@ -1,7 +1,7 @@
 <template>
   <div class="article-details">
     <div class="article-details-header">
-      <div class="article-details-title">{{article.title}}</div>
+      <div class="article-details-title">{{article.title.length>=60?(article.title.substr(0,60)+'......'):article.title}}</div>
       <div class="article-details-status-bar">{{article.createTime}} <i v-if="article.createTime!=article.modifyTime" class="icon iconfont" :title="article.modifyTime">&#xe637;</i></div>
     </div>
     <div class="article-details-body">
@@ -17,7 +17,16 @@ export default {
   data() {
     return {
       user: {},
-      article: {}
+      article: {
+        title: '',
+        html: '',
+        content: '',
+        createTime: '',
+        modifyTime: '',
+        targets: [],
+        uid: '',
+        _id: ''
+      }
     }
   },
   created() {},
@@ -72,21 +81,46 @@ export default {
 
 .article-details-title {
   width: 100%;
-  height: 70px;
-  line-height: 70px;
-  font-size: 30px;
+  height: 60px;
+  line-height: 60px;
+  font-size: 23px;
   font-weight: bold;
 }
 
 .article-details-status-bar {
   width: 100%;
   height: 30px;
+  line-height: 30px;
   font-size: 13px;
+}
+
+.article-details-status-bar i:hover {
+  cursor: pointer;
 }
 
 .article-details-body {
   width: 100%;
   height: auto;
+}
+
+.article-details-content {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.markdown-body {
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 45px;
+}
+
+@media (max-width: 767px) {
+  .markdown-body {
+    padding: 15px;
+  }
 }
 
 </style>

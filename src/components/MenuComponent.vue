@@ -56,29 +56,58 @@ export default {
           icon: '',
           alink: '/tootl/apitest',
           childs: []
-        }, {
-          index: 5,
-          text: '活动页面生成',
-          icon: '',
-          alink: '/tootl/active',
-          childs: []
         }]
       }, {
         index: 1,
-        text: '工作记录',
+        text: '文章管理',
         icon: '',
-        alink: '/article/list',
+        alink: '',
         selected: false,
-        childs: []
+        childs: [{
+          index: 0,
+          text: '文章列表',
+          icon: '',
+          alink: '/article/list',
+          selected: false,
+          childs: []
+        }, {
+          index: 1,
+          text: '新增文章',
+          icon: '',
+          alink: '/article/add',
+          selected: false,
+          childs: []
+        }]
       }, {
         index: 2,
+        text: '活动页面管理',
+        icon: '',
+        alink: '',
+        selected: false,
+        childs: [{
+          index: 0,
+          text: '活动列表',
+          icon: '',
+          alink: '/active/list',
+          selected: false,
+          childs: []
+        }, {
+          index: 0,
+          text: '新增活动',
+          icon: '',
+          alink: '/active/add',
+          selected: false,
+          childs: []
+        }]
+      }, {
+        index: 3,
         text: '代码片段',
         icon: '',
         alink: '',
         selected: false,
         childs: []
       }, {
-        index: 3,
+        index: 4,
         text: '财务记录',
         icon: '',
         alink: '',

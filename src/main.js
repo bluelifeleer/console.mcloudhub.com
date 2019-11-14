@@ -33,7 +33,6 @@ Vue.prototype.$axios.interceptors.request.use(function(config) {
 // Add a response interceptor
 Vue.prototype.$axios.interceptors.response.use(function(response) {
   // Do something with response data
-  console.log(this)
   return response;
 }, function(error) {
   // Do something with response error

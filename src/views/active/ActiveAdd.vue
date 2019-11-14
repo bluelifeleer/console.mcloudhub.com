@@ -5,28 +5,28 @@
       <div class="active-container-form-title"></div>
       <div class="active-container-form-items-box">
         <div class="active-container-form-items">
-          <label>公司名称：</label><input type="text" name="" value="" :placeholder="activeForm.companys.name.placeholder" v-model="activeForm.companys.name.value" />
+          <label>公司名称：</label><input type="text" name="" value="" :placeholder="activeForm.companys.name.placeholder" v-model="activeForm.companys.name.value" @blur="activeFormInputBlurHandle($event,'companys.name')" @focus="activeFormInputFocusHandle($event,'companys.name')" />
         </div>
         <div class="active-container-form-items">
-          <label>项目名称：</label><input type="text" name="" value="" :placeholder="activeForm.projects.name.placeholder" v-model="activeForm.projects.name.value" />
+          <label>项目名称：</label><input type="text" name="" value="" :placeholder="activeForm.projects.name.placeholder" v-model="activeForm.projects.name.value" @blur="activeFormInputBlurHandle($event,'projects.name')" @focus="activeFormInputFocusHandle($event,'projects.name')" />
         </div>
         <div class="active-container-form-items">
-          <label>项目连接</label><input type="text" name="" value="" :placeholder="activeForm.projects.url.placeholder" v-model="activeForm.projects.url.value" />
+          <label>项目连接</label><input type="text" name="" value="" :placeholder="activeForm.projects.url.placeholder" v-model="activeForm.projects.url.value" @blur="activeFormInputBlurHandle($event,'projects.url')" @focus="activeFormInputFocusHandle($event,'projects.url')" />
         </div>
         <div class="active-container-form-items">
-          <label>项目目录：</label><input type="text" name="" value="" :placeholder="activeForm.projects.dir.placeholder" v-model="activeForm.projects.dir.value" />
+          <label>项目目录：</label><input type="text" name="" value="" :placeholder="activeForm.projects.dir.placeholder" v-model="activeForm.projects.dir.value" @blur="activeFormInputBlurHandle($event,'projects.dir')" @focus="activeFormInputFocusHandle($event,'projects.dir')" />
         </div>
         <div class="active-container-form-items">
-          <label>活动页名称：</label><input type="text" name="" value="" :placeholder="activeForm.pages.name.placeholder" v-model="activeForm.pages.name.value" />
+          <label>活动页名称：</label><input type="text" name="" value="" :placeholder="activeForm.pages.name.placeholder" v-model="activeForm.pages.name.value" @blur="activeFormInputBlurHandle($event,'pages.name')" @focus="activeFormInputFocusHandle($event,'pages.name')" />
         </div>
         <div class="active-container-form-items">
-          <label>活动页描述：</label><textarea name="" :placeholder="activeForm.pages.desc.placeholder" v-model="activeForm.pages.desc.value"></textarea>
+          <label>活动页描述：</label><textarea name="" :placeholder="activeForm.pages.desc.placeholder" v-model="activeForm.pages.desc.value" @blur="activeFormInputBlurHandle($event,'pages.desc')" @focus="activeFormInputFocusHandle($event,'pages.desc')"></textarea>
         </div>
         <div class="active-container-form-items">
           <label>自动生成连接：</label><a href="javascript:void(0);" class="auto-but" @click="autoBut($event)"><i class="icon iconfont radios-selected" v-if="activeForm.radio">&#xe653;</i><i class="icon iconfont" v-else>&#xe6b9;</i>&nbsp;&nbsp;是</a>
         </div>
         <div class="active-container-form-items">
-          <label>活动页连接：</label><input type="text" name="" value="" :placeholder="activeForm.pages.url.placeholder" v-model="activeForm.pages.url.value" />
+          <label>活动页连接：</label><input type="text" name="" value="" :placeholder="activeForm.pages.url.placeholder" v-model="activeForm.pages.url.value" @blur="activeFormInputBlurHandle($event,'pages.url')" @focus="activeFormInputFocusHandle($event,'pages.url')" />
         </div>
         <div class="active-container-form-items">
           <a hef="javascript:void(0);" class="active-container-form-submit-but" @click="activeFormSubmit($event)">保存</a>
@@ -89,10 +89,19 @@ export default {
   },
   created() {},
   methods: {
+    activeFormInputBlurHandle(e, type) {
+      let params = type.split('.')
+      if (type == 'projects.url') {
+        this.activeForm.pages.url.value = this.activeForm.radio ? (this.activeForm[params[0]][params[1]].value + '/' + this.randomStr(8)) : '';
+      }
+    },
+    activeFormInputFocusHandle(e, type) {
+
+    },
     autoBut(e) {
       this.activeForm.radio = !this.activeForm.radio;
       if (this.activeForm.radio) {
-        this.activeForm.pages.url.value = this.randomStr(8);
+        this.activeForm.pages.url.value = this.activeForm.projects.url.value + '/' + this.randomStr(8);
       }
     },
     randomStr(num) {
@@ -118,7 +127,7 @@ export default {
           desc: this.activeForm.pages.desc.value
         }
       }).then(res => {
-
+        console.log(res)
       }).catch(err => {
         console.log(err)
       })

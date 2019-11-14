@@ -1,8 +1,8 @@
 /*
  * @Author: bluelife
  * @Date:   2019-10-10 23:41:42
- * @Last Modified by:   bluelife
- * @Last Modified time: 2019-11-12 01:16:09
+ * @Last Modified by:   'bluelife'
+ * @Last Modified time: 2019-11-14 19:18:48
  */
 'use tsrict'
 const os = require('os')
@@ -155,6 +155,7 @@ app.use('/', require(path.join(__dirname, '/www/routers/index')))
 app.use('/api/user', require(path.join(__dirname, '/www/routers/api/user')))
 app.use('/api/article', require(path.join(__dirname, '/www/routers/api/article')))
 app.use('/api/target', require(path.join(__dirname, '/www/routers/api/target')))
+app.use('/api/active', require(path.join(__dirname, '/www/routers/api/active')))
 app.use('/captcha', require(path.join(__dirname, '/www/routers/api/captcha')))
 
 
