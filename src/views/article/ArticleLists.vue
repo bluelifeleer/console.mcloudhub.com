@@ -57,7 +57,6 @@ export default {
             item.isHover = false
           })
           this.articles.list = res.data.data.list;
-
         }
       }).catch(err => {
         console.log(err)
@@ -77,7 +76,23 @@ export default {
       });
       this.articles.list[index].isHover = true;
     },
-    articleDelete(e, id) {},
+    articleDelete(e, id) {
+      this.$axios({
+        method: 'get',
+        url: `/api/article/delete?id=${id}`
+      }).then(res => {
+        if (res.data.ok && res.data.code) {
+          this.$message({
+            type: 'success',
+            message: '删除成功',
+            // center: true
+          });
+          this.getArticles();
+        }
+      }).catch(err => {
+        console.log(err);
+      })
+    },
     articleEdit(e, id) {
       this.$router.push({ path: `/article/edit?id=${id}` })
     },
@@ -188,10 +203,10 @@ export default {
 .article-list-items-targets {
   display: block;
   float: left;
-  width: 80px;
+  width: auto;
   height: 30px;
   line-height: 30px;
-  text-align: center;
+  padding: 0 8px;
   font-size: 14px;
   color: #909399;
   margin: 5px 10px 5px 0;

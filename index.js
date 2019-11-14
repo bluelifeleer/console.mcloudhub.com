@@ -77,7 +77,7 @@ store.on('error', error => {
   assert.ok(false);
 });
 app.use(session({
-  genid: function(req) {
+  genid: function (req) {
     return uuidv4() // use UUIDs for session IDs
   },
   secret: 'session_id', // 与cookieParser中的一致
@@ -92,7 +92,7 @@ app.use(session({
 }));
 
 // 服务器启动时默认配置/动作
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   // 将登录后的用户信息附加到request头信息中
   if (req.cookies.uid && req.cookies.uid != '') {
     try {
@@ -112,7 +112,7 @@ app.use(csurf({
   cookie: true,
   ignoreMethods: ['GET', 'POST']
 }))
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   if (err.code !== 'EBADCSRFTOKEN') return next(err)
   // handle CSRF token errors here
   res.status(403)
@@ -154,6 +154,7 @@ app.use('/assets', express.static(path.join(__dirname, '/www/views/assets')))
 app.use('/', require(path.join(__dirname, '/www/routers/index')))
 app.use('/api/user', require(path.join(__dirname, '/www/routers/api/user')))
 app.use('/api/article', require(path.join(__dirname, '/www/routers/api/article')))
+app.use('/api/active', require(path.join(__dirname, '/www/routers/api/active')))
 app.use('/api/target', require(path.join(__dirname, '/www/routers/api/target')))
 app.use('/captcha', require(path.join(__dirname, '/www/routers/api/captcha')))
 

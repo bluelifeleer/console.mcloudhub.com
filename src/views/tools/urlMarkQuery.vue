@@ -6,6 +6,9 @@
         <textarea name="input-url" id="input-url" cols="30" rows="10" v-model="urlMarkQueryForm.input"></textarea>
       </div>
       <div class="url-mark-query-form-buts">
+        <p>
+          <span class="" v-for="(type,$index) in types" :key="$index"><input type="radio" name="type" v-model="urlMarkQueryForm.type" :checked="type.checked" :value="type.value" />{{type.text}}</span>
+        </p>
         <a href="javascript:void(0);" class="" @click="urlConvert($event,'decode')">解码</a>
         <a href="javascript:void(0);" class="" @click="urlConvert($event,'encode')">编码</a>
       </div>
@@ -21,15 +24,25 @@ export default {
   data() {
     return {
       urlMarkQueryForm: {
+        type: 1,
         input: '',
         output: ''
-      }
+      },
+      types: [{
+        value: 1,
+        text: 'encodeURI',
+        checked: true
+      }, {
+        value: 2,
+        text: 'encodeURIComponent',
+        checked: false
+      }]
     }
   },
   created() {},
   methods: {
     urlConvert(e, type) {
-      this.urlMarkQueryForm[(type == 'encode' ? 'output' : 'input')] = (type == 'encode' ? encodeURI(this.urlMarkQueryForm[(type == 'encode' ? 'input' : 'output')]) : decodeURI(this.urlMarkQueryForm[(type == 'encode' ? 'input' : 'output')]));
+      this.urlMarkQueryForm[(type == 'encode' ? 'output' : 'input')] = (type == 'encode' ? (this.urlMarkQueryForm.type == 1 ? encodeURI(this.urlMarkQueryForm[(type == 'encode' ? 'input' : 'output')]) : encodeURIComponent(this.urlMarkQueryForm[(type == 'encode' ? 'input' : 'output')])) : (this.urlMarkQueryForm.type == 1 ? decodeURI(this.urlMarkQueryForm[(type == 'encode' ? 'input' : 'output')]) : decodeURIComponent(this.urlMarkQueryForm[(type == 'encode' ? 'input' : 'output')])));
     }
   },
   mounted() {}
@@ -76,6 +89,19 @@ export default {
   width: 80%;
   height: 60px;
   padding: 5px 0;
+}
+
+.url-mark-query-form-buts p {
+  display: block;
+  float: left;
+  width: 50%;
+  height: 50px;
+  line-height: 50px;
+  margin: 0;
+}
+
+.url-mark-query-form-buts p span {
+  margin: 0 20px 0 0;
 }
 
 .url-mark-query-form-buts a {

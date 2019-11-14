@@ -1,8 +1,8 @@
 /*
  * @Author: lipeng
  * @Date:   2019-10-24 09:22:59
- * @Last Modified by:   bluelife
- * @Last Modified time: 2019-11-12 01:23:05
+ * @Last Modified by:   'bluelife'
+ * @Last Modified time: 2019-11-13 15:26:56
  */
 const path = require('path');
 const express = require('express');
@@ -143,7 +143,20 @@ router.post('/update', (req, res, next) => {
 });
 
 router.get('/delete', (req, res, next) => {
-
+  let id = req.query.id;
+  Article.findByIdAndRemove(id).then(status => {
+    if (status) {
+      output = {
+        code: 1,
+        msg: 'SUCCESS',
+        ok: true,
+        data: {}
+      };
+      res.json(output);
+    }
+  }).catch(err => {
+    console.log(err)
+  })
 });
 
 module.exports = router;
