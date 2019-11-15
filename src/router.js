@@ -14,6 +14,7 @@ import ArticleDetails from './views/article/ArticleDetails.vue'
 import ActiveList from './views/active/ActiveList.vue'
 import ActiveAdd from './views/active/ActiveAdd.vue'
 import FinanceList from './views/finance/FinanceList.vue'
+import UserProfile from './views/user/userProfile.vue'
 import Login from './views/login.vue'
 import Register from './views/register.vue'
 
@@ -104,7 +105,16 @@ export default new Router({
         name: 'activeList',
         component: FinanceList
       }],
-    }, {
+    },{
+			path:'/user',
+			name:'user',
+			component:Home,
+			children:[{
+				path:'profile',
+				name:'profile',
+				component:UserProfile
+			}]
+		}, {
       path: '/login',
       name: 'login',
       component: Login
