@@ -12,6 +12,10 @@ module.exports = new mongoose.Schema({
   avatar: String,
   email: String,
   phone: String,
+	github: String,
+	website: String,
+	idiograph: String,
   createTime: Date,
+	modifyTime: Date,
   enable: Boolean
 });

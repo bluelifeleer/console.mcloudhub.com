@@ -2,7 +2,10 @@
   <div class="article-add">
     <div class="article-add-body">
       <input type="hidden" name="uid" v-model="article.uid" />
-      <div class="article-title"><input type="text" name="article-title" value="" v-model="article.title" placeholder="输入文章标题"></div>
+      <div class="article-title">
+				<input type="text" name="article-title" value="" v-model="article.title" placeholder="输入文章标题" />
+				<a href="/article/list" class="goto-article-list">返回文章列表</a>
+				</div>
       <div class="article-content-box">
         <mavon-editor v-model="article.content" @change="change" ref="markerdown" />
       </div>
@@ -121,6 +124,7 @@ export default {
       this.article.markDown = value;
     },
     articleFormSubmit(e) {
+			let _this = this;
       // this.article.html.replace(/(\n|\r\n)/g,'<br/>')
       this.$axios({
         url: '/api/article/add',
@@ -130,9 +134,12 @@ export default {
         if (res.data.code && res.data.ok) {
           this.$message({
             type: 'success',
-            message: '文章添加成功',
+            message: '文章添加成功，即将返回文章列表',
             // center: true
           });
+					setTimeout(function(){
+						_this.$router.push({path:'/article/list'});
+					},2000);
         }
       }).catch(err => {
         console.log(err)
@@ -162,6 +169,7 @@ export default {
 .article-title {
   width: 100%;
   height: 50px;
+	position:relative;
 }
 
 .article-title input {
@@ -171,6 +179,19 @@ export default {
   line-height: 50px;
   padding: 0 0 0 1%;
   border: none;
+	font-size:16px;
+}
+
+.goto-article-list{
+	display:block;
+	width:120px;
+	height:30px;
+	line-height: 30px;
+	text-align:center;
+	color:#909399;
+	position:absolute;
+	right:0;
+	top:10px;
 }
 
 .article-content-box {

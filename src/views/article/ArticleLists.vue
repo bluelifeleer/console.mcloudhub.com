@@ -3,11 +3,11 @@
     <div class="article-lists-title">文章列表 <a href="/article/add" class="add-article-but">添加文章</a></div>
     <div class="article-list-box">
       <ul class="article-list-item-group">
-        <li class="article-list-items" v-for="(article,$index) in articles.list" :key="$index" :data-id="article._id" @mouseenter="articleItemHover($event,$index)">
+        <li class="article-list-items" v-for="(article,$index) in articles.list" :key="$index" :data-id="article._id" @mouseenter="articleItemHover($event,$index)" @mouseleave="articleItemOut($event,$index)">
           <div class="article-list-items-header"><a :href="article.href">{{article.title}}</a></div>
           <div class="article-list-items-body"><a :href="article.href">{{article.miniText.length>=128?(article.miniText.substr(0,128)+'......'):article.miniText}}</a></div>
           <div class="article-list-items-footer">
-            <a href="javascript:void(0);" class="article-list-items-targets" v-for="(target,$index) in article.targets" :key="$index" :data-target-id="target._id">{{target.name}}</a>
+            <a href="javascript:void(0);" class="article-list-items-targets" v-for="(target,$index) in article.targets" :key="$index" :data-target-id="target._id" :title="target.name">{{target.name}}</a>
             <span class="article-list-items-date">{{article.createTime}}</span>
           </div>
           <div class="list-items-operation-box" v-if="article.isHover">
@@ -76,6 +76,11 @@ export default {
       });
       this.articles.list[index].isHover = true;
     },
+		articleItemOut(e,index){
+			this.articles.list.forEach(item => {
+			  item.isHover = false;
+			});
+		},
     articleDelete(e, id) {
       this.$axios({
         method: 'get',

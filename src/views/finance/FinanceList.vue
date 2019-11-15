@@ -134,7 +134,9 @@
         this.addItemDialog = !this.addItemDialog;
       }
     },
-    mounted() {}
+    mounted() {
+			this.user = JSON.parse(sessionStorage.getItem('userInfo'));
+		}
   }
 
 </script>

@@ -19,6 +19,23 @@ let output = {
   data: null
 }
 
+router.get('/get',(req,res,next)=>{
+	let id = req.query.id;
+	User.findById(id,'name avatar phone email github website idiograph').then(user=>{
+		if(user){
+			output = {
+			  code: 1,
+			  msg: 'SUCCESS',
+			  ok: true,
+			  data: user
+			};
+			res.json(output);
+		}
+	}).catch(err=>{
+		console.log(err)
+	})
+})
+
 router.post('/signin', (req, res, next) => {
   let account = req.body.name;
   let password = req.body.password;
@@ -47,7 +64,10 @@ router.post('/signin', (req, res, next) => {
             name: user.name,
             phone: user.phone,
             email: user.email,
-            avatar: user.avatar
+            avatar: user.avatar,
+						github:user.github,
+						website:user.website,
+						idiograph:user.idiograph
           }
         };
         res.json(output);
@@ -109,6 +129,32 @@ router.post('/register', (req, res, next) => {
   }).catch(err => {
     console.log(err)
   });
+});
+
+router.post('/update',(req,res,next)=>{
+	let user = req.body.user;
+	User.findByIdAndUpdate(user._id,{
+		avatar:user.avatar,
+		name:user.name,
+		phone:user.phone,
+		email:user.email,
+		modifyTime: new Date()
+	}, {
+    new: true,
+    runValidators: true
+  }).then(update=>{
+		if(update){
+			output = {
+			  code: 1,
+			  msg: 'SUCCESS',
+			  ok: true,
+			  data: {}
+			};
+			res.json(output);
+		}
+	}).catch(err=>{
+		console.log(err)
+	})
 });
 
 router.post('/signout', (req, res, next) => {

@@ -14,6 +14,12 @@ import VueCookies from 'vue-cookies'
 
 Vue.config.productionTip = false
 Vue.prototype.$md5 = md5;
+
+// use
+Vue.use(ElementUI)
+Vue.use(mavonEditor)
+Vue.use(VueCookies)
+Vue.prototype.$clipboard = clipboard
 Vue.prototype.$axios = axios.create({
   baseURL: 'http://console.mcloudhub.com/',
   timeout: 3600,
@@ -39,11 +45,6 @@ Vue.prototype.$axios.interceptors.response.use(function(response) {
   return Promise.reject(error);
 });
 
-Vue.prototype.$clipboard = clipboard
-// use
-Vue.use(ElementUI)
-Vue.use(mavonEditor)
-Vue.use(VueCookies)
 router.beforeEach((to, from, next) => {
   /* 路由发生变化修改页面title */
   if (to.meta.title) {

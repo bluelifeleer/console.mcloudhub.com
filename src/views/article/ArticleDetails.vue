@@ -2,7 +2,7 @@
   <div class="article-details">
     <div class="article-details-header">
       <div class="article-details-title">{{article.title.length>=60?(article.title.substr(0,60)+'......'):article.title}}</div>
-      <div class="article-details-status-bar">{{article.createTime}} <i v-if="article.createTime!=article.modifyTime" class="icon iconfont" :title="article.modifyTime">&#xe637;</i></div>
+      <div class="article-details-status-bar">{{article.createTime}} <i v-if="article.createTime!=article.modifyTime" class="icon iconfont" :title="article.modifyTime">&#xe637;</i><span class="targets-box"><a href="javascript:void(0);" class="target-items" v-for="(target,$index) in article.targets" :key="$index" :data-id="target._id" :title="target.name">{{target.name}}</a></span></div>
     </div>
     <div class="article-details-body">
       <div class="article-details-content markdown-body" v-html="article.html"></div>
@@ -98,9 +98,29 @@ export default {
   cursor: pointer;
 }
 
+.targets-box{
+	margin:0 0 0 20px;
+}
+
+.target-items{
+	width:auto;
+	height:auto;
+	margin:0 10px 0 0;
+	padding:5px 10px;
+	border-radius:30px;
+	background:rgba(84,92,99,.1);
+	color: #545c63;
+	font-size:12px;
+}
+
 .article-details-body {
   width: 100%;
   height: auto;
+}
+
+.markdown-body{
+	max-width:100% !important;
+	margin:none !important;
 }
 
 .article-details-content {

@@ -13,7 +13,7 @@
         <a href="javascript:void(0);" class="" @click="urlConvert($event,'encode')">编码</a>
       </div>
       <div class="url-mark-query-form-output">
-        <textarea name="output-url" id="output-url" cols="30" rows="10" v-model="urlMarkQueryForm.output"></textarea>
+        <textarea name="output-url" id="output-url" cols="30" rows="10" v-model="urlMarkQueryForm.output" style="background:#eee;"></textarea>
       </div>
     </div>
   </div>
@@ -108,12 +108,12 @@ export default {
   display: block;
   float: right;
   width: 120px;
-  height: 50px;
-  line-height: 50px;
+  height: 40px;
+  line-height: 40px;
   text-align: center;
   background: #5D9D3E;
   color: #fff;
-  margin: 0 0 0 10px;
+  margin: 15px 0 15px 10px;
   border-radius: 5px;
 }
 
