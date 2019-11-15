@@ -1,20 +1,12 @@
 <template>
   <div class="menu-component" :style="{'width':width+'px'}">
     <ul class="menu-list-group">
-      <li class="meni-list-items" :class="{'meni-list-items-active':menu.selected}" v-for="(menu,$index) in menus"
-        :key="$index" :index="menu.index">
-        <div class="menu-list-items-tap"><a href="javascript:void(0);" @click="menusItemClickHandle($event,$index)"
-            class="menu-list-items-tap-alink"><span class="menu-list-items-tap-text">{{menu.text}}</span><i
-              class="icon menu-list-items-tap-icon iconfont" v-if="menu.childs.length">&#xe63a;</i><i
-              class="icon menu-list-items-tap-icon" v-else></i></a></div>
+      <li class="meni-list-items" :class="{'meni-list-items-active':menu.selected}" v-for="(menu,$index) in menus" :key="$index" :index="menu.index">
+        <div class="menu-list-items-tap"><a href="javascript:void(0);" @click="menusItemClickHandle($event,$index)" class="menu-list-items-tap-alink"><span class="menu-list-items-tap-text">{{menu.text}}</span><i class="icon menu-list-items-tap-icon iconfont" v-if="menu.childs.length">&#xe63a;</i><i class="icon menu-list-items-tap-icon" v-else></i></a></div>
         <div class="menu-list-childs-box" v-if="menu.childs.length">
           <ul class="menu-list-items-child-list-group" v-if="menu.selected">
-            <li class="menu-list-items-child-list-items" v-for="(child,$index) in menu.childs" :key="$index"
-              :index="menu.index+'-'+child.index">
-              <div class="menu-list-items-child-list-items-tap"><a :href="child.alink"
-                  class="menu-list-items-child-list-items-tap-alink"><span
-                    class="menu-list-items-child-list-items-tap-text">{{child.text}}</span><i
-                    class="icon menu-list-items-child-list-items-tap-icon"></i></a></div>
+            <li class="menu-list-items-child-list-items" v-for="(child,$index) in menu.childs" :key="$index" :index="menu.index+'-'+child.index">
+              <div class="menu-list-items-child-list-items-tap"><a :href="child.alink" class="menu-list-items-child-list-items-tap-alink"><span class="menu-list-items-child-list-items-tap-text">{{child.text}}</span><i class="icon menu-list-items-child-list-items-tap-icon"></i></a></div>
             </li>
           </ul>
         </div>
@@ -23,212 +15,212 @@
   </div>
 </template>
 <script>
-  export default {
-    name: 'MenuComponent',
-    props: ['width'],
-    data() {
-      return {
-        menus: [{
+export default {
+  name: 'MenuComponent',
+  props: ['width'],
+  data() {
+    return {
+      menus: [{
+        index: 0,
+        text: '开发工具',
+        icon: '',
+        alink: '',
+        selected: true,
+        childs: [{
           index: 0,
-          text: '开发工具',
+          text: '图片转Base64',
           icon: '',
-          alink: '',
-          selected: true,
-          childs: [{
-            index: 0,
-            text: '图片转Base64',
-            icon: '',
-            alink: '/tootl/img2base64',
-            childs: []
-          }, {
-            index: 1,
-            text: '正则测试',
-            icon: '',
-            alink: '/tootl/preg',
-            childs: []
-          }, {
-            index: 2,
-            text: 'URL编/解码',
-            icon: '',
-            alink: '/tootl/urlmq',
-            childs: []
-          }, {
-            index: 3,
-            text: '二维码生成',
-            icon: '',
-            alink: '/tootl/qrcode',
-            childs: []
-          }, {
-            index: 4,
-            text: '接口调试',
-            icon: '',
-            alink: '/tootl/apitest',
-            childs: []
-          }]
+          alink: '/tootl/img2base64',
+          childs: []
         }, {
           index: 1,
-          text: '文章管理',
+          text: '正则测试',
           icon: '',
-          alink: '',
-          selected: false,
-          childs: [{
-            index: 0,
-            text: '文章列表',
-            icon: '',
-            alink: '/article/list',
-            selected: false,
-            childs: []
-          }, {
-            index: 1,
-            text: '新增文章',
-            icon: '',
-            alink: '/article/add',
-            selected: false,
-            childs: []
-          }]
+          alink: '/tootl/preg',
+          childs: []
         }, {
           index: 2,
-          text: '活动页面管理',
+          text: 'URL编/解码',
           icon: '',
-          alink: '',
-          selected: false,
-          childs: [{
-            index: 0,
-            text: '活动列表',
-            icon: '',
-            alink: '/active/list',
-            selected: false,
-            childs: []
-          }, {
-            index: 0,
-            text: '新增活动',
-            icon: '',
-            alink: '/active/add',
-            selected: false,
-            childs: []
-          }]
+          alink: '/tootl/urlmq',
+          childs: []
         }, {
           index: 3,
-          text: '代码片段',
+          text: '二维码生成',
           icon: '',
-          alink: '',
-          selected: false,
+          alink: '/tootl/qrcode',
           childs: []
         }, {
           index: 4,
-          text: '财务管理',
+          text: '接口调试',
           icon: '',
-          alink: '',
-          selected: false,
-          childs: [{
-            index: 4,
-            text: '财务列表',
-            icon: '',
-            alink: '/finance/list',
-            selected: false,
-            childs: []
-          }]
+          alink: '/tootl/apitest',
+          childs: []
         }]
-      }
-    },
-    created() {
-
-    },
-    methods: {
-      menusItemClickHandle(e, index) {
-        console.log(index)
-        if (this.menus[index].childs.length && !this.menus[index].alink) {
-          this.menus[index].selected = !this.menus[index].selected;
-        } else {
-          this.$router.push({
-            path: this.menus[index].alink
-          });
-        }
-      }
-    },
-    mounted() {
-
+      }, {
+        index: 1,
+        text: '文章管理',
+        icon: '',
+        alink: '',
+        selected: false,
+        childs: [{
+          index: 0,
+          text: '文章列表',
+          icon: '',
+          alink: '/article/list',
+          selected: false,
+          childs: []
+        }, {
+          index: 1,
+          text: '新增文章',
+          icon: '',
+          alink: '/article/add',
+          selected: false,
+          childs: []
+        }]
+      }, {
+        index: 2,
+        text: '活动页面管理',
+        icon: '',
+        alink: '',
+        selected: false,
+        childs: [{
+          index: 0,
+          text: '活动列表',
+          icon: '',
+          alink: '/active/list',
+          selected: false,
+          childs: []
+        }, {
+          index: 0,
+          text: '新增活动',
+          icon: '',
+          alink: '/active/add',
+          selected: false,
+          childs: []
+        }]
+      }, {
+        index: 3,
+        text: '代码片段',
+        icon: '',
+        alink: '',
+        selected: false,
+        childs: []
+      }, {
+        index: 4,
+        text: '财务管理',
+        icon: '',
+        alink: '',
+        selected: false,
+        childs: [{
+          index: 4,
+          text: '财务列表',
+          icon: '',
+          alink: '/finance/list',
+          selected: false,
+          childs: []
+        }]
+      }]
     }
+  },
+  created() {
+
+  },
+  methods: {
+    menusItemClickHandle(e, index) {
+      console.log(index)
+      if (this.menus[index].childs.length && !this.menus[index].alink) {
+        this.menus[index].selected = !this.menus[index].selected;
+      } else {
+        this.$router.push({
+          path: this.menus[index].alink
+        });
+      }
+    }
+  },
+  mounted() {
+
   }
+}
 
 </script>
 <style scoped>
-  .menu-component {}
+.menu-component {}
 
-  .menu-component a {
-    display: block;
-    width: 100%;
-    height: 50px;
-    color: #909399;
-  }
+.menu-component a {
+  display: block;
+  width: 100%;
+  height: 50px;
+  color: #909399;
+}
 
-  .menu-list-group {
-    width: 100%;
-    height: auto;
-    background: #
-  }
+.menu-list-group {
+  width: 100%;
+  height: auto;
+  background: #
+}
 
-  .meni-list-items {
-    width: 100%;
-    height: auto;
-    position: relative;
-  }
+.meni-list-items {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
 
-  .meni-list-items:hover {
-    cursor: pointer;
-    background: #f9fafc;
-  }
+.meni-list-items:hover {
+  cursor: pointer;
+  background: #f9fafc;
+}
 
-  .meni-list-items-active {
-    background: #f9fafc;
-  }
+.meni-list-items-active {
+  background: #f9fafc;
+}
 
-  .menu-list-items-tap {
-    width: 90%;
-    height: 50px;
-    padding: 0 0 0 10%;
-  }
+.menu-list-items-tap {
+  width: 90%;
+  height: 50px;
+  padding: 0 0 0 10%;
+}
 
-  .menu-list-items-tap .menu-list-items-tap-text {
-    height: 50px;
-    line-height: 50px;
-  }
+.menu-list-items-tap .menu-list-items-tap-text {
+  height: 50px;
+  line-height: 50px;
+}
 
-  .menu-list-items-tap-icon {
-    position: absolute;
-    right: 20px;
-    top: 15px;
-  }
+.menu-list-items-tap-icon {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+}
 
-  .menu-list-childs-box {
-    width: 100%;
-    height: auto;
-  }
+.menu-list-childs-box {
+  width: 100%;
+  height: auto;
+}
 
-  .menu-list-items-child-list-group {
-    width: 100%;
-    height: auto;
-  }
+.menu-list-items-child-list-group {
+  width: 100%;
+  height: auto;
+}
 
-  .menu-list-items-child-list-items {
-    width: 100%;
-    height: auto;
-  }
+.menu-list-items-child-list-items {
+  width: 100%;
+  height: auto;
+}
 
-  .menu-list-items-child-list-items-tap {
-    width: 80%;
-    height: 50px;
-    padding: 0 0 0 20%;
-  }
+.menu-list-items-child-list-items-tap {
+  width: 80%;
+  height: 50px;
+  padding: 0 0 0 20%;
+}
 
-  .menu-list-items-child-list-items-tap:hover {
-    cursor: pointer;
-    background: #E4E7Ed;
-  }
+.menu-list-items-child-list-items-tap:hover {
+  cursor: pointer;
+  background: #E4E7Ed;
+}
 
-  .menu-list-items-child-list-items-tap .menu-list-items-child-list-items-tap-text {
-    height: 50px;
-    line-height: 50px;
-  }
+.menu-list-items-child-list-items-tap .menu-list-items-child-list-items-tap-text {
+  height: 50px;
+  line-height: 50px;
+}
 
 </style>
