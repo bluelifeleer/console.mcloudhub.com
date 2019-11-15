@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Dashboard from './views/Dashboard.vue'
 import ImgToBase from './views/tools/ImgToBase.vue'
+import PregTootl from './views/tools/pregTool.vue'
 import ApiTest from './views/tools/apiTest'
 import urlMarkQuery from './views/tools/urlMarkQuery'
 import QrCode from './views/tools/qrcode'
@@ -12,6 +13,7 @@ import ArticleEdit from './views/article/ArticleEdit.vue'
 import ArticleDetails from './views/article/ArticleDetails.vue'
 import ActiveList from './views/active/ActiveList.vue'
 import ActiveAdd from './views/active/ActiveAdd.vue'
+import FinanceList from './views/finance/FinanceList.vue'
 import Login from './views/login.vue'
 import Register from './views/register.vue'
 
@@ -36,6 +38,10 @@ export default new Router({
         path: 'img2base64',
         name: 'img2base64',
         component: ImgToBase,
+      }, {
+        path: 'preg',
+        name: 'preg',
+        component: PregTootl,
       }, {
         path: 'qrcode',
         name: 'qrcode',
@@ -89,6 +95,15 @@ export default new Router({
         name: 'activeAdd',
         component: ActiveAdd
       }]
+    }, {
+      path: '/finance',
+      name: 'finance',
+      component: Home,
+      children: [{
+        path: 'list',
+        name: 'activeList',
+        component: FinanceList
+      }],
     }, {
       path: '/login',
       name: 'login',

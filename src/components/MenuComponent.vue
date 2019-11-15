@@ -36,7 +36,7 @@ export default {
           index: 1,
           text: '正则测试',
           icon: '',
-          alink: '',
+          alink: '/tootl/preg',
           childs: []
         }, {
           index: 2,
@@ -108,11 +108,18 @@ export default {
         childs: []
       }, {
         index: 4,
-        text: '财务记录',
+        text: '财务管理',
         icon: '',
         alink: '',
         selected: false,
-        childs: []
+        childs: [{
+          index: 4,
+          text: '财务列表',
+          icon: '',
+          alink: '/finance/list',
+          selected: false,
+          childs: []
+        }]
       }]
     }
   },
@@ -125,7 +132,9 @@ export default {
       if (this.menus[index].childs.length && !this.menus[index].alink) {
         this.menus[index].selected = !this.menus[index].selected;
       } else {
-        this.$router.push({ path: this.menus[index].alink });
+        this.$router.push({
+          path: this.menus[index].alink
+        });
       }
     }
   },

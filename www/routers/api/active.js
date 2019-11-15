@@ -18,15 +18,16 @@ let output = {
 
 router.get('/list', (req, res, next) => {
   let uid = req.query.uid;
-  let offset = parseInt(req.query.offset);
-  let nums = parseInt(req.query.nums);
+  let offset = parseInt(req.query.offset) || 1;
+  let nums = parseInt(req.query.nums) || 20;
   let sort = req.query.sort;
   Active.countDocuments({
     uid: uid
   }, (err, count) => {
     Active.find({
-      uid: uid
-    }).populate([{
+        uid: uid
+      },
+      'companyName projectName projectUrl projectDir name desc url own createTime modifyTime').populate([{
       path: 'own',
       select: 'name'
     }]).skip(parseInt(nums * (offset - 1))).limit(nums).then(actives => {
@@ -36,7 +37,7 @@ router.get('/list', (req, res, next) => {
           msg: 'SUCCESS',
           ok: true,
           data: {
-            offset: offSet,
+            offset: offset,
             nums: nums,
             sort: sort,
             count: count,
