@@ -3,7 +3,10 @@
     <div class="article-add-body">
       <input type="hidden" name="id" v-model="article._id" />
       <input type="hidden" name="uid" v-model="article.uid" />
-      <div class="article-title"><input type="text" name="article-title" value="" v-model="article.title" placeholder="输入文章标题"></div>
+      <div class="article-title">
+		  <input type="text" name="article-title" value="" v-model="article.title" placeholder="输入文章标题" />
+		  <a href="/article/list" class="goto-article-list">返回文章列表</a>
+	  </div>
       <div class="article-content-box">
         <mavon-editor v-model="article.content" @change="change" ref="markerdown" />
       </div>
@@ -103,9 +106,12 @@ export default {
         if (res.data.ok && res.data.code) {
           this.$message({
             type: 'success',
-            message: '修改成功',
+            message: '文章修改成功',
             // center: true
           });
+          setTimeout(function(){
+          	_this.$router.push({path:`/article/details?id=${this.id}`});
+          },2000);
         }
       }).catch(err => {
         console.log(err)
@@ -145,6 +151,18 @@ export default {
   line-height: 50px;
   padding: 0 0 0 1%;
   border: none;
+}
+
+.article-title .goto-article-list{
+	display:block;
+	width:120px;
+	height:30px;
+	line-height: 30px;
+	text-align:center;
+	color:#909399;
+	position:absolute;
+	right:0;
+	top:10px;
 }
 
 .article-content-box {

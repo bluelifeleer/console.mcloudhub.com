@@ -134,7 +134,7 @@ export default {
         if (res.data.code && res.data.ok) {
           this.$message({
             type: 'success',
-            message: '文章添加成功，即将返回文章列表',
+            message: '文章添加成功',
             // center: true
           });
 					setTimeout(function(){

@@ -18,6 +18,15 @@ import UserProfile from './views/user/userProfile.vue'
 import Login from './views/login.vue'
 import Register from './views/register.vue'
 
+/**
+ * 重写路由push方法
+ * @param {Object} location
+ */
+const RouterPush = Router.prototype.push;
+Router.prototype.push = function push(location) {
+  return RouterPush.call(this, location).catch(err => err)
+}
+
 Vue.use(Router)
 
 export default new Router({
@@ -94,7 +103,10 @@ export default new Router({
       }, {
         path: 'add',
         name: 'activeAdd',
-        component: ActiveAdd
+        component: ActiveAdd,
+        props: (route) => ({
+          id: route.query.id
+        })
       }]
     }, {
       path: '/finance',

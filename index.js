@@ -59,7 +59,7 @@ app.use(bodyParser.urlencoded({
   limit: '50mb',
   extended: true
 }))
-app.use(cookieParser('session_id', {
+app.use(cookieParser('a7a057325ea80b95e42038a64c5e8037', {
   maxAge: 1800000,
   secure: true
 }))
@@ -80,10 +80,10 @@ app.use(session({
   genid: function (req) {
     return uuidv4() // use UUIDs for session IDs
   },
-  secret: 'session_id', // 与cookieParser中的一致
-  resave: true, // 设置强制刷新session
+  secret: 'a7a057325ea80b95e42038a64c5e8037', // 与cookieParser中的一致
+  resave: false, // 设置强制刷新session
   store: store, // 将session保存到mongodb中
-  saveUninitialized: false, // 是否保存未初始化的会话，如果是true则会保存许多session会导致保存有效session失败,一般设置为false.
+  saveUninitialized: true, // 是否保存未初始化的会话，如果是true则会保存许多session会导致保存有效session失败,一般设置为false.
   cookie: {
     secure: true,
     maxAge: 1800000,

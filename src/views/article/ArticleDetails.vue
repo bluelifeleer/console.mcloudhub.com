@@ -7,7 +7,11 @@
     <div class="article-details-body">
       <div class="article-details-content markdown-body" v-html="article.html"></div>
     </div>
-    <div class="article-details-flooter"></div>
+    <div class="article-details-flooter">
+      <a href="javascript:void(0);" class="article-prev-but" @click="articlePrev($event)"><i>上一篇</i></a>
+      <span class="article-current" :title="article.title">{{article.title.length>=60?(article.title.substr(0,60)+'......'):article.title}}</span>
+      <a href="javascript:void(0);" class="article-next-but" @click="articleNext($event)"><i>下一篇</i></a>
+    </div>
   </div>
 </template>
 <script>
@@ -45,6 +49,12 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    },
+    articlePrev(e){
+      this.getArticle();
+    },
+    articleNext(e){
+      this.getArticle();
     },
     formateDate(timer) {
       let nowDate = timer ? new Date(timer) : new Date();
@@ -143,4 +153,30 @@ export default {
   }
 }
 
+.article-details-flooter{
+  width:100%;
+  height:auto;
+  margin:30px 0 0 0;
+  overflow: hidden;
+}
+
+.article-details-flooter a{
+  display:block;
+  float:left;
+  width:20%;
+  height:40px;
+  line-height: 40px;
+  text-align: center;
+  color:#909399;
+}
+
+.article-details-flooter span{
+  display:block;
+  float:left;
+  width:60%;
+  height:40px;
+  line-height: 40px;
+  text-align: center;
+  color:#909399;
+}
 </style>
