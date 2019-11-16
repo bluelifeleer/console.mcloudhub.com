@@ -65,9 +65,9 @@ router.post('/signin', (req, res, next) => {
             phone: user.phone,
             email: user.email,
             avatar: user.avatar,
-						github:user.github,
-						website:user.website,
-						idiograph:user.idiograph
+            github:user.github,
+            website:user.website,
+            idiograph:user.idiograph
           }
         };
         res.json(output);
@@ -102,6 +102,9 @@ router.post('/register', (req, res, next) => {
         avatar: '',
         email: '',
         phone: '',
+        github:'',
+        website:'',
+        idiograph:'',
         createTime: new Date(),
         enable: true
       }).save().then(userInsert => {
@@ -138,6 +141,9 @@ router.post('/update',(req,res,next)=>{
 		name:user.name,
 		phone:user.phone,
 		email:user.email,
+    github:user.github,
+    website:user.website,
+    idiograph:user.idiograph,
 		modifyTime: new Date()
 	}, {
     new: true,

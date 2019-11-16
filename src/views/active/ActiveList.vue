@@ -3,7 +3,7 @@
     <div class="active-list-header">活动页面列表</div>
     <div class="active-list-body">
       <div class="active-list-item-group">
-        <el-table :data="actives.list" style="width: 100%">
+        <el-table :data="actives.list" style="width: 100%" v-loading="loading">
           <el-table-column label="日期" width="180" header-align="center">
             <template slot-scope="scope">
               <i class="el-icon-time"></i>
@@ -51,6 +51,7 @@
     data() {
       return {
         user: {},
+        loading:false,
         actives: {
           count: 0,
           offset: 1,
@@ -65,12 +66,14 @@
     },
     methods: {
       getActiveList() {
+        this.loading = true;
         this.$axios({
           method: 'GET',
           url: `/api/active/list?uid=${this.user._id}&nums=${this.actives.nums}&offset=${this.actives.offset}&sort=`
         }).then(res => {
           console.log(res)
           if (res.data.ok && res.data.code) {
+            this.loading = false;
             let actives = res.data.data
             actives.list.forEach(active => {
               active.createTime = this.formateDate(active.createTime)
@@ -98,8 +101,25 @@
         this.actives.offset = offset;
         this.getActiveList();
       },
-      activeEditHandle(index, item) {},
-      activeDeleteHandle(index, item) {},
+      activeEditHandle(index, item) {
+        this.$router.push({path:`/active/add?id=${item._id}`})
+      },
+      activeDeleteHandle(index, item) {
+        this.$axios({
+          method:'get',
+          url:`/api/active/delete?uid=${this.user._id}&id=${item._id}`
+        }).then(res=>{
+          if(res.data.code&&res.data.ok){
+            this.$message({
+              type:'success',
+              message:'删除成功'
+            });
+            this.getActiveList();
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      },
       formateDate(timer) {
         let nowDate = timer ? new Date(timer) : new Date();
         let fullYear = nowDate.getFullYear();

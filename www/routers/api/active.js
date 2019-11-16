@@ -73,11 +73,46 @@ router.get('/get', (req, res, next) => {
 });
 
 router.get('/delete', (req, res, next) => {
-
+  let id=req.query.id;
+  Active.findByIdAndRemove(id).then(status=>{
+    if(status){
+      output = {
+        code: 1,
+        msg: 'SUCCESS',
+        ok: true,
+        data: active
+      };
+      res.json(output);
+    }
+  }).catch(err=>{
+    console.log(err)
+  })
 });
 
 router.post('/update', (req, res, next) => {
-
+  let id = req.body.id;
+  Active.findByIdAndUpdate(id,{
+    companyName: req.body.companyName,
+    projectName: req.body.projectName,
+    projectUrl: req.body.projectUrl,
+    projectDir: req.body.projectDir,
+    name: req.body.name,
+    url: req.body.url,
+    desc: req.body.desc,
+    modifyTime:new Date()
+  }).then(update=>{
+    if(update){
+      output = {
+        code: 1,
+        msg: 'SUCCESS',
+        ok: true,
+        data: active
+      };
+      res.json(output);
+    }
+  }).catch(err=>{
+    console.log(err)
+  })
 });
 
 router.post('/add', (req, res, next) => {

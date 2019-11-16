@@ -38,6 +38,7 @@
 <script>
 export default {
   name: 'activeContainer',
+  props:['id'],
   data() {
     return {
       user: {},
@@ -89,6 +90,25 @@ export default {
   },
   created() {},
   methods: {
+    getActive(){
+      this.$axios({
+        method:'get',
+        url:`/api/active/get?id=${this.id}`
+      }).then(res=>{
+        console.log(res);
+        if(res.data.code&&res.data.ok){
+          this.activeForm.companys.name.value = res.data.data.companyName;
+          this.activeForm.projects.name.value = res.data.data.projectName;
+          this.activeForm.projects.url.value = res.data.data.projectUrl;
+          this.activeForm.projects.dir.value = res.data.data.projectDir;
+          this.activeForm.pages.name.value = res.data.data.name;
+          this.activeForm.desc.name.value = res.data.data.desc;
+          this.activeForm.url.name.value = res.data.data.url;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     activeFormInputBlurHandle(e, type) {
       let params = type.split('.')
       if (type == 'projects.url') {
@@ -115,8 +135,9 @@ export default {
     activeFormSubmit(e) {
       this.$axios({
         method: 'post',
-        url: '/api/active/add',
-        data: {
+        url: `/api/active/${(this.id?'add':'update')}`,
+        data: this.id?({
+          id:this.id,
           uid: this.user._id,
           companyName: this.activeForm.companys.name.value,
           projectName: this.activeForm.projects.name.value,
@@ -125,7 +146,16 @@ export default {
           name: this.activeForm.pages.name.value,
           url: this.activeForm.pages.url.value,
           desc: this.activeForm.pages.desc.value
-        }
+        }):({
+          uid: this.user._id,
+          companyName: this.activeForm.companys.name.value,
+          projectName: this.activeForm.projects.name.value,
+          projectUrl: this.activeForm.projects.url.value,
+          projectDir: this.activeForm.projects.dir.value,
+          name: this.activeForm.pages.name.value,
+          url: this.activeForm.pages.url.value,
+          desc: this.activeForm.pages.desc.value
+        })
       }).then(res => {
         console.log(res)
       }).catch(err => {
@@ -135,6 +165,9 @@ export default {
   },
   mounted() {
     this.user = JSON.parse(sessionStorage.getItem('userInfo'));
+    if(this.id){
+      this.getActive();
+    }
   }
 }
 

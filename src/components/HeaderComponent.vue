@@ -27,6 +27,7 @@
     created() {},
     methods: {
 			showUserSettingPopupToggle(e,flag){
+        console.log(e)
 				window.event ? window.event.cancelBubble=true : e.stopPropagation()	// 阻止冒泡
 				this.showUserSettingPopup = flag;
 			},
@@ -43,6 +44,7 @@
 		let _this = this;
       this.user = JSON.parse(sessionStorage.getItem('userInfo'));
 	  document.addEventListener("click",function(e){
+      console.log(e)
 		  _this.showUserSettingPopupToggle(e,false);
 	  },false);
     }

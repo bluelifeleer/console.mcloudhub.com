@@ -145,7 +145,7 @@
 	}
 	
 	.user-profile-form-box{
-		width:50%;
+		width:61%;
 		height:auto;
 	}
 	
