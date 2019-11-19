@@ -18,7 +18,7 @@
       </ul>
     </div>
     <div class="article-list-page-bar">
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="articles.offset" :page-sizes="[20, 40, 60, 80, 100]" :page-size="articles.nums" layout="total, sizes, prev, pager, next, jumper" :total="articles.count">
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="articles.offset" :page-sizes="[10, 20, 40, 60, 80, 100]" :page-size="articles.nums" layout="total, sizes, prev, pager, next, jumper" :total="articles.count">
       </el-pagination>
     </div>
   </div>

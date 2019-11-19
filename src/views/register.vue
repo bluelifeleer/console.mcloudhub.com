@@ -89,8 +89,15 @@ export default {
     }
   },
   mounted() {
+    let _this = this;
     this.height =
       document.body.clientHeight || document.documentElement.clientHeight;
+    document.addEventListener('keyup', function (e) {
+      let ev = e || event;
+      if (ev.keyCode == 13) {
+        _this.loginFormSubmit()
+      }
+    })
   }
 };
 

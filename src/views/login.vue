@@ -10,7 +10,7 @@
         </div>
         <div class="login-form-items">
           <label for="password" :class="{'request':form.password.request}">密码：</label>
-          <input type="password" name="password" :placeholder="form.password.placeholder" v-model="form.password.value" autocomplete="off" />
+          <input type="password" name="password" :placeholder="form.password.placeholder" v-model="form.password.value" autocomplete="off"/>
           <span class="input-tip" v-if="form.password.showTips">{{form.password.tips}}</span>
         </div>
         <div class="login-form-items">
@@ -31,42 +31,42 @@
 </template>
 <script>
 export default {
-  name: "Login",
-  data() {
+  name: 'Login',
+  data () {
     return {
       height: 0,
       form: {
         name: {
-          tips: "请输入登录帐号",
+          tips: '请输入登录帐号',
           showTips: false,
-          placeholder: "用户名/手机号",
-          value: "",
+          placeholder: '用户名/手机号',
+          value: '',
           request: true
         },
         password: {
-          tips: "请输入登录密码",
+          tips: '请输入登录密码',
           showTips: false,
-          placeholder: "请输入登录密码",
-          value: "",
+          placeholder: '请输入登录密码',
+          value: '',
           request: true
         },
         verifyCode: {
-          tips: "请输入验证码",
+          tips: '请输入验证码',
           showTips: false,
-          placeholder: "请输入验证码",
-          value: "",
+          placeholder: '请输入验证码',
+          value: '',
           request: true
         }
       }
-    };
+    }
   },
-  created() {},
+  created () {},
   methods: {
-    refreshVerifyCode(e) {
-      let nowDate = new Date();
-      this.$refs.verifyCodeImg.src = '/captcha/verifyCode?timer=' + nowDate.getTime();
+    refreshVerifyCode (e) {
+      let nowDate = new Date()
+      this.$refs.verifyCodeImg.src = '/captcha/verifyCode?timer=' + nowDate.getTime()
     },
-    loginFormSubmit() {
+    loginFormSubmit () {
       this.$axios({
         url: '/api/user/signin',
         method: 'post',
@@ -77,23 +77,30 @@ export default {
         }
       }).then(res => {
         if (res.data.ok && res.data.code) {
-          let result = res.data.data;
-          sessionStorage.setItem('userInfo', JSON.stringify(result));
-          this.$router.push({ path: '/' });
+          let result = res.data.data
+          sessionStorage.setItem('userInfo', JSON.stringify(result))
+          this.$router.push({ path: '/' })
         }
       }).catch(err => {
         console.log(err)
-      });
+      })
       // this.$router.push({
       //   path: "/"
       // });
     }
   },
-  mounted() {
+  mounted () {
+    let _this = this;
     this.height =
-      document.body.clientHeight || document.documentElement.clientHeight;
+      document.body.clientHeight || document.documentElement.clientHeight
+    document.addEventListener('keyup', function (e) {
+      let ev = e || event;
+      if (ev.keyCode == 13) {
+        _this.loginFormSubmit()
+      }
+    })
   }
-};
+}
 
 </script>
 <style scoped>

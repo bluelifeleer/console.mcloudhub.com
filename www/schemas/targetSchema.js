@@ -6,6 +6,7 @@
  */
 const mongoose = require('mongoose');
 module.exports = new mongoose.Schema({
+  uid: String,
   index: Number,
   name: String,
   icon: String,

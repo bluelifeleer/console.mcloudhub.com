@@ -24,7 +24,7 @@
 export default {
   name: 'ArticleEdit',
   props: ['id'],
-  data() {
+  data () {
     return {
       user: {},
       targetAddDialog: false,
@@ -41,62 +41,62 @@ export default {
       targets: []
     }
   },
-  watch() {
+  watch () {
 
   },
   methods: {
-    getTargets() {
+    getTargets () {
       this.$axios({
         url: '/api/target/list',
-        method: 'get', // default
+        method: 'get' // default
       }).then(res => {
         if (res.data.ok && res.data.code) {
-          let targets = res.data.data;
+          let targets = res.data.data
           targets.forEach(target => {
-            target.selected = false;
-          });
-          this.targets = targets;
+            target.selected = false
+          })
+          this.targets = targets
         }
       }).catch(err => {
         console.log(err)
       })
     },
-    getArticle() {
+    getArticle () {
       this.$axios({
         method: 'get',
         url: `/api/article/get?id=${this.id}`
       }).then(res => {
         if (res.data.ok && res.data.code) {
-          let article = res.data.data;
+          let article = res.data.data
           article.targets.forEach(target => {
             this.targets.forEach(item => {
               if (target._id == item._id) {
-                item.selected = true;
+                item.selected = true
               }
             })
           })
-          this.article = article;
+          this.article = article
         }
       }).catch(err => {
         console.log(err)
       })
     },
-    selectItems(item) {
-      this.article.targets = [];
-      item.selected = !item.selected;
+    selectItems (item) {
+      this.article.targets = []
+      item.selected = !item.selected
       this.targets.forEach((item) => {
         if (item.selected) {
-          this.article.targets.push(item._id);
+          this.article.targets.push(item._id)
         }
-      });
+      })
     },
-    change(value, render) {
-      this.article.html = render;
-      this.article.content = value;
-      this.article.markDown = value;
+    change (value, render) {
+      this.article.html = render
+      this.article.content = value
+      this.article.markDown = value
     },
-    articleFormSubmit(e) {
-      // this.article.html.replace(/(\n|\r\n)/g,'<br/>')
+    articleFormSubmit (e) {
+      let _this = this
       this.$axios({
         url: '/api/article/update',
         method: 'post',
@@ -106,23 +106,23 @@ export default {
         if (res.data.ok && res.data.code) {
           this.$message({
             type: 'success',
-            message: '文章修改成功',
+            message: '文章修改成功'
             // center: true
-          });
-          setTimeout(function(){
-          	_this.$router.push({path:`/article/details?id=${this.id}`});
-          },2000);
+          })
+          setTimeout(function () {
+          	_this.$router.push({ path: `/article/details?id=${_this.id}` })
+          }, 2000)
         }
       }).catch(err => {
         console.log(err)
-      });
+      })
     }
   },
-  mounted() {
-    this.user = JSON.parse(sessionStorage.getItem('userInfo'));
-    this.article.uid = this.user._id;
-    this.getTargets();
-    this.getArticle();
+  mounted () {
+    this.user = JSON.parse(sessionStorage.getItem('userInfo'))
+    this.article.uid = this.user._id
+    this.getTargets()
+    this.getArticle()
   }
 }
 

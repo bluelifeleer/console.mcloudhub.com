@@ -99,7 +99,7 @@ export default {
           selected: false,
           childs: []
         }]
-      }, {
+      },{
         index: 3,
         text: '代码片段',
         icon: '',
@@ -108,15 +108,50 @@ export default {
         childs: []
       }, {
         index: 4,
+        text: '标签管理',
+        icon: '',
+        alink: '',
+        selected: false,
+        childs: [{
+          index: 0,
+          text: '标签列表',
+          icon: '',
+          alink: '/target/list',
+          selected: false,
+          childs: []
+        }]
+      }, {
+        index: 5,
         text: '财务管理',
         icon: '',
         alink: '',
         selected: false,
         childs: [{
-          index: 4,
+          index: 0,
           text: '财务列表',
           icon: '',
           alink: '/finance/list',
+          selected: false,
+          childs: []
+        }]
+      }, {
+        index: 6,
+        text: '任务管理',
+        icon: '',
+        alink: '',
+        selected: false,
+        childs: [{
+          index: 0,
+          text: '任务列表',
+          icon: '',
+          alink: '/task/list',
+          selected: false,
+          childs: []
+        },{
+          index: 1,
+          text: '添加任务',
+          icon: '',
+          alink: '/task/add',
           selected: false,
           childs: []
         }]

@@ -37,7 +37,7 @@
       </div>
       <div class="active-list-item-page-box">
         <el-pagination @size-change="activesHandleSizeChange" @current-change="activesHandleCurrentChange"
-          :current-page="actives.offset" :page-sizes="[20, 40, 60, 80, 100]" :page-size="actives.nums"
+          :current-page="actives.offset" :page-sizes="[10, 20, 40, 60, 80, 100]" :page-size="actives.nums"
           layout="total, sizes, prev, pager, next, jumper" :total="actives.count">
         </el-pagination>
       </div>

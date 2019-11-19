@@ -27,23 +27,29 @@
       <div class="preg-grammar-box">
         <div class="preg-grammar-header">正则表达语法：</div>
         <div class="preg-grammar-body">
-          <p class="preg-grammar-items"><span>\d</span>匹配所有数字</p>
-          <p class="preg-grammar-items"><span>\D</span>匹配所有非数字</p>
-          <p class="preg-grammar-items"><span>\s</span>匹配所有非空字符</p>
-          <p class="preg-grammar-items"><span>\S</span>匹配所有空格</p>
-          <p class="preg-grammar-items"><span>+</span>匹配零次或一次</p>
-          <p class="preg-grammar-items"><span>?</span>匹配一次或多次</p>
+          <p class="preg-grammar-items"><span>\d</span>匹配数字，等价[0-9]</p>
+          <p class="preg-grammar-items"><span>\D</span>匹配非数字，等价[^0-9]</p>
+          <p class="preg-grammar-items"><span>\s</span>匹配任何空白字符，等价[\n\f\r\t\v]</p>
+          <p class="preg-grammar-items"><span>\S</span>匹配任何非空白字符[^\n\f\r\t\v]</p>
+          <p class="preg-grammar-items"><span>\w</span>匹配任何单词字符(包括字母、数字、下划线)，等价于[a-zA-Z0-9_]</p>
+          <p class="preg-grammar-items"><span>\W</span>匹配任何非单词字符，等价于[^a-zA-Z0-9_]</p>
+          <p class="preg-grammar-items"><span>\b</span>匹配一个单词边界，也就是指单词和空格间的位置。 例如：er\b可以匹配”never”中的”er”，但不能匹配”verb”中的”er"</p>
+          <p class="preg-grammar-items"><span>\B</span>匹配非单词边界。 例如：er\B可以匹配”verb”中的”er”，但不能匹配”never”中的”er”</p>
+          <p class="preg-grammar-items"><span>+</span>匹配零次或一次，相当于{0,1}</p>
+          <p class="preg-grammar-items"><span>?</span>匹配一次或多次，相当于{1,}</p>
           <p class="preg-grammar-items"><span>{n}</span>匹配n次</p>
           <p class="preg-grammar-items"><span>{n,}</span>匹配n次以上</p>
           <p class="preg-grammar-items"><span>{,n}</span>匹配最多n次</p>
           <p class="preg-grammar-items"><span>^</span>匹配开头</p>
           <p class="preg-grammar-items"><span>$</span>匹配结束</p>
-          <p class="preg-grammar-items"><span>.</span>尽可能多匹配</p>
-          <p class="preg-grammar-items"><span>*</span>匹配多次</p>
+          <p class="preg-grammar-items"><span>.</span>匹配除换行符之外的任意字符</p>
+          <p class="preg-grammar-items"><span>*</span>匹配零次或多次，相当于{0,}</p>
           <p class="preg-grammar-items"><span>\n|\n\r</span>匹配linux/windows系统下的换行符</p>
           <p class="preg-grammar-items"><span>g</span>全局匹配</p>
           <p class="preg-grammar-items"><span>i</span>忽略大小写</p>
           <p class="preg-grammar-items"><span>m</span>匹配多行</p>
+          <p class="preg-grammar-items"><span>[\u4e00-\u9fa5]</span>匹配中文字符的正则表达式</p>
+          <p class="preg-grammar-items"><span>[^\x00-\xff]</span>匹配双字节字符(包括汉字在内)；中文也是双字节的字符</p>
         </div>
       </div>
     </div>

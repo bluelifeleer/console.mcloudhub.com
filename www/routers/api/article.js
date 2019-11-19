@@ -139,7 +139,6 @@ router.post('/update', (req, res, next) => {
   }).catch(err => {
     console.log(err)
   })
-
 });
 
 router.get('/delete', (req, res, next) => {
