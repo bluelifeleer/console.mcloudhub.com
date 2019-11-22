@@ -23,7 +23,10 @@
           <label>活动页描述：</label><textarea name="" :placeholder="activeForm.pages.desc.placeholder" v-model="activeForm.pages.desc.value" @blur="activeFormInputBlurHandle($event,'pages.desc')" @focus="activeFormInputFocusHandle($event,'pages.desc')"></textarea>
         </div>
         <div class="active-container-form-items">
-          <label>自动生成连接：</label><a href="javascript:void(0);" class="auto-but" @click="autoBut($event)"><i class="icon iconfont radios-selected" v-if="activeForm.radio">&#xe653;</i><i class="icon iconfont" v-else>&#xe6b9;</i>&nbsp;&nbsp;是</a>
+          <label>自动生成连接：</label><a href="javascript:void(0);" class="auto-but-radio" @click="autoBut($event)"><i class="icon iconfont radios-selected" v-if="activeForm.radio">&#xe653;</i><i class="icon iconfont" v-else>&#xe6b9;</i>&nbsp;&nbsp;是</a>
+        </div>
+        <div class="active-container-form-items">
+          <label>添加后缀：</label><a href="javascript:void(0);" class="add-ext-radio" @click="addExtRadioBut($event)"><i class="icon iconfont radios-selected" v-if="activeForm.radioExt">&#xe653;</i><i class="icon iconfont" v-else>&#xe6b9;</i>&nbsp;&nbsp;是</a>
         </div>
         <div class="active-container-form-items">
           <label>活动页连接：</label><input type="text" name="" value="" :placeholder="activeForm.pages.url.placeholder" v-model="activeForm.pages.url.value" @blur="activeFormInputBlurHandle($event,'pages.url')" @focus="activeFormInputFocusHandle($event,'pages.url')" />
@@ -38,17 +41,18 @@
 <script>
 export default {
   name: 'activeContainer',
-  props:['id'],
-  data() {
+  props: ['id'],
+  data () {
     return {
       user: {},
+      autoName: '',
       activeForm: {
         companys: {
           name: {
             value: '',
             placeholder: '输入公司名称',
             required: false
-          },
+          }
         },
         projects: {
           name: {
@@ -85,59 +89,66 @@ export default {
           }
         },
         radio: true,
+        radioExt: false
       }
     }
   },
-  created() {},
+  created () {},
   methods: {
-    getActive(){
+    getActive () {
       this.$axios({
-        method:'get',
-        url:`/api/active/get?id=${this.id}`
-      }).then(res=>{
-        console.log(res);
-        if(res.data.code&&res.data.ok){
-          this.activeForm.companys.name.value = res.data.data.companyName;
-          this.activeForm.projects.name.value = res.data.data.projectName;
-          this.activeForm.projects.url.value = res.data.data.projectUrl;
-          this.activeForm.projects.dir.value = res.data.data.projectDir;
-          this.activeForm.pages.name.value = res.data.data.name;
-          this.activeForm.desc.name.value = res.data.data.desc;
-          this.activeForm.url.name.value = res.data.data.url;
+        method: 'get',
+        url: `/api/active/get?id=${this.id}`
+      }).then(res => {
+        if (res.data.code && res.data.ok) {
+          this.activeForm.companys.name.value = res.data.data.companyName
+          this.activeForm.projects.name.value = res.data.data.projectName
+          this.activeForm.projects.url.value = res.data.data.projectUrl
+          this.activeForm.projects.dir.value = res.data.data.projectDir
+          this.activeForm.pages.name.value = res.data.data.name
+          this.activeForm.desc.name.value = res.data.data.desc
+          this.activeForm.url.name.value = res.data.data.url
+          this.autoName = res.data.data.url.substr(-8)
         }
-      }).catch(err=>{
+      }).catch(err => {
         console.log(err)
       })
     },
-    activeFormInputBlurHandle(e, type) {
+    activeFormInputBlurHandle (e, type) {
       let params = type.split('.')
       if (type == 'projects.url') {
-        this.activeForm.pages.url.value = this.activeForm.radio ? (this.activeForm[params[0]][params[1]].value + '/' + this.randomStr(8)) : '';
+        this.activeForm.pages.url.value = this.activeForm.radio ? (this.activeForm[params[0]][params[1]].value + '/' + this.autoName) : ''
       }
     },
-    activeFormInputFocusHandle(e, type) {
+    activeFormInputFocusHandle (e, type) {
 
     },
-    autoBut(e) {
-      this.activeForm.radio = !this.activeForm.radio;
+    autoBut (e) {
+      this.activeForm.radio = !this.activeForm.radio
       if (this.activeForm.radio) {
-        this.activeForm.pages.url.value = this.activeForm.projects.url.value + '/' + this.randomStr(8);
+        this.activeForm.pages.url.value = this.autoName ? this.activeForm.pages.url.value : this.activeForm.projects.url.value + '/' + this.autoName
       }
     },
-    randomStr(num) {
-      let str = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
-        tmp = '';
+    addExtRadioBut (e) {
+      this.activeForm.radioExt = !this.activeForm.radioExt
+      if (this.activeForm.projects.url.value && this.autoName) {
+        this.activeForm.pages.url.value = this.activeForm.projects.url.value + '/' + this.autoName + (this.activeForm.radioExt ? '.html' : '')
+      }
+    },
+    randomStr (num) {
+      let str = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+      let tmp = ''
       for (let i = 0; i < num; i++) {
-        tmp += str.substr((Math.random() * (str.length - 1)), 1);
+        tmp += str.substr((Math.random() * (str.length - 1)), 1)
       }
-      return tmp;
+      return tmp
     },
-    activeFormSubmit(e) {
+    activeFormSubmit (e) {
       this.$axios({
         method: 'post',
-        url: `/api/active/${(this.id?'add':'update')}`,
-        data: this.id?({
-          id:this.id,
+        url: `/api/active/${(this.id ? 'add' : 'update')}`,
+        data: this.id ? ({
+          id: this.id,
           uid: this.user._id,
           companyName: this.activeForm.companys.name.value,
           projectName: this.activeForm.projects.name.value,
@@ -146,7 +157,7 @@ export default {
           name: this.activeForm.pages.name.value,
           url: this.activeForm.pages.url.value,
           desc: this.activeForm.pages.desc.value
-        }):({
+        }) : ({
           uid: this.user._id,
           companyName: this.activeForm.companys.name.value,
           projectName: this.activeForm.projects.name.value,
@@ -163,10 +174,11 @@ export default {
       })
     }
   },
-  mounted() {
-    this.user = JSON.parse(sessionStorage.getItem('userInfo'));
-    if(this.id){
-      this.getActive();
+  mounted () {
+    this.user = JSON.parse(sessionStorage.getItem('userInfo'))
+    this.autoName = this.randomStr(8)
+    if (this.id) {
+      this.getActive()
     }
   }
 }
@@ -195,7 +207,7 @@ export default {
 
 .active-container-form-title,
 .active-container-form-items-box {
-  width: 50%;
+  width: 64%;
   height: auto;
 }
 
@@ -236,7 +248,16 @@ export default {
   padding: 0 2%;
 }
 
-.active-container-form-items .auto-but {
+.active-container-form-items .auto-but-radio {
+  display: block;
+  float: left;
+  width: 30%;
+  height: 38px;
+  line-height: 38px;
+  color: #909399;
+}
+
+.active-container-form-items .add-ext-radio{
   display: block;
   float: left;
   width: 30%;

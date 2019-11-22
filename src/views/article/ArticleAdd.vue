@@ -7,7 +7,7 @@
 				<a href="/article/list" class="goto-article-list">返回文章列表</a>
 				</div>
       <div class="article-content-box">
-        <mavon-editor v-model="article.content" @change="change" ref="markerdown" />
+        <mavon-editor v-model="article.content" @change="change" ref="markerdown" @imgAdd="updateLoadFile" />
       </div>
       <div class="article-targets-box">
         <div class="article-targets-title"><label for="targets">选择标签：</label><a href="javascript:void(0);" class="add-target-but" @click="targetAddDialog=true">添加标签</a></div>
@@ -46,7 +46,7 @@
 <script>
 export default {
   name: 'ArticleAdd',
-  data() {
+  data () {
     return {
       user: {},
       targetAddDialog: false,
@@ -70,37 +70,37 @@ export default {
       targets: []
     }
   },
-  watch() {
+  watch () {
 
   },
   methods: {
-    getTargets() {
+    getTargets () {
       this.$axios({
-        url: '/api/target/list',
-        method: 'get', // default
+        url: `/api/target/list?uid=${this.user._id}&offset=1&nums=100000&sort=`,
+        method: 'get' // default
       }).then(res => {
         if (res.data.ok && res.data.code) {
-          let targets = res.data.data;
+          let targets = res.data.data.list
           targets.forEach(target => {
-            target.selected = false;
-          });
-          this.targets = targets;
+            target.selected = false
+          })
+          this.targets = targets
         }
       }).catch(err => {
         console.log(err)
       })
     },
-    selectItems(item) {
-      this.article.targets = [];
-      item.selected = !item.selected;
+    selectItems (item) {
+      this.article.targets = []
+      item.selected = !item.selected
       this.targets.forEach((item) => {
         if (item.selected) {
-          this.article.targets.push(item._id);
+          this.article.targets.push(item._id)
         }
-      });
+      })
     },
-    targetAddFormSubmit(e) {
-      this.targetAddDialog = false;
+    targetAddFormSubmit (e) {
+      this.targetAddDialog = false
       this.$axios({
         url: '/api/target/add',
         method: 'post',
@@ -109,22 +109,26 @@ export default {
         if (res.data.code && res.data.ok) {
           this.$message({
             type: 'success',
-            message: '标签添加成功',
+            message: '标签添加成功'
             // center: true
-          });
-          this.getTargets();
+          })
+          this.getTargets()
         }
       }).catch(err => {
         console.log(err)
-      });
+      })
     },
-    change(value, render) {
-      this.article.html = render;
-      this.article.content = value;
-      this.article.markDown = value;
+    updateLoadFile (pos, $file) {
+      console.log(pos)
+      console.log($file)
     },
-    articleFormSubmit(e) {
-			let _this = this;
+    change (value, render) {
+      this.article.html = render
+      this.article.content = value
+      this.article.markDown = value
+    },
+    articleFormSubmit (e) {
+      let _this = this
       // this.article.html.replace(/(\n|\r\n)/g,'<br/>')
       this.$axios({
         url: '/api/article/add',
@@ -134,22 +138,22 @@ export default {
         if (res.data.code && res.data.ok) {
           this.$message({
             type: 'success',
-            message: '文章添加成功',
+            message: '文章添加成功'
             // center: true
-          });
-					setTimeout(function(){
-						_this.$router.push({path:'/article/list'});
-					},2000);
+          })
+          setTimeout(function () {
+            _this.$router.push({ path: '/article/list' })
+          }, 2000)
         }
       }).catch(err => {
         console.log(err)
-      });
+      })
     }
   },
-  mounted() {
-    this.user = JSON.parse(sessionStorage.getItem('userInfo'));
-    this.addTargtForm.uid = this.article.uid = this.user._id;
-    this.getTargets();
+  mounted () {
+    this.user = JSON.parse(sessionStorage.getItem('userInfo'))
+    this.addTargtForm.uid = this.article.uid = this.user._id
+    this.getTargets()
   }
 }
 

@@ -3,8 +3,8 @@
   <div class="target-list-page-title">标签列表</div>
   <div class="target-list-page-body">
     <div class="target-list-group">
-      <el-table :data="targets.list" style="width: 100%" v-loading="loading">
-        <el-table-column label="排序" width="70" header-align="center" align="center">
+      <el-table :data="targets.list" style="width: 100%" v-loading="loading" max-height="550">
+        <el-table-column label="排序" width="70" header-align="center" align="center" fixed>
           <template slot-scope="scope">
             <span style="margin-left: 10px">{{ scope.row.index }}</span>
           </template>
@@ -22,11 +22,11 @@
           </el-table-column>
           <el-table-column label="日期" width="180" header-align="center">
             <template slot-scope="scope">
-              <i class="el-icon-time"></i>
+              <i class="el-icon-time" v-if="scope.row.modifyTime" :title="scope.row.modifyTime"></i>
               <span style="margin-left: 10px">{{ scope.row.createTime }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="180" header-align="center">
+          <el-table-column label="操作" width="180" header-align="center" align="center">
             <template slot-scope="scope">
               <el-button size="mini" @click="targetEditHandle(scope.$index, scope.row)">编辑</el-button>
               <el-button size="mini" type="danger" @click="targetDeleteHandle(scope.$index, scope.row)">删除</el-button>
@@ -45,7 +45,7 @@
     <div class="target-edit-dialog-remarker" @click="targetEditDialogToggle=false"></div>
     <div class="target-edit-dialog-box">
       <div class="target-edit-dialog-box-header">
-        <span class="target-edit-dialog-box-header-title">标签个性</span>
+        <span class="target-edit-dialog-box-header-title">标签修改</span>
         <a href="javascript:void(0);" class="target-edit-dialog-close-but"><i class="icon iconfont"></i></a>
       </div>
       <div class="target-edit-dialog-box-body">
@@ -121,6 +121,7 @@ export default {
           let lists = res.data.data.list
           lists.forEach(item => {
             item.createTime = this.formateDate(item.createTime)
+            item.modifyTime = this.formateDate(item.modifyTime)
           })
           this.targets.count = res.data.data.count
           this.targets.offset = res.data.data.offset

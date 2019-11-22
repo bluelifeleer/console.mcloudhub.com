@@ -26,7 +26,7 @@ router.get('/list', (req, res, next) => {
     uid:uid
   },(err,count)=>{
     if(count){
-      Target.find({uid:uid},'index name icon link desc createTime').populate([{
+      Target.find({uid:uid},'index name icon link desc createTime modifyTime').populate([{
         path: 'own',
         select: 'name'
       }]).skip(parseInt(nums * (offset - 1))).limit(nums).then(targets => {
@@ -57,7 +57,7 @@ router.get('/list', (req, res, next) => {
 router.get('/get', (req, res, next) => {
   console.log(req.query)
   let id = req.query.id;
-  Target.findById(id,'index name icon link desc createTime').populate([{
+  Target.findById(id,'index name icon link desc createTime modifyTime').populate([{
         path: 'own',
         select: 'name'
       }]).then(target=>{

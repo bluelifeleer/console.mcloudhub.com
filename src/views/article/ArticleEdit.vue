@@ -47,11 +47,11 @@ export default {
   methods: {
     getTargets () {
       this.$axios({
-        url: '/api/target/list',
+        url: `/api/target/list?uid=${this.user._id}&offset=1&nums=100000&sort=`,
         method: 'get' // default
       }).then(res => {
         if (res.data.ok && res.data.code) {
-          let targets = res.data.data
+          let targets = res.data.data.list
           targets.forEach(target => {
             target.selected = false
           })

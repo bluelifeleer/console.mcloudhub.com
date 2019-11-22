@@ -50,6 +50,7 @@
           <p class="preg-grammar-items"><span>m</span>匹配多行</p>
           <p class="preg-grammar-items"><span>[\u4e00-\u9fa5]</span>匹配中文字符的正则表达式</p>
           <p class="preg-grammar-items"><span>[^\x00-\xff]</span>匹配双字节字符(包括汉字在内)；中文也是双字节的字符</p>
+          <p class="preg-grammar-items"><span>\d+(\.\d+)?</span>匹配数据字者小数</p>
         </div>
       </div>
     </div>
@@ -57,37 +58,37 @@
 </template>
 
 <script>
-  export default {
-    name: 'PregTootl',
-    data() {
-      return {
-        pregForm: {
-          input: '',
-          preg: '',
-          result: '',
-          global: true,
-          ignore: false,
-          multiline: false,
-          replaceInput: '',
-          replaceResult: ''
-        }
-      }
-    },
-    methods: {
-      pregExecBut(e) {
-        let modifiers = `${this.pregForm.global?'g':''}${this.pregForm.ignore?'i':''}${this.pregForm.multiline?'m':''}`;
-        let regexp = new RegExp(this.pregForm.preg, modifiers)
-        let result = regexp.exec(this.pregForm.input)
-        // let result = this.pregForm.input.match(regexp)
-        this.pregForm.result = result ? result[0] : '';
-      },
-      replaceExecBut(e) {
-        let modifiers = `${this.pregForm.global?'g':''}${this.pregForm.ignore?'i':''}${this.pregForm.multiline?'m':''}`;
-        let regexp = new RegExp(this.pregForm.preg, modifiers)
-        this.pregForm.replaceResult = this.pregForm.input.replace(regexp, this.pregForm.replaceInput);
+export default {
+  name: 'PregTootl',
+  data () {
+    return {
+      pregForm: {
+        input: '',
+        preg: '',
+        result: '',
+        global: true,
+        ignore: false,
+        multiline: false,
+        replaceInput: '',
+        replaceResult: ''
       }
     }
+  },
+  methods: {
+    pregExecBut (e) {
+      let modifiers = `${this.pregForm.global ? 'g' : ''}${this.pregForm.ignore ? 'i' : ''}${this.pregForm.multiline ? 'm' : ''}`
+      let regexp = new RegExp(this.pregForm.preg, modifiers)
+      let result = regexp.exec(this.pregForm.input)
+      // let result = this.pregForm.input.match(regexp)
+      this.pregForm.result = result ? result[0] : ''
+    },
+    replaceExecBut (e) {
+      let modifiers = `${this.pregForm.global ? 'g' : ''}${this.pregForm.ignore ? 'i' : ''}${this.pregForm.multiline ? 'm' : ''}`
+      let regexp = new RegExp(this.pregForm.preg, modifiers)
+      this.pregForm.replaceResult = this.pregForm.input.replace(regexp, this.pregForm.replaceInput)
+    }
   }
+}
 
 </script>
 

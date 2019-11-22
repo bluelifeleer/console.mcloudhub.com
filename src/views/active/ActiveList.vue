@@ -1,10 +1,13 @@
 <template>
   <div class="active-list-page">
-    <div class="active-list-header">活动页面列表</div>
+    <div class="active-list-header">
+      <span class="active-list-header-title">活动页面列表</span>
+      <a href="/active/add" class="goto-add-active-but">添加活动页面</a>
+    </div>
     <div class="active-list-body">
       <div class="active-list-item-group">
-        <el-table :data="actives.list" style="width: 100%" v-loading="loading">
-          <el-table-column label="日期" width="180" header-align="center">
+        <el-table :data="actives.list" style="width: 100%" v-loading="loading" max-height="550">
+          <el-table-column label="日期" width="180" header-align="center" fixed>
             <template slot-scope="scope">
               <i class="el-icon-time"></i>
               <span style="margin-left: 10px">{{ scope.row.createTime }}</span>
@@ -27,7 +30,7 @@
           </el-table-column>
           <el-table-column prop="desc" label="活动描述" header-align="center">
           </el-table-column>
-          <el-table-column label="操作" width="180" header-align="center">
+          <el-table-column label="操作" width="180" header-align="center" align="center">
             <template slot-scope="scope">
               <el-button size="mini" @click="activeEditHandle(scope.$index, scope.row)">编辑</el-button>
               <el-button size="mini" type="danger" @click="activeDeleteHandle(scope.$index, scope.row)">删除</el-button>
@@ -36,10 +39,15 @@
         </el-table>
       </div>
       <div class="active-list-item-page-box">
-        <el-pagination @size-change="activesHandleSizeChange" @current-change="activesHandleCurrentChange"
-          :current-page="actives.offset" :page-sizes="[10, 20, 40, 60, 80, 100]" :page-size="actives.nums"
-          layout="total, sizes, prev, pager, next, jumper" :total="actives.count">
-        </el-pagination>
+        <div class="pagination-box">
+          <el-pagination @size-change="activesHandleSizeChange" @current-change="activesHandleCurrentChange"
+            :current-page="actives.offset" :page-sizes="[10, 20, 40, 60, 80, 100]" :page-size="actives.nums"
+            layout="total, sizes, prev, pager, next, jumper" :total="actives.count">
+          </el-pagination>
+        </div>
+        <div class="functions-box">
+          <a href="javascript:void(0);" class="export-execl-but" @click="exportExecl($event)">导出execl</a>
+        </div>
       </div>
     </div>
   </div>
@@ -120,6 +128,9 @@
           console.log(err)
         })
       },
+      exportExecl(e){
+
+      },
       formateDate(timer) {
         let nowDate = timer ? new Date(timer) : new Date();
         let fullYear = nowDate.getFullYear();
@@ -152,10 +163,31 @@
   .active-list-header {
     width: 100%;
     height: 70px;
+    border-bottom: 1px solid #c1c1c1;
+    position:relative;
+  }
+
+  .active-list-header-title{
+    width: 100%;
+    height: 70px;
     line-height: 70px;
     font-size: 20px;
     font-weight: bold;
-    border-bottom: 1px solid #c1c1c1;
+  }
+
+  .goto-add-active-but{
+    display:block;
+    width:auto;
+    height:38px;
+    line-height: 38px;
+    padding:0 8px;
+    color:#fff;
+    background:#5d9d3e;
+    border:1px solid #5d9d3e;
+    border-radius:5px;
+    position:absolute;
+    right:15px;
+    top:15px;
   }
 
   .active-list-body {
@@ -173,6 +205,32 @@
     width: 100%;
     height: 40px;
     margin: 30px 0 0 0;
+    overflow: hidden;
+  }
+
+  .pagination-box{
+    float:left;
+    width:60%;
+    height:40px;
+  }
+
+  .functions-box{
+    float:left;
+    width:40%;
+    height:40px;
+  }
+
+  .export-execl-but{
+    display:block;
+    float:right;
+    width:100px;
+    height:38px;
+    line-height: 38px;
+    text-align: center;
+    color:#fff;
+    border:1px solid #5d9d3e;
+    background:#5d9d3e;
+    border-radius:5px;
   }
 
 </style>
