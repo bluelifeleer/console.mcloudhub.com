@@ -76,7 +76,6 @@ export default {
           verifyCode: this.form.verifyCode.value
         }
       }).then(res => {
-        console.log(res)
         if (res.data.ok && res.data.code) {
           this.$router.push({
             path: "/login"

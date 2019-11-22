@@ -40,50 +40,66 @@ router.post('/signin', (req, res, next) => {
   let account = req.body.name;
   let password = req.body.password;
   let verifyCode = req.body.verifyCode;
-  User.findOne({
-    name: account
-  }).then(user => {
-    if (user) {
-      if (user.password == md5(password + user.sale)) {
-        let userInfo = {},
-          key = '';
-        res.cookie('uid', user._id, {
-          maxAge: 1200000
-        });
-        res.cookie('name', user.name, {
-          maxAge: 1200000
-        });
-        req.session.uid = user._id;
-        req.session.name = user.name;
-        output = {
-          code: 1,
-          msg: 'SUCCESS',
-          ok: true,
-          data: {
-            _id: user._id,
-            name: user.name,
-            phone: user.phone,
-            email: user.email,
-            avatar: user.avatar,
-            github:user.github,
-            website:user.website,
-            idiograph:user.idiograph
-          }
-        };
-        res.json(output);
-      } else {
+  if(verifyCode.toLowerCase() != req.session.verify_code.toLowerCase()){
+    output = {
+      code: 0,
+      msg: '验证码错误',
+      ok: false,
+      data: null
+    };
+    res.json(output);
+  }else{
+    User.findOne({
+      name: account
+    }).then(user => {
+      if (user) {
+        if (user.password == md5(password + user.sale)) {
+          res.cookie('uid', user._id, {
+            maxAge: 1200000
+          });
+          res.cookie('name', user.name, {
+            maxAge: 1200000
+          });
+          req.session.uid = user._id;
+          req.session.name = user.name;
+          output = {
+            code: 1,
+            msg: 'SUCCESS',
+            ok: true,
+            data: {
+              _id: user._id,
+              name: user.name,
+              phone: user.phone,
+              email: user.email,
+              avatar: user.avatar,
+              github:user.github,
+              website:user.website,
+              idiograph:user.idiograph
+            }
+          };
+          res.json(output);
+        } else {
+          output = {
+            code: 0,
+            msg: '密码错误',
+            ok: false,
+            data: null
+          };
+          res.json(output);
+        }
+      }else{
         output = {
           code: 0,
-          msg: 'ERROR',
+          msg: '帐咓不存在或错误',
           ok: false,
           data: null
         };
         res.json(output);
       }
-    }
-  }).catch(err => {
-    console.log(err)
-  })
+    }).catch(err => {
+      console.log(err)
+    })
+  }
 });
 
 router.post('/register', (req, res, next) => {
@@ -163,8 +179,17 @@ router.post('/update',(req,res,next)=>{
 	})
 });
 
-router.post('/signout', (req, res, next) => {
-
+router.get('/signout', (req, res, next) => {
+  req.session.destroy(function(err) {
+    // cannot access session here
+    output = {
+      code: 1,
+      msg: 'SUCCESS',
+      ok: true,
+      data: {}
+    };
+    res.json(output);
+  })
 });
 
 router.get('/islogin', (req, res, next) => {

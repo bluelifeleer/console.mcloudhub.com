@@ -34,6 +34,7 @@ const app = express()
 const history = require('connect-history-api-fallback')
 const platform = os.platform()
 const compression = require('compression')
+const credentials = require('./credentials.js')
 // 是否启动记录访问日志
 const STARTLOG = true
 // 设置模板引擎
@@ -59,9 +60,10 @@ app.use(bodyParser.urlencoded({
   limit: '50mb',
   extended: true
 }))
-app.use(cookieParser('a7a057325ea80b95e42038a64c5e8037', {
+app.use(cookieParser(credentials.cookieSecret, {
   maxAge: 1800000,
-  secure: true
+  secure: false,  // 设置cookie只通过安全连接(HTTPS)发送
+  httpOnly:true   // 设置cookie 只能由服务器修改。也就是说客户端JavaScript不能修改它。这有助于防范XSS 攻击。
 }))
 
 const store = new MongoDBStore({
@@ -80,13 +82,14 @@ app.use(session({
   genid: function (req) {
     return uuidv4() // use UUIDs for session IDs
   },
-  secret: 'a7a057325ea80b95e42038a64c5e8037', // 与cookieParser中的一致
-  resave: false, // 设置强制刷新session
+  secret: credentials.cookieSecret, // 与cookieParser中的一致
+  resave: true, // 设置强制刷新session
   store: store, // 将session保存到mongodb中
-  saveUninitialized: true, // 是否保存未初始化的会话，如果是true则会保存许多session会导致保存有效session失败,一般设置为false.
+  saveUninitialized: false, // 是否保存未初始化的会话，如果是true则会保存许多session会导致保存有效session失败,一般设置为false.
   cookie: {
-    secure: true,
+    secure: false,
     maxAge: 1800000,
+    httpOnly:true
   },
   rolling: true
 }));
@@ -171,7 +174,7 @@ mongoose.connect('mongodb://localhost:27017/console', {
   } else {
     // 数据库连接成功后监听80/443端口
     // app.listen(80);
-    http.createServer(app).listen(80)
+    http.createServer(app).listen(1003)
     // https.createServer(options, app).listen(443);
     // const server = http2.createServer(options, app);
     // server.listen(443);

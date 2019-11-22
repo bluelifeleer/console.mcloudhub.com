@@ -16,39 +16,47 @@
   </div>
 </template>
 <script>
-  export default {
-    name: 'HeaderComponent',
-    data() {
-      return {
-        user: {},
-		showUserSettingPopup:false
-      }
-    },
-    created() {},
-    methods: {
-			showUserSettingPopupToggle(e,flag){
-        console.log(e)
-				window.event ? window.event.cancelBubble=true : e.stopPropagation()	// 阻止冒泡
-				this.showUserSettingPopup = flag;
-			},
-			siginOut(e){
-				sessionStorage.clear();
-				this.$cookies.remove('name');
-				this.$cookies.remove('uid');
-				this.$router.push({
-					path:'/login'
-				})
-			}
-		},
-    mounted() {
-		let _this = this;
-      this.user = JSON.parse(sessionStorage.getItem('userInfo'));
-	  document.addEventListener("click",function(e){
-      console.log(e)
-		  _this.showUserSettingPopupToggle(e,false);
-	  },false);
+export default {
+  name: 'HeaderComponent',
+  data () {
+    return {
+      user: {},
+      showUserSettingPopup: false
     }
+  },
+  created () {},
+  methods: {
+    showUserSettingPopupToggle (e, flag) {
+      console.log(e)
+      window.event ? window.event.cancelBubble = true : e.stopPropagation()	// 阻止冒泡
+      this.showUserSettingPopup = flag
+    },
+    siginOut (e) {
+      this.$axios({
+        method: 'get',
+        url: '/api/user/signout'
+      }).then(res => {
+        if (res.data.ok && res.data.code) {
+          sessionStorage.clear()
+          this.$cookies.remove('name')
+          this.$cookies.remove('uid')
+          this.$router.push({
+            path: '/login'
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  },
+  mounted () {
+    let _this = this
+    this.user = JSON.parse(sessionStorage.getItem('userInfo'))
+	  document.addEventListener('click', function (e) {
+		  _this.showUserSettingPopupToggle(e, false)
+	  }, false)
   }
+}
 
 </script>
 <style scoped>
@@ -106,7 +114,7 @@
     padding: 0 5px;
     color: #909399;
   }
-	
+
 	.user-setting-box{
 		width:220px;
 		height:auto;
@@ -117,38 +125,38 @@
 		top:52px;
 		z-index:1551;
 	}
-	
+
 	.user-setting-item-group{
 		width:100%;
 		height:auto;
 	}
-	
+
 	.user-setting-items{
 		width:95%;
 		height:50px;
 		padding:0 0 0 5%;
 	}
-	
+
 	.user-setting-items:hover{
 		cursor:pointer;
 		background:#E4E7Ed;
 	}
-	
+
 	.user-setting-box-enter-active, .user-setting-box-leave-active {
 		transition: opacity .5s;
 	}
-	
+
 	.user-setting-box-enter, .user-setting-box-leave-to /* .fade-leave-active below version 2.1.8 */ {
 		opacity: 0;
 	}
-	
+
 	.user-profile{
 		display:block;
 		width:100%;
 		height:50px;
 		color:#909399;
 	}
-	
+
 	.user-profile .iconfont{
 		display: block;
     float: left;
@@ -156,7 +164,7 @@
     height: 50px;
     line-height: 50px;
 	}
-	
+
 	.user-profile span{
 		display:block;
 		float:left;
