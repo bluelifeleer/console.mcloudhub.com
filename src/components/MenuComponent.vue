@@ -56,6 +56,12 @@ export default {
           icon: '',
           alink: '/tootl/apitest',
           childs: []
+        }, {
+          index: 5,
+          text: 'MD5加密',
+          icon: '',
+          alink: '/tootl/md5',
+          childs: []
         }]
       }, {
         index: 1,

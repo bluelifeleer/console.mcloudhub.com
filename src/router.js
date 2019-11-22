@@ -4,8 +4,9 @@ import Home from './views/Home.vue'
 import Dashboard from './views/Dashboard.vue'
 import ImgToBase from './views/tools/ImgToBase.vue'
 import PregTootl from './views/tools/pregTool.vue'
-import ApiTest from './views/tools/apiTest'
-import urlMarkQuery from './views/tools/urlMarkQuery'
+import ApiTest from './views/tools/apiTest.vue'
+import urlMarkQuery from './views/tools/urlMarkQuery.vue'
+import Md5Tool from './views/tools/Md5Tool.vue'
 import QrCode from './views/tools/qrcode'
 import ArticleLists from './views/article/ArticleLists.vue'
 import ArticleAdd from './views/article/ArticleAdd.vue'
@@ -65,6 +66,10 @@ export default new Router({
         path: 'urlmq',
         name: 'urlmq',
         component: urlMarkQuery
+      }, {
+        path: 'md5',
+        name: 'md5',
+        component: Md5Tool
       }]
     }, {
       path: '/article',

@@ -27,7 +27,6 @@ export default {
   created () {},
   methods: {
     showUserSettingPopupToggle (e, flag) {
-      console.log(e)
       window.event ? window.event.cancelBubble = true : e.stopPropagation()	// 阻止冒泡
       this.showUserSettingPopup = flag
     },
