@@ -1,12 +1,12 @@
 <template>
   <div class="menu-component" :style="{'width':width+'px'}">
     <ul class="menu-list-group">
-      <li class="meni-list-items" :class="{'meni-list-items-active':menu.selected}" v-for="(menu,$index) in menus" :key="$index" :index="menu.index">
-        <div class="menu-list-items-tap"><a href="javascript:void(0);" @click="menusItemClickHandle($event,$index)" class="menu-list-items-tap-alink"><span class="menu-list-items-tap-text">{{menu.text}}</span><i class="icon menu-list-items-tap-icon iconfont" v-if="menu.childs.length">&#xe63a;</i><i class="icon menu-list-items-tap-icon" v-else></i></a></div>
+      <li class="meni-list-items" :class="{'meni-list-items-active':menu.selected}" v-for="(menu,$index) in menus" :key="$index" :data-index="menu.index">
+        <div class="menu-list-items-tap"><a href="javascript:void(0);" @click="menusItemClickHandle($event,$index,999)" class="menu-list-items-tap-alink"><span class="menu-list-items-tap-text">{{menu.text}}</span><i class="icon menu-list-items-tap-icon iconfont" v-if="menu.childs.length">{{(menu.selected?'&#xe71b;':'&#xe63a;')}}</i><i class="icon menu-list-items-tap-icon" v-else></i></a></div>
         <div class="menu-list-childs-box" v-if="menu.childs.length">
           <ul class="menu-list-items-child-list-group" v-if="menu.selected">
-            <li class="menu-list-items-child-list-items" v-for="(child,$index) in menu.childs" :key="$index" :index="menu.index+'-'+child.index">
-              <div class="menu-list-items-child-list-items-tap"><a :href="child.alink" class="menu-list-items-child-list-items-tap-alink"><span class="menu-list-items-child-list-items-tap-text">{{child.text}}</span><i class="icon menu-list-items-child-list-items-tap-icon"></i></a></div>
+            <li class="menu-list-items-child-list-items" v-for="(child,$index) in menu.childs" :key="$index" :data-index="menu.index+'-'+child.index">
+              <div class="menu-list-items-child-list-items-tap" :class="{'menu-list-items-child-list-items-tap-hover':child.selected}"><a href="javascript:void(0);" @click="menusItemClickHandle($event,$index,menu.index)" class="menu-list-items-child-list-items-tap-alink"><span class="menu-list-items-child-list-items-tap-text">{{child.text}}</span><i class="icon menu-list-items-child-list-items-tap-icon"></i></a></div>
             </li>
           </ul>
         </div>
@@ -17,8 +17,8 @@
 <script>
 export default {
   name: 'MenuComponent',
-  props: ['width'],
-  data() {
+  props: ['width', 'parent', 'child'],
+  data () {
     return {
       menus: [{
         index: 0,
@@ -31,36 +31,42 @@ export default {
           text: '图片转Base64',
           icon: '',
           alink: '/tootl/img2base64',
+          selected: true,
           childs: []
         }, {
           index: 1,
           text: '正则测试',
           icon: '',
           alink: '/tootl/preg',
+          selected: false,
           childs: []
         }, {
           index: 2,
           text: 'URL编/解码',
           icon: '',
           alink: '/tootl/urlmq',
+          selected: false,
           childs: []
         }, {
           index: 3,
           text: '二维码生成',
           icon: '',
           alink: '/tootl/qrcode',
+          selected: false,
           childs: []
         }, {
           index: 4,
           text: '接口调试',
           icon: '',
           alink: '/tootl/apitest',
+          selected: false,
           childs: []
         }, {
           index: 5,
           text: 'MD5加密',
           icon: '',
           alink: '/tootl/md5',
+          selected: false,
           childs: []
         }]
       }, {
@@ -105,7 +111,7 @@ export default {
           selected: false,
           childs: []
         }]
-      },{
+      }, {
         index: 3,
         text: '代码片段',
         icon: '',
@@ -153,7 +159,7 @@ export default {
           alink: '/task/list',
           selected: false,
           childs: []
-        },{
+        }, {
           index: 1,
           text: '添加任务',
           icon: '',
@@ -161,25 +167,54 @@ export default {
           selected: false,
           childs: []
         }]
-      }]
+      }],
+      menusParent: 0,
+      menusChild: 1
     }
   },
-  created() {
+  watch: {
+    'parent': function (num) {
+      this.menusParent = num
+      this.menus.forEach(menu => {
+        menu.selected = false
+      })
+      this.menus[num].selected = true
+    },
+    'child': function (num) {
+      this.menus[this.menusParent].childs.forEach(child => {
+        child.selected = false
+      })
+      this.menus[this.menusParent].childs[num].selected = true
+    }
+  },
+  created () {
 
   },
   methods: {
-    menusItemClickHandle(e, index) {
-      console.log(index)
-      if (this.menus[index].childs.length && !this.menus[index].alink) {
-        this.menus[index].selected = !this.menus[index].selected;
+    menusItemClickHandle (e, index, parent) {
+      e.stopPropagation()
+      if (parent == 999) {
+        this.$store.commit('setMenus', { parent: index })
+        if (this.menus[index].childs.length && !this.menus[index].alink) {
+          this.menus[index].selected = !this.menus[index].selected
+        } else {
+          this.$router.push({
+            path: this.menus[index].alink
+          })
+        }
       } else {
-        this.$router.push({
-          path: this.menus[index].alink
-        });
+        this.$store.commit('setMenus', { parent: parent, child: index })
+        if (this.menus[parent].childs[index].childs.length && !this.menus[parent].childs[index].alink) {
+          this.menus[parent].childs[index].selected = !this.menus[parent].childs[index].selected
+        } else {
+          this.$router.push({
+            path: this.menus[parent].childs[index].alink
+          })
+        }
       }
     }
   },
-  mounted() {
+  mounted () {
 
   }
 }
@@ -252,6 +287,11 @@ export default {
   width: 80%;
   height: 50px;
   padding: 0 0 0 20%;
+}
+
+.menu-list-items-child-list-items-tap-hover{
+  cursor: pointer;
+  background: #E4E7Ed;
 }
 
 .menu-list-items-child-list-items-tap:hover {

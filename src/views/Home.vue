@@ -5,7 +5,7 @@
     </div>
     <div class="article-box">
       <div class="menu-layout-box">
-        <MenuComponent width="280" :index="index"></MenuComponent>
+        <MenuComponent width="280" :parent="$store.state.menus.parent" :child="$store.state.menus.child"></MenuComponent>
       </div>
       <div class="right-layout-box">
         <router-view />
@@ -23,24 +23,24 @@ import FooterComponent from '@/components/FooterComponent.vue'
 import MenuComponent from '@/components/MenuComponent.vue'
 export default {
   name: 'home',
-  props: ['index'],
+  props: [],
   components: {
     HeaderComponent,
     FooterComponent,
     MenuComponent
   },
-  data() {
+  data () {
     return {
 
     }
   },
   methods: {},
-  mounted() {
-    // if (!this.$cookies.get('name') && !this.$cookies.get('uid')) {
-    //   this.$router.push({
-    //     path: '/login'
-    //   })
-    // }
+  mounted () {
+    if (!this.$cookies.get('name') && !this.$cookies.get('uid')) {
+      this.$router.push({
+        path: '/login'
+      })
+    }
   }
 }
 

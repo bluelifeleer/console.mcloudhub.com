@@ -9,7 +9,7 @@
 				</div>
 				<div class="user-profile-form-items">
 					<label for="user-profile-avarat" style="height:80px;">头像：</label>
-					<input type="file" name="user-profile-avarat" id="user-profile-avarat" value="" @mouseenter="uploadFileInputMouseEnterHandle()" @mouseleave="uploadFileInputMouseLeaveHandle()" @change="uploadFileInputChangeHandle($event)" />
+					<input type="file" name="user-profile-avarat" id="user-profile-avarat" value="" @mouseenter="uploadFileInputMouseEnterHandle()" @mouseleave="uploadFileInputMouseLeaveHandle($event)" @change="uploadFileInputChangeHandle($event)" />
 					<span class="user-profile-avarat-marker" :class="{'user-profile-avarat-marker-active':userProfileAvaratMarkerActive}"><img :src="user.avatar" alt="" v-if="user.avatar"><i v-else class="icon iconfont">&#xe6a7;</i></span>
 				</div>
 				<div class="user-profile-form-items">
@@ -63,10 +63,10 @@
 		},
 		created(){},
 		methods:{
-			uploadFileInputMouseEnterHandle(){
+			uploadFileInputMouseEnterHandle(e){
 				this.userProfileAvaratMarkerActive = !this.userProfileAvaratMarkerActive;
 			},
-			uploadFileInputMouseLeaveHandle(){
+			uploadFileInputMouseLeaveHandle(e){
 				this.userProfileAvaratMarkerActive = !this.userProfileAvaratMarkerActive;
 			},
 			uploadFileInputChangeHandle(e){
@@ -128,7 +128,7 @@
 		width:100%;
 		height:auto;
 	}
-	
+
 	.user-profile-container-header{
 		width: 100%;
 		height: 70px;
@@ -137,18 +137,18 @@
 		font-weight: bold;
 		border-bottom: 1px solid #c1c1c1;
 	}
-	
+
 	.user-profile-container-body{
 		width:100%;
 		height:auto;
 		padding:5%;
 	}
-	
+
 	.user-profile-form-box{
 		width:61%;
 		height:auto;
 	}
-	
+
 	.user-profile-form-items{
 		width:100%;
 		height:auto;
@@ -156,7 +156,7 @@
 		overflow: hidden;
 		position: relative;
 	}
-	
+
 	.user-profile-form-items label{
 		display:block;
 		float:left;
@@ -164,7 +164,7 @@
 		height:40px;
 		line-height: 40px;
 	}
-	
+
 	.user-profile-form-items input{
 		display:block;
 		float:left;
@@ -176,7 +176,7 @@
 		padding:0 0 0 2%;
 		outline: none;
 	}
-	
+
 	.user-profile-form-items textarea{
 		display:block;
 		float:left;
@@ -188,7 +188,7 @@
 		padding:2%;
 		outline: none;
 	}
-	
+
 	#user-profile-avarat{
 		width:78px;
 		height: 78px;
@@ -201,7 +201,7 @@
 		top:0;
 		z-index:100;
 	}
-	
+
 	.user-profile-avarat-marker{
 		width:78px;
 		height: 78px;
@@ -215,21 +215,21 @@
 		top:0;
 		z-index:99;
 	}
-	
+
 	.user-profile-avarat-marker iconfont{
 		font-size:30px;
 	}
-	
+
 	.user-profile-avarat-marker img{
 		display:block;
 		width:100%;
 		border-radius:5px;
 	}
-	
+
 	.user-profile-avarat-marker-active{
 		border:1px dashed #c1c1c1;
 	}
-	
+
 	.user-profile-form-submit{
 		display:block;
 		width:120px;
