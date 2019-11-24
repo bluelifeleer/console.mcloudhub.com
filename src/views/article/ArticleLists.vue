@@ -76,11 +76,11 @@ export default {
       });
       this.articles.list[index].isHover = true;
     },
-		articleItemOut(e,index){
-			this.articles.list.forEach(item => {
-			  item.isHover = false;
-			});
-		},
+    articleItemOut(e, index) {
+      this.articles.list.forEach(item => {
+        item.isHover = false;
+      });
+    },
     articleDelete(e, id) {
       this.$axios({
         method: 'get',
@@ -244,8 +244,9 @@ export default {
   height: 30px;
   line-height: 30px;
   padding: 0 8px;
-  color: #F56C6C;
-  background: #E4E7Ed;
+  color: #fff;
+  background: #f56c6c;
+  border: 1px solid #f56c6c;
   border-radius: 3px;
   margin: 0 10px 0 0;
 }
@@ -257,8 +258,9 @@ export default {
   height: 30px;
   line-height: 30px;
   padding: 0 8px;
-  color: #67C23A;
-  background: #E4E7Ed;
+  color: #fff;
+  background: #5d9d3e;
+  border: 1px solid #5d9d3e;
   border-radius: 3px;
 }
 

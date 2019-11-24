@@ -10,7 +10,7 @@
         </div>
         <div class="login-form-items">
           <label for="password" :class="{'request':form.password.request}">密码：</label>
-          <input type="password" name="password" :placeholder="form.password.placeholder" v-model="form.password.value" autocomplete="off"/>
+          <input type="password" name="password" :placeholder="form.password.placeholder" v-model="form.password.value" autocomplete="off" />
           <span class="input-tip" v-if="form.password.showTips">{{form.password.tips}}</span>
         </div>
         <div class="login-form-items">
@@ -32,7 +32,7 @@
 <script>
 export default {
   name: 'Login',
-  data () {
+  data() {
     return {
       height: 0,
       form: {
@@ -60,13 +60,13 @@ export default {
       }
     }
   },
-  created () {},
+  created() {},
   methods: {
-    refreshVerifyCode (e) {
+    refreshVerifyCode(e) {
       let nowDate = new Date()
       this.$refs.verifyCodeImg.src = '/captcha/verifyCode?timer=' + nowDate.getTime()
     },
-    loginFormSubmit () {
+    loginFormSubmit() {
       this.$axios({
         url: '/api/user/signin',
         method: 'post',
@@ -91,11 +91,11 @@ export default {
       })
     }
   },
-  mounted () {
+  mounted() {
     let _this = this
     this.height =
       document.body.clientHeight || document.documentElement.clientHeight
-    document.addEventListener('keyup', function (e) {
+    document.addEventListener('keyup', function(e) {
       let ev = e || event
       if (ev.keyCode == 13) {
         _this.loginFormSubmit()
@@ -157,13 +157,15 @@ export default {
 .login-form-items input {
   display: block;
   float: left;
-  width: 71%;
+  width: 77.6%;
   height: 38px;
   line-height: 38px;
   border: 1px solid #c1c1c1;
   border-radius: 5px;
   padding: 0 0 0 2%;
   outline: none;
+  font-size: 15px
+;
 }
 
 .login-form-items .input-tip {
@@ -179,7 +181,7 @@ export default {
 
 .login-form-submit {
   display: block;
-  width: 98%;
+  width: 99.8%;
   height: 38px;
   line-height: 38px;
   text-align: center;
@@ -212,25 +214,29 @@ export default {
 
 .verify-code-box img {
   display: block;
-  float:left;
+  float: left;
   width: 100px;
   height: 40px;
 }
 
-.verify-code-box .verify-code-refresh-but{
+.verify-code-box .verify-code-refresh-but {
   display: block;
-  float:left;
+  float: left;
   width: 30px;
   height: 40px;
   line-height: 40px;
   text-align: center;
-  margin:0 0 0 10px;
-  font-size:20px;
-  color:#555;
+  margin: 0 0 0 10px;
+  font-size: 20px;
+  color: #555;
 }
 
 .goto-register-box {
   text-align: right;
+}
+
+.goto-register {
+  color: #62CEF5;
 }
 
 </style>

@@ -6,8 +6,8 @@
     </div>
     <div class="active-list-body">
       <div class="active-list-item-group">
-        <el-table :data="actives.list" style="width: 100%" v-loading="loading" max-height="550">
-          <el-table-column label="日期" width="180" header-align="center" fixed>
+        <el-table :data="actives.list" style="width: 100%" v-loading="loading" height="550" max-height="550">
+          <el-table-column label="日期" width="180" header-align="center">
             <template slot-scope="scope">
               <i class="el-icon-time"></i>
               <span style="margin-left: 10px">{{ scope.row.createTime }}</span>
@@ -40,9 +40,7 @@
       </div>
       <div class="active-list-item-page-box">
         <div class="pagination-box">
-          <el-pagination @size-change="activesHandleSizeChange" @current-change="activesHandleCurrentChange"
-            :current-page="actives.offset" :page-sizes="[10, 20, 40, 60, 80, 100]" :page-size="actives.nums"
-            layout="total, sizes, prev, pager, next, jumper" :total="actives.count">
+          <el-pagination @size-change="activesHandleSizeChange" @current-change="activesHandleCurrentChange" :current-page="actives.offset" :page-sizes="[10, 20, 40, 60, 80, 100]" :page-size="actives.nums" layout="total, sizes, prev, pager, next, jumper" :total="actives.count">
           </el-pagination>
         </div>
         <div class="functions-box">
@@ -52,185 +50,183 @@
     </div>
   </div>
 </template>
-
 <script>
-  export default {
-    name: 'ActiveList',
-    data() {
-      return {
-        user: {},
-        loading:false,
-        actives: {
-          count: 0,
-          offset: 1,
-          nums: 20,
-          sort: '',
-          list: []
-        }
+export default {
+  name: 'ActiveList',
+  data() {
+    return {
+      user: {},
+      loading: false,
+      actives: {
+        count: 0,
+        offset: 1,
+        nums: 20,
+        sort: '',
+        list: []
       }
-    },
-    created() {
-
-    },
-    methods: {
-      getActiveList() {
-        this.loading = true;
-        this.$axios({
-          method: 'GET',
-          url: `/api/active/list?uid=${this.user._id}&nums=${this.actives.nums}&offset=${this.actives.offset}&sort=`
-        }).then(res => {
-          console.log(res)
-          if (res.data.ok && res.data.code) {
-            this.loading = false;
-            let actives = res.data.data
-            actives.list.forEach(active => {
-              active.createTime = this.formateDate(active.createTime)
-            })
-
-            this.actives = {
-              count: actives.count,
-              offset: actives.offset,
-              nums: actives.nums,
-              sort: actives.sort,
-              list: actives.list
-            }
-
-            console.log(this.actives)
-          }
-        }).catch(err => {
-          console.log(err)
-        })
-      },
-      activesHandleSizeChange(nums) {
-        this.actives.nums = nums;
-        this.getActiveList();
-      },
-      activesHandleCurrentChange(offset) {
-        this.actives.offset = offset;
-        this.getActiveList();
-      },
-      activeEditHandle(index, item) {
-        this.$router.push({path:`/active/add?id=${item._id}`})
-      },
-      activeDeleteHandle(index, item) {
-        this.$axios({
-          method:'get',
-          url:`/api/active/delete?uid=${this.user._id}&id=${item._id}`
-        }).then(res=>{
-          if(res.data.code&&res.data.ok){
-            this.$message({
-              type:'success',
-              message:'删除成功'
-            });
-            this.getActiveList();
-          }
-        }).catch(err=>{
-          console.log(err)
-        })
-      },
-      exportExecl(e){
-
-      },
-      formateDate(timer) {
-        let nowDate = timer ? new Date(timer) : new Date();
-        let fullYear = nowDate.getFullYear();
-        let month = nowDate.getMonth() + 1;
-        let date = nowDate.getDate();
-        let hours = nowDate.getHours();
-        let minutes = nowDate.getMinutes();
-        let seconds = nowDate.getSeconds();
-        return fullYear + '-' + this.addZone(month) + '-' + this.addZone(date) + ' ' + this.addZone(hours) + ':' +
-          this.addZone(minutes) + ':' + this.addZone(seconds);
-      },
-      addZone(num) {
-        return num <= 9 ? ('0' + num) : num;
-      }
-    },
-    mounted() {
-      this.user = JSON.parse(sessionStorage.getItem('userInfo'));
-      this.getActiveList();
     }
+  },
+  created() {
+
+  },
+  methods: {
+    getActiveList() {
+      this.loading = true;
+      this.$axios({
+        method: 'GET',
+        url: `/api/active/list?uid=${this.user._id}&nums=${this.actives.nums}&offset=${this.actives.offset}&sort=`
+      }).then(res => {
+        console.log(res)
+        if (res.data.ok && res.data.code) {
+          this.loading = false;
+          let actives = res.data.data
+          actives.list.forEach(active => {
+            active.createTime = this.formateDate(active.createTime)
+          })
+
+          this.actives = {
+            count: actives.count,
+            offset: actives.offset,
+            nums: actives.nums,
+            sort: actives.sort,
+            list: actives.list
+          }
+
+          console.log(this.actives)
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    activesHandleSizeChange(nums) {
+      this.actives.nums = nums;
+      this.getActiveList();
+    },
+    activesHandleCurrentChange(offset) {
+      this.actives.offset = offset;
+      this.getActiveList();
+    },
+    activeEditHandle(index, item) {
+      this.$router.push({ path: `/active/add?id=${item._id}` })
+    },
+    activeDeleteHandle(index, item) {
+      this.$axios({
+        method: 'get',
+        url: `/api/active/delete?uid=${this.user._id}&id=${item._id}`
+      }).then(res => {
+        if (res.data.code && res.data.ok) {
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          });
+          this.getActiveList();
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    exportExecl(e) {
+
+    },
+    formateDate(timer) {
+      let nowDate = timer ? new Date(timer) : new Date();
+      let fullYear = nowDate.getFullYear();
+      let month = nowDate.getMonth() + 1;
+      let date = nowDate.getDate();
+      let hours = nowDate.getHours();
+      let minutes = nowDate.getMinutes();
+      let seconds = nowDate.getSeconds();
+      return fullYear + '-' + this.addZone(month) + '-' + this.addZone(date) + ' ' + this.addZone(hours) + ':' +
+        this.addZone(minutes) + ':' + this.addZone(seconds);
+    },
+    addZone(num) {
+      return num <= 9 ? ('0' + num) : num;
+    }
+  },
+  mounted() {
+    this.user = JSON.parse(sessionStorage.getItem('userInfo'));
+    this.getActiveList();
   }
+}
 
 </script>
-
 <style>
-  .active-list-page {
-    width: 100%;
-    height: auto;
-  }
+.active-list-page {
+  width: 100%;
+  height: auto;
+}
 
-  .active-list-header {
-    width: 100%;
-    height: 70px;
-    border-bottom: 1px solid #c1c1c1;
-    position:relative;
-  }
+.active-list-header {
+  width: 100%;
+  height: 70px;
+  border-bottom: 1px solid #c1c1c1;
+  position: relative;
+}
 
-  .active-list-header-title{
-    width: 100%;
-    height: 70px;
-    line-height: 70px;
-    font-size: 20px;
-    font-weight: bold;
-  }
+.active-list-header-title {
+  width: 100%;
+  height: 70px;
+  line-height: 70px;
+  font-size: 20px;
+  font-weight: bold;
+}
 
-  .goto-add-active-but{
-    display:block;
-    width:auto;
-    height:38px;
-    line-height: 38px;
-    padding:0 8px;
-    color:#fff;
-    background:#5d9d3e;
-    border:1px solid #5d9d3e;
-    border-radius:5px;
-    position:absolute;
-    right:15px;
-    top:15px;
-  }
+.goto-add-active-but {
+  display: block;
+  width: auto;
+  height: 38px;
+  line-height: 38px;
+  padding: 0 8px;
+  color: #fff;
+  background: #5d9d3e;
+  border: 1px solid #5d9d3e;
+  border-radius: 5px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
 
-  .active-list-body {
-    width: 100%;
-    height: auto;
-    margin: 30px 0 0 0;
-  }
+.active-list-body {
+  width: 100%;
+  height: auto;
+  margin: 30px 0 0 0;
+}
 
-  .active-list-item-group {
-    width: 100%;
-    height: auto;
-  }
+.active-list-item-group {
+  width: 100%;
+  height: auto;
+}
 
-  .active-list-item-page-box {
-    width: 100%;
-    height: 40px;
-    margin: 30px 0 0 0;
-    overflow: hidden;
-  }
+.active-list-item-page-box {
+  width: 100%;
+  height: 40px;
+  margin: 30px 0 0 0;
+  overflow: hidden;
+}
 
-  .pagination-box{
-    float:left;
-    width:60%;
-    height:40px;
-  }
+.pagination-box {
+  float: left;
+  width: 60%;
+  height: 40px;
+}
 
-  .functions-box{
-    float:left;
-    width:40%;
-    height:40px;
-  }
+.functions-box {
+  float: left;
+  width: 40%;
+  height: 40px;
+}
 
-  .export-execl-but{
-    display:block;
-    float:right;
-    width:100px;
-    height:38px;
-    line-height: 38px;
-    text-align: center;
-    color:#fff;
-    border:1px solid #5d9d3e;
-    background:#5d9d3e;
-    border-radius:5px;
-  }
+.export-execl-but {
+  display: block;
+  float: right;
+  width: 100px;
+  height: 38px;
+  line-height: 38px;
+  text-align: center;
+  color: #fff;
+  border: 1px solid #5d9d3e;
+  background: #5d9d3e;
+  border-radius: 5px;
+}
 
 </style>

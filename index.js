@@ -174,7 +174,7 @@ mongoose.connect('mongodb://localhost:27017/console', {
   } else {
     // 数据库连接成功后监听80/443端口
     // app.listen(80);
-    http.createServer(app).listen(1003)
+    http.createServer(app).listen(80)
     // https.createServer(options, app).listen(443);
     // const server = http2.createServer(options, app);
     // server.listen(443);
