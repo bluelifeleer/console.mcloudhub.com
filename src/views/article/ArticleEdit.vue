@@ -151,6 +151,7 @@ export default {
   line-height: 50px;
   padding: 0 0 0 1%;
   border: none;
+  font-size:16px;
 }
 
 .article-title .goto-article-list{

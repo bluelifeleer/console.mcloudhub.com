@@ -22,7 +22,7 @@ Vue.use(VueCookies)
 Vue.prototype.$clipboard = clipboard
 Vue.prototype.$axios = axios.create({
   baseURL: 'http://console.mcloudhub.com/',
-  timeout: 3600,
+  timeout: 36000,
   headers: {},
   transformResponse: function(data) {
     return JSON.parse(data);

@@ -16,6 +16,8 @@ import ActiveList from './views/active/ActiveList.vue'
 import ActiveAdd from './views/active/ActiveAdd.vue'
 import FinanceList from './views/finance/FinanceList.vue'
 import TargetList from './views/target/targetList.vue'
+import FileList from './views/file/fileList.vue'
+import FileRecycle from './views/file/fileRecycle.vue'
 import UserProfile from './views/user/userProfile.vue'
 import Login from './views/login.vue'
 import Register from './views/register.vue'
@@ -122,6 +124,19 @@ export default new Router({
         path: 'list',
         name: 'targetList',
         component: TargetList
+      }]
+    }, {
+      path: '/file',
+      name: 'target',
+      component: Home,
+      children: [{
+        path: 'list',
+        name: 'fileList',
+        component: FileList
+      },{
+        path: 'list',
+        name: 'fileRecycle',
+        component: FileRecycle
       }]
     }, {
       path: '/finance',

@@ -106,8 +106,8 @@ export default {
           this.activeForm.projects.url.value = res.data.data.projectUrl
           this.activeForm.projects.dir.value = res.data.data.projectDir
           this.activeForm.pages.name.value = res.data.data.name
-          this.activeForm.desc.name.value = res.data.data.desc
-          this.activeForm.url.name.value = res.data.data.url
+          this.activeForm.pages.desc.value = res.data.data.desc
+          this.activeForm.pages.url.value = res.data.data.url
           this.autoName = res.data.data.url.substr(-8)
         }
       }).catch(err => {
@@ -146,7 +146,7 @@ export default {
     activeFormSubmit (e) {
       this.$axios({
         method: 'post',
-        url: `/api/active/${(this.id ? 'add' : 'update')}`,
+        url: `/api/active/${(this.id ? 'update' : 'add')}`,
         data: this.id ? ({
           id: this.id,
           uid: this.user._id,
@@ -168,7 +168,15 @@ export default {
           desc: this.activeForm.pages.desc.value
         })
       }).then(res => {
-        console.log(res)
+        if (res.data.ok && res.data.code) {
+          this.$message({
+            type: 'success',
+            message: this.id ? '修改成功' : '添加成功'
+          })
+          this.$router.push({
+            path: '/active/list'
+          })
+        }
       }).catch(err => {
         console.log(err)
       })

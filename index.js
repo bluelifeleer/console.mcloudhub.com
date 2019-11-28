@@ -160,6 +160,7 @@ app.use('/api/article', require(path.join(__dirname, '/www/routers/api/article')
 app.use('/api/active', require(path.join(__dirname, '/www/routers/api/active')))
 app.use('/api/target', require(path.join(__dirname, '/www/routers/api/target')))
 app.use('/api/active', require(path.join(__dirname, '/www/routers/api/active')))
+app.use('/api/file', require(path.join(__dirname, '/www/routers/api/file')))
 app.use('/captcha', require(path.join(__dirname, '/www/routers/api/captcha')))
 
 

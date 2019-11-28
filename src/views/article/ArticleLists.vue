@@ -26,9 +26,10 @@
 <script>
 export default {
   name: 'ArticleLists',
-  data() {
+  data () {
     return {
       user: {},
+      loadingFlag: null,
       articles: {
         count: 0,
         offset: 1,
@@ -39,49 +40,55 @@ export default {
     }
   },
   methods: {
-    getArticles() {
+    getArticles () {
+      this.loadingFlag = this.$loading({
+        target: '.article-list-box',
+        background: '#fff',
+        text: '正在加载文章列表'
+      })
       this.$axios({
         method: 'get',
         url: `/api/article/list?uid=${this.user._id}&nums=${this.articles.nums}&offset=${this.articles.offset}&sort=${this.articles.sort}`
       }).then(res => {
         if (res.data.ok && res.data.code) {
-          this.articles.offset = res.data.data.offset;
-          this.articles.nums = res.data.data.nums;
-          this.articles.sort = res.data.data.sort;
-          this.articles.count = res.data.data.count;
+          this.loadingFlag.close()
+          this.articles.offset = res.data.data.offset
+          this.articles.nums = res.data.data.nums
+          this.articles.sort = res.data.data.sort
+          this.articles.count = res.data.data.count
           res.data.data.list.forEach(item => {
-            item.miniText = item.html.replace(/<[^<>]+>/g, '');
-            item.href = "/article/details?id=" + item._id;
-            item.createTime = this.formateDate(item.createTime);
-            item.modifyTime = this.formateDate(item.modifyTime);
+            item.miniText = item.html.replace(/<[^<>]+>/g, '')
+            item.href = '/article/details?id=' + item._id
+            item.createTime = this.formateDate(item.createTime)
+            item.modifyTime = this.formateDate(item.modifyTime)
             item.isHover = false
           })
-          this.articles.list = res.data.data.list;
+          this.articles.list = res.data.data.list
         }
       }).catch(err => {
         console.log(err)
       })
     },
-    handleSizeChange(nums) {
-      this.articles.nums = nums;
-      this.getArticles();
+    handleSizeChange (nums) {
+      this.articles.nums = nums
+      this.getArticles()
     },
-    handleCurrentChange(offset) {
-      this.articles.offset = offset;
-      this.getArticles();
+    handleCurrentChange (offset) {
+      this.articles.offset = offset
+      this.getArticles()
     },
-    articleItemHover(e, index) {
+    articleItemHover (e, index) {
       this.articles.list.forEach(item => {
-        item.isHover = false;
-      });
-      this.articles.list[index].isHover = true;
+        item.isHover = false
+      })
+      this.articles.list[index].isHover = true
     },
-    articleItemOut(e, index) {
+    articleItemOut (e, index) {
       this.articles.list.forEach(item => {
-        item.isHover = false;
-      });
+        item.isHover = false
+      })
     },
-    articleDelete(e, id) {
+    articleDelete (e, id) {
       this.$axios({
         method: 'get',
         url: `/api/article/delete?id=${id}`
@@ -89,35 +96,35 @@ export default {
         if (res.data.ok && res.data.code) {
           this.$message({
             type: 'success',
-            message: '删除成功',
+            message: '删除成功'
             // center: true
-          });
-          this.getArticles();
+          })
+          this.getArticles()
         }
       }).catch(err => {
-        console.log(err);
+        console.log(err)
       })
     },
-    articleEdit(e, id) {
+    articleEdit (e, id) {
       this.$router.push({ path: `/article/edit?id=${id}` })
     },
-    formateDate(timer) {
-      let nowDate = timer ? new Date(timer) : new Date();
-      let fullYear = nowDate.getFullYear();
-      let month = nowDate.getMonth() + 1;
-      let date = nowDate.getDate();
-      let hours = nowDate.getHours();
-      let minutes = nowDate.getMinutes();
-      let seconds = nowDate.getSeconds();
-      return fullYear + '-' + this.addZone(month) + '-' + this.addZone(date) + ' ' + this.addZone(hours) + ':' + this.addZone(minutes) + ':' + this.addZone(seconds);
+    formateDate (timer) {
+      let nowDate = timer ? new Date(timer) : new Date()
+      let fullYear = nowDate.getFullYear()
+      let month = nowDate.getMonth() + 1
+      let date = nowDate.getDate()
+      let hours = nowDate.getHours()
+      let minutes = nowDate.getMinutes()
+      let seconds = nowDate.getSeconds()
+      return fullYear + '-' + this.addZone(month) + '-' + this.addZone(date) + ' ' + this.addZone(hours) + ':' + this.addZone(minutes) + ':' + this.addZone(seconds)
     },
-    addZone(num) {
-      return num <= 9 ? ('0' + num) : num;
+    addZone (num) {
+      return num <= 9 ? ('0' + num) : num
     }
   },
-  mounted() {
-    this.user = JSON.parse(sessionStorage.getItem('userInfo'));
-    this.getArticles();
+  mounted () {
+    this.user = JSON.parse(sessionStorage.getItem('userInfo'))
+    this.getArticles()
   }
 }
 

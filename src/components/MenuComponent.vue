@@ -113,11 +113,25 @@ export default {
         }]
       }, {
         index: 3,
-        text: '代码片段',
+        text: '文件管理',
         icon: '',
         alink: '',
         selected: false,
-        childs: []
+        childs: [{
+          index: 0,
+          text: '文件列表',
+          icon: '',
+          alink: '/file/list',
+          selected: false,
+          childs: []
+        }, {
+          index: 0,
+          text: '回收站',
+          icon: '',
+          alink: '/file/recycle',
+          selected: false,
+          childs: []
+        }]
       }, {
         index: 4,
         text: '标签管理',

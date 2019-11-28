@@ -53,7 +53,7 @@
 <script>
 export default {
   name: 'ActiveList',
-  data() {
+  data () {
     return {
       user: {},
       loading: false,
@@ -66,24 +66,22 @@ export default {
       }
     }
   },
-  created() {
+  created () {
 
   },
   methods: {
-    getActiveList() {
-      this.loading = true;
+    getActiveList () {
+      this.loading = true
       this.$axios({
         method: 'GET',
         url: `/api/active/list?uid=${this.user._id}&nums=${this.actives.nums}&offset=${this.actives.offset}&sort=`
       }).then(res => {
-        console.log(res)
         if (res.data.ok && res.data.code) {
-          this.loading = false;
+          this.loading = false
           let actives = res.data.data
           actives.list.forEach(active => {
             active.createTime = this.formateDate(active.createTime)
           })
-
           this.actives = {
             count: actives.count,
             offset: actives.offset,
@@ -91,25 +89,23 @@ export default {
             sort: actives.sort,
             list: actives.list
           }
-
-          console.log(this.actives)
         }
       }).catch(err => {
         console.log(err)
       })
     },
-    activesHandleSizeChange(nums) {
-      this.actives.nums = nums;
-      this.getActiveList();
+    activesHandleSizeChange (nums) {
+      this.actives.nums = nums
+      this.getActiveList()
     },
-    activesHandleCurrentChange(offset) {
-      this.actives.offset = offset;
-      this.getActiveList();
+    activesHandleCurrentChange (offset) {
+      this.actives.offset = offset
+      this.getActiveList()
     },
-    activeEditHandle(index, item) {
+    activeEditHandle (index, item) {
       this.$router.push({ path: `/active/add?id=${item._id}` })
     },
-    activeDeleteHandle(index, item) {
+    activeDeleteHandle (index, item) {
       this.$axios({
         method: 'get',
         url: `/api/active/delete?uid=${this.user._id}&id=${item._id}`
@@ -118,34 +114,34 @@ export default {
           this.$message({
             type: 'success',
             message: '删除成功'
-          });
-          this.getActiveList();
+          })
+          this.getActiveList()
         }
       }).catch(err => {
         console.log(err)
       })
     },
-    exportExecl(e) {
+    exportExecl (e) {
 
     },
-    formateDate(timer) {
-      let nowDate = timer ? new Date(timer) : new Date();
-      let fullYear = nowDate.getFullYear();
-      let month = nowDate.getMonth() + 1;
-      let date = nowDate.getDate();
-      let hours = nowDate.getHours();
-      let minutes = nowDate.getMinutes();
-      let seconds = nowDate.getSeconds();
+    formateDate (timer) {
+      let nowDate = timer ? new Date(timer) : new Date()
+      let fullYear = nowDate.getFullYear()
+      let month = nowDate.getMonth() + 1
+      let date = nowDate.getDate()
+      let hours = nowDate.getHours()
+      let minutes = nowDate.getMinutes()
+      let seconds = nowDate.getSeconds()
       return fullYear + '-' + this.addZone(month) + '-' + this.addZone(date) + ' ' + this.addZone(hours) + ':' +
-        this.addZone(minutes) + ':' + this.addZone(seconds);
+        this.addZone(minutes) + ':' + this.addZone(seconds)
     },
-    addZone(num) {
-      return num <= 9 ? ('0' + num) : num;
+    addZone (num) {
+      return num <= 9 ? ('0' + num) : num
     }
   },
-  mounted() {
-    this.user = JSON.parse(sessionStorage.getItem('userInfo'));
-    this.getActiveList();
+  mounted () {
+    this.user = JSON.parse(sessionStorage.getItem('userInfo'))
+    this.getActiveList()
   }
 }
 
