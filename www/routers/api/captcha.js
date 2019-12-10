@@ -2,12 +2,23 @@
  * @Author: lipeng
  * @Date:   2019-10-24 09:22:59
  * @Last Modified by:   bluelife
- * @Last Modified time: 2019-10-26 02:11:34
+ * @Last Modified time: 2019-12-11 00:20:29
  */
 const path = require('path');
 const express = require('express');
 const router = express.Router();
 const svgCaptcha = require('svg-captcha');
+let output = {}
+
+router.use(function(req, res, next) {
+  output = {
+    code: 0,
+    msg: '',
+    ok: false,
+    data: null
+  };
+  next();
+});
 
 router.get('/verifyCode', (req, res, next) => {
   var captcha = svgCaptcha.create({

@@ -1,20 +1,25 @@
 /*
  * @Author: lipeng
  * @Date:   2019-10-24 09:22:59
- * @Last Modified by:   'bluelife'
- * @Last Modified time: 2019-11-15 09:40:35
+ * @Last Modified by:   bluelife
+ * @Last Modified time: 2019-12-11 00:20:10
  */
 const path = require('path');
 const express = require('express');
 const router = express.Router();
 const Article = require('../../models/articleModel');
 const User = require('../../models/userModel');
-let output = {
-  code: 0,
-  msg: '',
-  ok: false,
-  data: null
-}
+let output = {}
+
+router.use(function(req, res, next) {
+  output = {
+    code: 0,
+    msg: '',
+    ok: false,
+    data: null
+  };
+  next();
+});
 
 router.get('/list', (req, res, next) => {
   let uid = req.query.uid;

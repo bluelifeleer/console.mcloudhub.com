@@ -21,7 +21,7 @@ Vue.use(mavonEditor)
 Vue.use(VueCookies)
 Vue.prototype.$clipboard = clipboard
 Vue.prototype.$axios = axios.create({
-  baseURL: 'http://console.mcloudhub.com/',
+  baseURL: 'https://console.mcloudhub.com/',
   timeout: 36000,
   headers: {},
   transformResponse: function(data) {

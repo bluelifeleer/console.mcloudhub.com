@@ -21,6 +21,13 @@
         </div>
       </div>
       <div class="md5-tool-buts-box">
+        <span class="parems-checkboxs">盐：</span>
+        <span class="parems-checkboxs"><input type="checkbox" name="datatime" id="" v-model="form.params.datetime">时间</span>
+        <span class="parems-checkboxs"><input type="checkbox" name="string" id="" v-model="form.params.string">英文字符(大小写)</span>
+        <span class="parems-checkboxs"><input type="checkbox" name="number" id="" v-model="form.params.number">数字</span>
+        <span class="parems-checkboxs"><input type="checkbox" name="" id="" v-model="form.params.specialSymbols">特殊字符</span>
+        <span class="parems-checkboxs" style="margin:0 0 0 30px;">位数：</span>
+        <span class="parems-checkboxs" v-for="(radio,$index) in form.params.lengthRadios" :key="$index"><input type="radio" name="" id="" :value="radio.value" :checked="radio.checked" v-model="form.params.radioSymbols">{{radio.text}}</span>
         <a href="javascript:void(0);" class="md5-tool-exec-but" @click="md5Exec($event)">MD5加密</a>
       </div>
       <div class="md5-tool-output-box">
@@ -44,6 +51,14 @@ export default {
           size: '',
           type: ''
         },
+        params: {
+          datetime: true,
+          string: false,
+          number: false,
+          specialSymbols: false,
+          radioSymbols: 32,
+          lengthRadios: [{ text: '4位', value: 4, checked: false }, { text: '8位', value: 8, checked: false }, { text: '16位', value: 16, checked: false }, { text: '32位', value: 32, checked: true }]
+        },
         text: '',
         output: ''
       }
@@ -65,9 +80,9 @@ export default {
       }
     },
     md5Exec (e) {
-      console.log(this.form)
+      let nowDate = new Date()
       if (!this.toggle) {
-        this.form.output = this.$md5(this.form.text)
+        this.form.output = this.$md5(this.form.text ? this.form.text : nowDate.getTime())
       }
     }
   },
@@ -193,6 +208,19 @@ export default {
     height:auto;
     margin:30px 0;
     overflow: hidden;
+  }
+
+  .parems-checkboxs{
+    display:block;
+    float:left;
+    width:auto;
+    height:40px;
+    line-height: 40px;
+    padding:0 10px 0 0;
+  }
+
+  .parems-checkboxs input{
+    margin:0 5px 0 0;
   }
 
   .md5-tool-exec-but{

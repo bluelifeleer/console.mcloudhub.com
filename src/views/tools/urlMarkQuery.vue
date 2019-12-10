@@ -79,10 +79,12 @@ export default {
   display: block;
   width: 98%;
   height: 118px;
+  font-size:20px;
   border: 1px solid #c1c1c1;
   border-radius: 5px;
   padding: 1%;
   resize: none;
+  outline: none;
 }
 
 .url-mark-query-form-buts {
@@ -126,10 +128,12 @@ export default {
   display: block;
   width: 98%;
   height: 118px;
+  font-size:20px;
   border: 1px solid #c1c1c1;
   border-radius: 5px;
   padding: 1%;
   resize: none;
+  outline: none;
 }
 
 </style>

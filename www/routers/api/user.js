@@ -2,7 +2,7 @@
  * @Author: lipeng
  * @Date:   2019-10-24 08:56:58
  * @Last Modified by:   bluelife
- * @Last Modified time: 2019-11-10 09:41:34
+ * @Last Modified time: 2019-12-11 00:20:43
  */
 const path = require('path');
 const express = require('express');
@@ -12,35 +12,40 @@ const md5 = require('md5');
 const utils = require('../../utils');
 const Target = require('../../models/targetModel');
 const User = require('../../models/userModel');
-let output = {
-  code: 0,
-  msg: '',
-  ok: false,
-  data: null
-}
+let output = {}
 
-router.get('/get',(req,res,next)=>{
-	let id = req.query.id;
-	User.findById(id,'name avatar phone email github website idiograph').then(user=>{
-		if(user){
-			output = {
-			  code: 1,
-			  msg: 'SUCCESS',
-			  ok: true,
-			  data: user
-			};
-			res.json(output);
-		}
-	}).catch(err=>{
-		console.log(err)
-	})
+router.use(function(req, res, next) {
+  output = {
+    code: 0,
+    msg: '',
+    ok: false,
+    data: null
+  };
+  next();
+});
+
+router.get('/get', (req, res, next) => {
+  let id = req.query.id;
+  User.findById(id, 'name avatar phone email github website idiograph').then(user => {
+    if (user) {
+      output = {
+        code: 1,
+        msg: 'SUCCESS',
+        ok: true,
+        data: user
+      };
+      res.json(output);
+    }
+  }).catch(err => {
+    console.log(err)
+  })
 })
 
 router.post('/signin', (req, res, next) => {
   let account = req.body.name;
   let password = req.body.password;
   let verifyCode = req.body.verifyCode;
-  if(verifyCode.toLowerCase() != req.session.verify_code.toLowerCase()){
+  if (verifyCode.toLowerCase() != req.session.verify_code.toLowerCase()) {
     output = {
       code: 0,
       msg: '验证码错误',
@@ -48,7 +53,7 @@ router.post('/signin', (req, res, next) => {
       data: null
     };
     res.json(output);
-  }else{
+  } else {
     User.findOne({
       name: account
     }).then(user => {
@@ -72,9 +77,9 @@ router.post('/signin', (req, res, next) => {
               phone: user.phone,
               email: user.email,
               avatar: user.avatar,
-              github:user.github,
-              website:user.website,
-              idiograph:user.idiograph
+              github: user.github,
+              website: user.website,
+              idiograph: user.idiograph
             }
           };
           res.json(output);
@@ -87,7 +92,7 @@ router.post('/signin', (req, res, next) => {
           };
           res.json(output);
         }
-      }else{
+      } else {
         output = {
           code: 0,
           msg: '帐咓不存在或错误',
@@ -118,9 +123,9 @@ router.post('/register', (req, res, next) => {
         avatar: '',
         email: '',
         phone: '',
-        github:'',
-        website:'',
-        idiograph:'',
+        github: '',
+        website: '',
+        idiograph: '',
         createTime: new Date(),
         enable: true
       }).save().then(userInsert => {
@@ -150,33 +155,33 @@ router.post('/register', (req, res, next) => {
   });
 });
 
-router.post('/update',(req,res,next)=>{
-	let user = req.body.user;
-	User.findByIdAndUpdate(user._id,{
-		avatar:user.avatar,
-		name:user.name,
-		phone:user.phone,
-		email:user.email,
-    github:user.github,
-    website:user.website,
-    idiograph:user.idiograph,
-		modifyTime: new Date()
-	}, {
+router.post('/update', (req, res, next) => {
+  let user = req.body.user;
+  User.findByIdAndUpdate(user._id, {
+    avatar: user.avatar,
+    name: user.name,
+    phone: user.phone,
+    email: user.email,
+    github: user.github,
+    website: user.website,
+    idiograph: user.idiograph,
+    modifyTime: new Date()
+  }, {
     new: true,
     runValidators: true
-  }).then(update=>{
-		if(update){
-			output = {
-			  code: 1,
-			  msg: 'SUCCESS',
-			  ok: true,
-			  data: {}
-			};
-			res.json(output);
-		}
-	}).catch(err=>{
-		console.log(err)
-	})
+  }).then(update => {
+    if (update) {
+      output = {
+        code: 1,
+        msg: 'SUCCESS',
+        ok: true,
+        data: {}
+      };
+      res.json(output);
+    }
+  }).catch(err => {
+    console.log(err)
+  })
 });
 
 router.get('/signout', (req, res, next) => {

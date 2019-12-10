@@ -2,19 +2,24 @@
  * @Author: bluelife
  * @Date:   2019-11-10 03:33:01
  * @Last Modified by:   bluelife
- * @Last Modified time: 2019-11-10 03:57:25
+ * @Last Modified time: 2019-12-11 00:20:21
  */
 const path = require('path');
 const express = require('express');
 const router = express.Router();
 const Active = require('../../models/activeModel');
 const User = require('../../models/userModel');
-let output = {
-  code: 0,
-  msg: '',
-  ok: false,
-  data: null
-}
+let output = {}
+
+router.use(function(req, res, next) {
+  output = {
+    code: 0,
+    msg: '',
+    ok: false,
+    data: null
+  };
+  next();
+});
 
 router.get('/list', (req, res, next) => {
   let uid = req.query.uid;
@@ -73,9 +78,9 @@ router.get('/get', (req, res, next) => {
 });
 
 router.get('/delete', (req, res, next) => {
-  let id=req.query.id;
-  Active.findByIdAndRemove(id).then(status=>{
-    if(status){
+  let id = req.query.id;
+  Active.findByIdAndRemove(id).then(status => {
+    if (status) {
       output = {
         code: 1,
         msg: 'SUCCESS',
@@ -84,14 +89,14 @@ router.get('/delete', (req, res, next) => {
       };
       res.json(output);
     }
-  }).catch(err=>{
+  }).catch(err => {
     console.log(err)
   })
 });
 
 router.post('/update', (req, res, next) => {
   let id = req.body.id;
-  Active.findByIdAndUpdate(id,{
+  Active.findByIdAndUpdate(id, {
     companyName: req.body.companyName,
     projectName: req.body.projectName,
     projectUrl: req.body.projectUrl,
@@ -99,9 +104,9 @@ router.post('/update', (req, res, next) => {
     name: req.body.name,
     url: req.body.url,
     desc: req.body.desc,
-    modifyTime:new Date()
-  }).then(update=>{
-    if(update){
+    modifyTime: new Date()
+  }).then(update => {
+    if (update) {
       output = {
         code: 1,
         msg: 'SUCCESS',
@@ -110,7 +115,7 @@ router.post('/update', (req, res, next) => {
       };
       res.json(output);
     }
-  }).catch(err=>{
+  }).catch(err => {
     console.log(err)
   })
 });
