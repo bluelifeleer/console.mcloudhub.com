@@ -157,15 +157,14 @@ export default {
 .login-form-items input {
   display: block;
   float: left;
-  width: 77.6%;
+  width: 72.6%;
   height: 38px;
   line-height: 38px;
   border: 1px solid #c1c1c1;
   border-radius: 5px;
   padding: 0 0 0 2%;
   outline: none;
-  font-size: 15px
-;
+  font-size: 15px;
 }
 
 .login-form-items .input-tip {
