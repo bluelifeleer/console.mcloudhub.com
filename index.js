@@ -1,8 +1,8 @@
 /*
  * @Author: bluelife
  * @Date:   2019-10-10 23:41:42
- * @Last Modified by:   'bluelife'
- * @Last Modified time: 2019-11-14 19:18:48
+ * @Last Modified by:   bluelife
+ * @Last Modified time: 2019-12-12 00:19:03
  */
 'use tsrict'
 const os = require('os')
@@ -37,6 +37,10 @@ const compression = require('compression')
 const credentials = require('./credentials.js')
 // 是否启动记录访问日志
 const STARTLOG = true
+const options = {
+  key: fs.readFileSync(path.join(__dirname + '/ssl/console.mcloudhub.com.key')),
+  cert: fs.readFileSync(path.join(__dirname + '/ssl/console.mcloudhub.com.pem'))
+}
 // 设置模板引擎
 app.set('views', path.join(__dirname, '/www/views'))
 app.set('view engine', 'ejs')
@@ -62,8 +66,8 @@ app.use(bodyParser.urlencoded({
 }))
 app.use(cookieParser(credentials.cookieSecret, {
   maxAge: 1800000,
-  secure: false,  // 设置cookie只通过安全连接(HTTPS)发送
-  httpOnly:true   // 设置cookie 只能由服务器修改。也就是说客户端JavaScript不能修改它。这有助于防范XSS 攻击。
+  secure: false, // 设置cookie只通过安全连接(HTTPS)发送
+  httpOnly: true // 设置cookie 只能由服务器修改。也就是说客户端JavaScript不能修改它。这有助于防范XSS 攻击。
 }))
 
 const store = new MongoDBStore({
@@ -79,7 +83,7 @@ store.on('error', error => {
   assert.ok(false);
 });
 app.use(session({
-  genid: function (req) {
+  genid: function(req) {
     return uuidv4() // use UUIDs for session IDs
   },
   secret: credentials.cookieSecret, // 与cookieParser中的一致
@@ -89,13 +93,13 @@ app.use(session({
   cookie: {
     secure: false,
     maxAge: 1800000,
-    httpOnly:true
+    httpOnly: true
   },
   rolling: true
 }));
 
 // 服务器启动时默认配置/动作
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   // 将登录后的用户信息附加到request头信息中
   if (req.cookies.uid && req.cookies.uid != '') {
     try {
@@ -115,7 +119,7 @@ app.use(csurf({
   cookie: true,
   ignoreMethods: ['GET', 'POST']
 }))
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
   if (err.code !== 'EBADCSRFTOKEN') return next(err)
   // handle CSRF token errors here
   res.status(403)
@@ -175,7 +179,7 @@ mongoose.connect('mongodb://localhost:27017/console', {
   } else {
     // 数据库连接成功后监听80/443端口
     // app.listen(80);
-    http.createServer(app).listen(80)
+    http.createServer(app).listen(1003)
     // https.createServer(options, app).listen(443);
     // const server = http2.createServer(options, app);
     // server.listen(443);
