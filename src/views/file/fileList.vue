@@ -5,6 +5,8 @@
       <div class="file-list-page-functions-bar">
         <a href="javascript:void(0);" class="upload-file-but" @click="uploadFileDialogHandle($event)"><i class="icon iconfont">&#xe613;</i>上传文件</a>
         <a href="javascript:void(0);" class="mkdir-new-dir"><i class="icon iconfont">&#xe629;</i>新建文件夹</a>
+        <a href="javascript:void(0);" class="file-view-preview" @click="filePreviewType($event, 'preview')"><i class="icon iconfont">&#xe69f;</i></a>
+        <a href="javascript:void(0);" class="file-view-list" @click="filePreviewType($event, 'list')"><i class="icon iconfont">&#xe6fe;</i></a>
       </div>
       <div class="file-list-data-table">
         <div class="file-list-data-table-header">
@@ -25,17 +27,9 @@
         </div>
       </div>
       <div class="file-listpage-footer">
-        <el-pagination
-              @size-change="handleFileSizeChange"
-              @current-change="handleFileCurrentChange"
-              :current-page="files.offset"
-              :page-sizes="[10, 20, 30, 40, 60, 80, 100]"
-              :page-size="files.nums"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="files.count">
-            </el-pagination>
+        <el-pagination @size-change="handleFileSizeChange" @current-change="handleFileCurrentChange" :current-page="files.offset" :page-sizes="[10, 20, 30, 40, 60, 80, 100]" :page-size="files.nums" layout="total, sizes, prev, pager, next, jumper" :total="files.count">
+        </el-pagination>
       </div>
-
       <!-- upload file dialog -->
       <div class="upload-file-dialog modal" v-show="uploadFileDialog">
         <div class="upload-file-dialog-marker" @click="uploadFileDialog=false"></div>
@@ -55,15 +49,14 @@
         <div class="mkdir-new-dir-dialog-marker"></div>
         <div class="mkdir-new-dir-dialog-body"></div>
       </div>
-      </div>
     </div>
   </div>
+  </div>
 </template>
-
 <script>
 export default {
   name: 'FileList',
-  data () {
+  data() {
     return {
       user: {},
       files: {
@@ -86,17 +79,17 @@ export default {
       }
     }
   },
-  created () {},
+  created() {},
   methods: {
-    handleFileSizeChange (nums) {
+    handleFileSizeChange(nums) {
       this.files.nums = nums
       this.getFiles()
     },
-    handleFileCurrentChange (offset) {
+    handleFileCurrentChange(offset) {
       this.files.offset = offset
       this.getFiles()
     },
-    getFiles () {
+    getFiles() {
       this.loadingFlag = this.$loading({
         target: '.file-list-data-table-body',
         background: '#fff',
@@ -123,7 +116,7 @@ export default {
         console.log(err)
       })
     },
-    selectedAll (e) {
+    selectedAll(e) {
       let lists = []
       this.files.list.forEach(file => {
         file.selected = this.selectedAllEnable
@@ -133,7 +126,7 @@ export default {
       })
       this.selectedFils = lists
     },
-    selectItem (e) {
+    selectItem(e) {
       let lists = []
       this.files.list.forEach(file => {
         if (file.selected) {
@@ -142,24 +135,24 @@ export default {
       })
       this.selectedFils = lists
     },
-    uploadFileDialogHandle (e) {
+    uploadFileDialogHandle(e) {
       this.uploadFileDialog = !this.uploadFileDialog
     },
-    uploadFileDialogClose (e) {
+    uploadFileDialogClose(e) {
       this.uploadFileDialog = false
     },
-    uploadFileWidgetMouseOver () {
+    uploadFileWidgetMouseOver() {
       this.uploadFileWidgetover = !this.uploadFileWidgetover
     },
-    uploadFileWidgetMouseOut () {
+    uploadFileWidgetMouseOut() {
       this.uploadFileWidgetover = !this.uploadFileWidgetover
     },
-    uploadFileWidgetChangeHandle (e) {
+    uploadFileWidgetChangeHandle(e) {
       let _this = this
       let files = e.target.files[0]
       this.fileReader = new FileReader()
       this.fileReader.readAsDataURL(files)
-      this.fileReader.addEventListener('load', function () {
+      this.fileReader.addEventListener('load', function() {
         _this.uploadFileWidgetInfo.name = files.name
         _this.uploadFileWidgetInfo.size = files.size
         _this.uploadFileWidgetInfo.type = files.type
@@ -190,7 +183,10 @@ export default {
         })
       }, false)
     },
-    formateDate (timer) {
+    filePreviewType(e, type) {
+      alert(type)
+    },
+    formateDate(timer) {
       let nowDate = timer ? new Date(timer) : new Date()
       let fullYear = nowDate.getFullYear()
       let month = nowDate.getMonth() + 1
@@ -200,234 +196,247 @@ export default {
       let seconds = nowDate.getSeconds()
       return fullYear + '-' + this.addZone(month) + '-' + this.addZone(date) + ' ' + this.addZone(hours) + ':' + this.addZone(minutes) + ':' + this.addZone(seconds)
     },
-    addZone (num) {
+    addZone(num) {
       return num <= 9 ? ('0' + num) : num
     }
   },
-  mounted () {
+  mounted() {
     this.user = JSON.parse(sessionStorage.getItem('userInfo'))
     this.getFiles()
   }
 }
+
 </script>
-
 <style>
-  .file-list-page{
-    width:100%;
-    height:auto;
-  }
+.file-list-page {
+  width: 100%;
+  height: auto;
+}
 
-  .file-list-page-header{
-    width: 100%;
-    height: 70px;
-    line-height: 70px;
-    font-size: 20px;
-    font-weight: bold;
-    border-bottom: 1px solid #c1c1c1;
-    position: relative;
-  }
+.file-list-page-header {
+  width: 100%;
+  height: 70px;
+  line-height: 70px;
+  font-size: 20px;
+  font-weight: bold;
+  border-bottom: 1px solid #c1c1c1;
+  position: relative;
+}
 
-  .file-list-page-body{
-    width:100%;
-    height:auto;
-  }
+.file-list-page-body {
+  width: 100%;
+  height: auto;
+}
 
-  .file-listpage-footer{
-    width:100%;
-    height:40px;
-    margin:20px 0;
-  }
+.file-listpage-footer {
+  width: 100%;
+  height: 40px;
+  margin: 20px 0;
+}
 
-  .file-list-page-functions-bar{
-    width:100%;
-    height:30px;
-    margin:20px 0;
-    overflow: hidden;
-  }
+.file-list-page-functions-bar {
+  width: 100%;
+  height: 30px;
+  margin: 20px 0;
+  overflow: hidden;
+}
 
-  .upload-file-but{
-    display:block;
-    float:left;
-    width:120px;
-    height:28px;
-    line-height: 28px;
-    text-align: center;
-    color:#fff;
-    border:1px solid #409EFF;
-    border-radius:4px;
-    background:#409EFF;
-  }
+.upload-file-but {
+  display: block;
+  float: left;
+  width: 120px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  color: #fff;
+  border: 1px solid #409EFF;
+  border-radius: 4px;
+  background: #409EFF;
+}
 
-  .mkdir-new-dir{
-    display:block;
-    float:left;
-    width:120px;
-    height:28px;
-    line-height: 28px;
-    text-align: center;
-    color:#909399;
-    border:1px solid #909399;
-    border-radius:4px;
-    background:#fff;
-    margin:0 0 0 30px;
-  }
+.mkdir-new-dir {
+  display: block;
+  float: left;
+  width: 120px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  color: #909399;
+  border: 1px solid #909399;
+  border-radius: 4px;
+  background: #fff;
+  margin: 0 0 0 30px;
+}
 
-  .file-list-data-table{
-    width:100%;
-    height:auto;
-  }
+.file-list-data-table {
+  width: 100%;
+  height: auto;
+}
 
-  .file-list-data-table input{
-    display:inline-block;
-    margin:0 8px 0 0;
-  }
+.file-list-data-table input {
+  display: inline-block;
+  margin: 0 8px 0 0;
+}
 
-  .file-list-data-table-header{
-    width:100%;
-    height:auto;
-  }
+.file-list-data-table-header {
+  width: 100%;
+  height: auto;
+}
 
-  .file-list-data-table-body{
-    width:100%;
-    height:480px;
-    max-height: 480px;
-    overflow: auto;
-  }
+.file-list-data-table-body {
+  width: 100%;
+  height: 480px;
+  max-height: 480px;
+  overflow: auto;
+}
 
-  .file-list-data-table-th{
-    width:100%;
-    height:auto;
-    background:#F2F6FC;
-    overflow: hidden;
-  }
+.file-list-data-table-th {
+  width: 100%;
+  height: auto;
+  background: #F2F6FC;
+  overflow: hidden;
+}
 
-  .file-list-data-table-tr{
-    width:100%;
-    height:auto;
-    overflow: hidden;
-  }
+.file-list-data-table-tr {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
 
-  .file-list-data-table-tr:nth-child(2n){
-    background: #F2F6FC;
-  }
+.file-list-data-table-tr:nth-child(2n) {
+  background: #F2F6FC;
+}
 
-  .file-list-data-table-tr:hover{
-    cursor: pointer;
-    background: #F2F6FC;
-  }
+.file-list-data-table-tr:hover {
+  cursor: pointer;
+  background: #F2F6FC;
+}
 
-  .file-list-data-table-td{
-    float:left;
-    height:40px;
-    line-height: 40px;
-  }
+.file-list-data-table-td {
+  float: left;
+  height: 40px;
+  line-height: 40px;
+}
 
-  .file-list-data-table-td:nth-child(1){
-    width:54%;
-    padding:0 0 0 1%;
-  }
+.file-list-data-table-td:nth-child(1) {
+  width: 54%;
+  padding: 0 0 0 1%;
+}
 
-  .file-list-data-table-td:nth-child(2){
-    width:10%;
-    text-align: center;
-  }
+.file-list-data-table-td:nth-child(2) {
+  width: 10%;
+  text-align: center;
+}
 
-  .file-list-data-table-td:nth-child(3){
-    width:20%;
-    text-align: center;
-  }
+.file-list-data-table-td:nth-child(3) {
+  width: 20%;
+  text-align: center;
+}
 
-  .file-list-data-table-td:nth-child(4){
-    width:15%;
-    text-align: center;
-  }
+.file-list-data-table-td:nth-child(4) {
+  width: 15%;
+  text-align: center;
+}
 
-  .upload-file-dialog-marker{
-    width:100%;
-    height:100%;
-    background:#000;
-    opacity: .4;
-    filter:alpha(opacity:40);
-    position:fixed;
-    left:0;
-    top:0;
-    z-index:9999;
-  }
+.upload-file-dialog-marker {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: .4;
+  filter: alpha(opacity:40);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+}
 
-  .upload-file-dialog-body{
-    width:580px;
-    height:450px;
-    background:#fff;
-    border-radius:5px;
-    opacity: 1;
-    filter:alpha(opacity:100);
-    overflow: hidden;
-    position:fixed;
-    left:50%;
-    top:50%;
-    transform: translate(-50%,-50%);
-    z-index:10000;
-  }
+.upload-file-dialog-body {
+  width: 580px;
+  height: 450px;
+  background: #fff;
+  border-radius: 5px;
+  opacity: 1;
+  filter: alpha(opacity:100);
+  overflow: hidden;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10000;
+}
 
-  .upload-file-dialog-body-header{
-    width:100%;
-    height:auto;
-    overflow: hidden;
-    position: relative;
-  }
+.upload-file-dialog-body-header {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  position: relative;
+}
 
-  .upload-file-dialog-body-header-title{
-    display:block;
-    width:98%;
-    height:40px;
-    line-height: 40px;
-    padding:0 0 0 2%;
-  }
+.upload-file-dialog-body-header-title {
+  display: block;
+  width: 98%;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 0 0 2%;
+}
 
-  .upload-file-dialog-close{
-    display:block;
-    width:30px;
-    height:40px;
-    line-height: 40px;
-    color:#909399;
-    font-size:15px;
-    text-align: center;
-    position:absolute;
-    right:0;
-    top:0;
-  }
+.upload-file-dialog-close {
+  display: block;
+  width: 30px;
+  height: 40px;
+  line-height: 40px;
+  color: #909399;
+  font-size: 15px;
+  text-align: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
 
-  .upload-file-dialog-body-content{
-    width:96%;
-    height:380px;
-    overflow: hidden;
-    padding:2%;
-  }
+.upload-file-dialog-body-content {
+  width: 96%;
+  height: 380px;
+  overflow: hidden;
+  padding: 2%;
+}
 
-  #upload-file-widget{
-    display:block;
-    width:557px;
-    height:380px;
-    opacity: 0;
-    border-radius:5px;
-    position:absolute;
-    left:12px;
-    top:52px;
-    z-index:10001
-  }
+#upload-file-widget {
+  display: block;
+  width: 557px;
+  height: 380px;
+  opacity: 0;
+  border-radius: 5px;
+  position: absolute;
+  left: 12px;
+  top: 52px;
+  z-index: 10001
+}
 
-  .upload-file-widget-marker{
-    display:block;
-    width:100%;
-    height:380px;
-    line-height: 380px;
-    text-align: center;
-    border:1px solid #c1c1c1;
-    border-radius:5px;
-  }
+.upload-file-widget-marker {
+  display: block;
+  width: 100%;
+  height: 380px;
+  line-height: 380px;
+  text-align: center;
+  border: 1px solid #c1c1c1;
+  border-radius: 5px;
+}
 
-  .upload-file-widget-marker-active{
-    cursor: pointer;
-    border:1px dashed #c1c1c1;
-  }
+.upload-file-widget-marker-active {
+  cursor: pointer;
+  border: 1px dashed #c1c1c1;
+}
+
+.file-view-list,
+.file-view-preview {
+  display: block;
+  float: right;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: #909399;
+  font-size: 20px;
+}
+
 </style>

@@ -29,13 +29,13 @@ export default {
     FooterComponent,
     MenuComponent
   },
-  data () {
+  data() {
     return {
 
     }
   },
   methods: {},
-  mounted () {
+  mounted() {
     if (!this.$cookies.get('name') && !this.$cookies.get('uid')) {
       this.$router.push({
         path: '/login'

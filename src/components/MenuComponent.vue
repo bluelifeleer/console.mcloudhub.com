@@ -18,7 +18,7 @@
 export default {
   name: 'MenuComponent',
   props: ['width', 'parent', 'child'],
-  data () {
+  data() {
     return {
       menus: [{
         index: 0,
@@ -133,6 +133,27 @@ export default {
           childs: []
         }]
       }, {
+        index: 3,
+        text: '图片管理',
+        icon: '',
+        alink: '',
+        selected: false,
+        childs: [{
+          index: 0,
+          text: '图片列表',
+          icon: '',
+          alink: '/file/list',
+          selected: false,
+          childs: []
+        }, {
+          index: 0,
+          text: '回收站',
+          icon: '',
+          alink: '/file/recycle',
+          selected: false,
+          childs: []
+        }]
+      }, {
         index: 4,
         text: '标签管理',
         icon: '',
@@ -187,25 +208,25 @@ export default {
     }
   },
   watch: {
-    'parent': function (num) {
+    'parent': function(num) {
       this.menusParent = num
       this.menus.forEach(menu => {
         menu.selected = false
       })
       this.menus[num].selected = true
     },
-    'child': function (num) {
+    'child': function(num) {
       this.menus[this.menusParent].childs.forEach(child => {
         child.selected = false
       })
       this.menus[this.menusParent].childs[num].selected = true
     }
   },
-  created () {
+  created() {
 
   },
   methods: {
-    menusItemClickHandle (e, index, parent) {
+    menusItemClickHandle(e, index, parent) {
       e.stopPropagation()
       if (parent == 999) {
         this.$store.commit('setMenus', { parent: index })
@@ -228,7 +249,7 @@ export default {
       }
     }
   },
-  mounted () {
+  mounted() {
 
   }
 }
@@ -303,7 +324,7 @@ export default {
   padding: 0 0 0 20%;
 }
 
-.menu-list-items-child-list-items-tap-hover{
+.menu-list-items-child-list-items-tap-hover {
   cursor: pointer;
   background: #E4E7Ed;
 }
