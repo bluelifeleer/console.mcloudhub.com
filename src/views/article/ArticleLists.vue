@@ -146,7 +146,7 @@ export default {
   },
   mounted() {
     this.user = JSON.parse(sessionStorage.getItem('userInfo'))
-    // this.getArticles()
+    this.getArticles()
   }
 }
 
