@@ -58,7 +58,7 @@ export default {
       })
       this.$axios({
         method: 'get',
-        url: `/api/article/list?uid=${this.user._id}&nums=${this.articles.nums}&offset=${this.articles.offset}&sort=${this.articles.sort}`
+        url: `/api/article/list?uid=${this.user._id}&nums=${this.articles.nums}&offset=${this.articles.offset}&sort=${this.articles.sort}&key=${encodeURI(this.articleSearch.value)}`
       }).then(res => {
         if (res.data.ok && res.data.code) {
           this.loadingFlag.close()
@@ -83,7 +83,7 @@ export default {
       this.$refs.articleSearchInut.style.display = 'block';
       this.$refs.articleSearchInut.focus()
       if (this.articleSearch.value) {
-        console.log(this.articleSearch.value)
+        this.getArticles()
       }
     },
     articleSearchMouseLave() {
