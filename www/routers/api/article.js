@@ -2,7 +2,7 @@
  * @Author: lipeng
  * @Date:   2019-10-24 09:22:59
  * @Last Modified by:   bluelife
- * @Last Modified time: 2019-12-13 03:36:38
+ * @Last Modified time: 2019-12-13 03:42:59
  */
 const path = require('path');
 const express = require('express');
@@ -37,7 +37,7 @@ router.get('/list', (req, res, next) => {
     }
   };
   Article.countDocuments(where, (err, count) => {
-    Article.find(_filter).populate([{
+    Article.find(where).populate([{
       path: 'own',
       select: 'name'
     }, {

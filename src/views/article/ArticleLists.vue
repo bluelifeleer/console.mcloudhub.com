@@ -11,8 +11,8 @@
     <div class="article-list-box">
       <ul class="article-list-item-group">
         <li class="article-list-items" v-for="(article,$index) in articles.list" :key="$index" :data-id="article._id" @mouseenter="articleItemHover($event,$index)" @mouseleave="articleItemOut($event,$index)">
-          <div class="article-list-items-header"><a :href="article.href">{{article.title}}</a></div>
-          <div class="article-list-items-body"><a :href="article.href">{{article.miniText.length>=128?(article.miniText.substr(0,128)+'......'):article.miniText}}</a></div>
+          <div class="article-list-items-header"><a :href="article.href" v-html="article.title"></a></div>
+          <div class="article-list-items-body"><a :href="article.href" v-html="(article.miniText.length>=128?(article.miniText.substr(0,128)+'......'):article.miniText)"></a></div>
           <div class="article-list-items-footer">
             <a href="javascript:void(0);" class="article-list-items-targets" v-for="(target,$index) in article.targets" :key="$index" :data-target-id="target._id" :title="target.name">{{target.name}}</a>
             <span class="article-list-items-date">{{article.createTime}}</span>
@@ -51,6 +51,7 @@ export default {
   },
   methods: {
     getArticles() {
+      let _this = this;
       this.loadingFlag = this.$loading({
         target: '.article-list-box',
         background: '#fff',
@@ -72,6 +73,10 @@ export default {
             item.createTime = this.formateDate(item.createTime)
             item.modifyTime = this.formateDate(item.modifyTime)
             item.isHover = false
+            if (_this.articleSearch.value) {
+              item.title = item.title.replace(_this.articleSearch.value, `<span style="color:#f00;">${_this.articleSearch.value}</span>`)
+              item.miniText = item.miniText.replace(_this.articleSearch.value, `<span style="color:#f00;">${_this.articleSearch.value}</span>`)
+            }
           })
           this.articles.list = res.data.data.list
         }
