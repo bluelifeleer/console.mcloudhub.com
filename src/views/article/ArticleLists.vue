@@ -87,7 +87,9 @@ export default {
       }
     },
     articleSearchMouseLave() {
-      this.$refs.articleSearchInut.style.display = 'none';
+      if (!this.articleSearch.value) {
+        this.$refs.articleSearchInut.style.display = 'none';
+      }
     },
     handleSizeChange(nums) {
       this.articles.nums = nums
