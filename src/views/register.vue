@@ -104,7 +104,7 @@ export default {
 <style scoped>
 .login-page {
   width: 100%;
-  background: url("../assets/7b09657eab27226f9a83e871695e9da9.jpg") no-repeat 0 0;
+  background: url("../assets/7b09657eab27226f9a83e871695e9da9.svg") no-repeat 0 0;
   background-size: 100% 100%;
 }
 
