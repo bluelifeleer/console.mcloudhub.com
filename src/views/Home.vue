@@ -67,6 +67,7 @@ export default {
   float: left;
   width: auto;
   height: auto;
+  background: #001529;
   overflow: hidden;
 }
 

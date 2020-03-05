@@ -1,8 +1,8 @@
 <template>
   <div class="menu-component" :style="{'width':width+'px'}">
     <ul class="menu-list-group">
-      <li class="meni-list-items" :class="{'meni-list-items-active':menu.selected}" v-for="(menu,$index) in menus" :key="$index" :data-index="menu.index">
-        <div class="menu-list-items-tap"><a href="javascript:void(0);" @click="menusItemClickHandle($event,$index,999)" class="menu-list-items-tap-alink"><span class="menu-list-items-tap-text">{{menu.text}}</span><i class="icon menu-list-items-tap-icon iconfont" v-if="menu.childs.length">{{(menu.selected?'&#xe71b;':'&#xe63a;')}}</i><i class="icon menu-list-items-tap-icon" v-else></i></a></div>
+      <li class="meni-list-items" v-for="(menu,$index) in menus" :key="$index" :data-index="menu.index">
+        <div class="menu-list-items-tap" :class="{'meni-list-items-active':menu.selected}"><a href="javascript:void(0);" @click="menusItemClickHandle($event,$index,999)" class="menu-list-items-tap-alink"><span class="menu-list-items-tap-text">{{menu.text}}</span><i class="icon menu-list-items-tap-icon iconfont" v-if="menu.childs.length">{{(menu.selected?'&#xe71b;':'&#xe63a;')}}</i><i class="icon menu-list-items-tap-icon" v-else></i></a></div>
         <div class="menu-list-childs-box" v-if="menu.childs.length">
           <ul class="menu-list-items-child-list-group" v-if="menu.selected">
             <li class="menu-list-items-child-list-items" v-for="(child,$index) in menu.childs" :key="$index" :data-index="menu.index+'-'+child.index">
@@ -256,7 +256,11 @@ export default {
 
 </script>
 <style scoped>
-.menu-component {}
+.menu-component {
+  width: auto;
+  height: auto;
+  min-height: 680px;
+}
 
 .menu-component a {
   display: block;
@@ -268,7 +272,6 @@ export default {
 .menu-list-group {
   width: 100%;
   height: auto;
-  background: #
 }
 
 .meni-list-items {
@@ -277,19 +280,21 @@ export default {
   position: relative;
 }
 
-.meni-list-items:hover {
-  cursor: pointer;
-  background: #f9fafc;
-}
-
 .meni-list-items-active {
-  background: #f9fafc;
+  background: #1890ff;
+  color: #FFF;
 }
 
 .menu-list-items-tap {
   width: 90%;
   height: 50px;
   padding: 0 0 0 10%;
+}
+
+.menu-list-items-tap:hover {
+  cursor: pointer;
+  background: #1890ff;
+  color: #FFF;
 }
 
 .menu-list-items-tap .menu-list-items-tap-text {
@@ -326,12 +331,14 @@ export default {
 
 .menu-list-items-child-list-items-tap-hover {
   cursor: pointer;
-  background: #E4E7Ed;
+  background: #1890ff;
+  color: #FFF;
 }
 
 .menu-list-items-child-list-items-tap:hover {
   cursor: pointer;
-  background: #E4E7Ed;
+  background: #1890ff;
+  color: #FFF;
 }
 
 .menu-list-items-child-list-items-tap .menu-list-items-child-list-items-tap-text {

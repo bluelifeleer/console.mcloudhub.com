@@ -4,22 +4,22 @@
     <div class="file-list-page-body">
       <div class="file-list-page-functions-bar">
         <a href="javascript:void(0);" class="upload-file-but" @click="uploadFileDialogHandle($event)"><i class="icon iconfont">&#xe613;</i>上传文件</a>
-        <a href="javascript:void(0);" class="mkdir-new-dir" @click="mkdirNewDir($event)"><i class="icon iconfont">&#xe629;</i>新建文件夹</a>
+        <a href="javascript:void(0);" class="mkdir-new-dir" @click="mkdirNewDir($event,null)"><i class="icon iconfont">&#xe629;</i>新建文件夹</a>
         <a href="javascript:void(0);" class="file-view-preview" @click="filePreviewType($event, 'preview')"><i class="icon iconfont">&#xe69f;</i></a>
         <a href="javascript:void(0);" class="file-view-list" @click="filePreviewType($event, 'list')"><i class="icon iconfont">&#xe6fe;</i></a>
       </div>
       <div class="file-list-data-table">
         <div class="file-list-data-table-header">
           <div class="file-list-data-table-th">
-            <div class="file-list-data-table-td"><input type="checkbox" name="selected-all" id="selected-all" @change="selectedAll($event)" v-model="selectedAllEnable"><span>文件名</span><span class="operation-buts-box" v-show="operationButAllBox"><a href="javascript:void(0)" class="delete-but"><i class="icon iconfont">&#xe659;</i></a><a href="javascript:void(0)" class="move-but"><i class="icon iconfont">&#xe60a;</i></a><a href="javascript:void(0)" class="share-but"><i class="icon iconfont">&#xe65a;</i></a><a href="javascript:void(0)" class="link-but"><i class="icon iconfont">&#xe635;</i></a></span></div>
+            <div class="file-list-data-table-td"><input type="checkbox" name="selected-all" id="selected-all" @change="selectedAll($event)" v-model="selectedAllEnable"><span>文件名</span><span class="operation-buts-box" v-show="operationButAllBox"><a href="javascript:void(0)" class="delete-but" title="删除文件"><i class="icon iconfont">&#xe659;</i></a><a href="javascript:void(0)" class="move-but" title="移动到"><i class="icon iconfont">&#xe60a;</i></a><a href="javascript:void(0)" class="share-but" title="分享"><i class="icon iconfont">&#xe65a;</i></a><a href="javascript:void(0)" class="link-but" title="复制连接"><i class="icon iconfont">&#xe635;</i></a><a href="javascript:void(0)" class="download-but" title="下载文件"><i class="icon iconfont">&#xe607;</i></a></span></div>
             <div class="file-list-data-table-td">大小</div>
             <div class="file-list-data-table-td">类型</div>
             <div class="file-list-data-table-td">上传时间</div>
           </div>
         </div>
         <div class="file-list-data-table-body">
-          <div class="file-list-data-table-tr" v-for="(file,$index) in files.list" :key="$index" :data-id="file._id">
-            <div class="file-list-data-table-td"><input type="checkbox" name="select-item" id="select-item" @change="selectItem($event)" v-model="file.selected"><span>{{file.name}}</span><span class="operation-buts-box" v-show="operationButBox"><a href="javascript:void(0)" class="delete-but"><i class="icon iconfont">&#xe659;</i></a><a href="javascript:void(0)" class="move-but"><i class="icon iconfont">&#xe60a;</i></a><a href="javascript:void(0)" class="share-but"><i class="icon iconfont">&#xe65a;</i></a><a href="javascript:void(0)" class="link-but"><i class="icon iconfont">&#xe635;</i></a></span></div>
+          <div class="file-list-data-table-tr" v-for="(file,$index) in files.list" :key="$index" :data-id="file._id" @mouseenter="fileListItemMouseEnter($event,file)" @mouseleave="fileListItemMouseLeave($event,file)">
+            <div class="file-list-data-table-td"><input type="checkbox" name="select-item" id="select-item" @change="selectItem($event,file)" v-model="file.selected"><a href="javascript:void(0);" class="dir-name" @click="getOne($event,file)" v-if="file.type=='directory'">{{file.name}}</a><span v-else>{{file.name}}</span><span class="operation-buts-box" v-show="file.operation"><a href="javascript:void(0)" class="delete-but" title="删除文件"><i class="icon iconfont">&#xe659;</i></a><a href="javascript:void(0)" class="move-but" title="移动到"><i class="icon iconfont">&#xe60a;</i></a><a href="javascript:void(0)" class="share-but" title="分享"><i class="icon iconfont">&#xe65a;</i></a><a href="javascript:void(0)" class="link-but" title="复制连接"><i class="icon iconfont">&#xe635;</i></a><a href="javascript:void(0)" class="download-but" title="下载文件"><i class="icon iconfont">&#xe607;</i></a><a href="javascript:void(0)" class="new-childer-dir-but" v-if="file.type=='directory'" title="创建目录" @click="mkdirNewDir($event,file)"><i class="icon iconfont">&#xe768;</i></a></span></div>
             <div class="file-list-data-table-td">{{file.size}}</div>
             <div class="file-list-data-table-td">{{file.type}}</div>
             <div class="file-list-data-table-td">{{file.createTime}}</div>
@@ -54,13 +54,21 @@
           </div>
           <div class="mkdir-new-dir-dialog-body-content">
             <div class="create-new-dir-form">
+              <div class="create-new-dir-form-items" style="display:none;">
+                <label for="">父级ID：</label>
+                <input type="hidden" name="" id="" class="" v-model="dirForm.parentId" placeholder="目录名称" />
+              </div>
+              <div class="create-new-dir-form-items" style="display:none;">
+                <label for="">用户ID：</label>
+                <input type="hidden" name="" id="" class="" v-model="dirForm.uid" placeholder="目录名称" />
+              </div>
               <div class="create-new-dir-form-items">
                 <label for="">目录名称：</label>
-                <input type="text" name="" id="" class="" placeholder="目录名称" />
+                <input type="text" name="" id="" class="" v-model="dirForm.name" placeholder="目录名称" />
               </div>
               <div class="create-new-dir-form-items">
                 <a href="javascript:void(0);" class="create-new-dir-form-canale">取消</a>
-                <a href="javascript:void(0);" class="create-new-dir-form-submit">创建</a>
+                <a href="javascript:void(0);" class="create-new-dir-form-submit" @click="dirAdd($event)">创建</a>
               </div>
             </div>
           </div>
@@ -78,6 +86,7 @@ export default {
     return {
       user: {},
       files: {
+        id: '',
         count: 0,
         offset: 1,
         nums: 20,
@@ -97,6 +106,11 @@ export default {
         type: '',
         lastModifyDate: 0,
         baseUrl: ''
+      },
+      dirForm: {
+        parentId: '',
+        uid: '',
+        name: ''
       }
     }
   },
@@ -118,7 +132,7 @@ export default {
       })
       this.$axios({
         methos: 'get',
-        url: `/api/file/list?uid=${this.user._id}&offset=${this.files.offset}&nums=${this.files.nums}&count=${this.files.count}`
+        url: `/api/file/list?uid=${this.user._id}&offset=${this.files.offset}&nums=${this.files.nums}&count=${this.files.count}&id=${this.files.id}`
       }).then(res => {
         if (res.data.ok && res.data.code) {
           this.loadingFlag.close()
@@ -129,6 +143,7 @@ export default {
           files.list.forEach(file => {
             file.size = file.size >= 1024 ? (parseFloat(file.size / 1024) <= 1024 ? (parseFloat(file.size / 1024).toFixed(2) + 'KB') : (parseFloat(file.size / (1024 * 1024)).toFixed(2) + 'M')) : (file.size + 'B')
             file.selected = false
+            file.operation = false
             file.createTime = this.formateDate(file.createTime)
           })
           this.files.list = files.list
@@ -141,6 +156,7 @@ export default {
       let lists = []
       this.files.list.forEach(file => {
         file.selected = this.selectedAllEnable
+        file.operation = false
         this.operationButAllBox = this.selectedAllEnable
         if (this.selectedAllEnable) {
           lists.push(file._id)
@@ -148,15 +164,30 @@ export default {
       })
       this.selectedFils = lists
     },
-    selectItem(e) {
+    selectItem(e, item) {
       let lists = []
       this.files.list.forEach(file => {
         if (file.selected) {
-          this.operationButBox = file.selected
           lists.push(file._id)
         }
       })
+      item.operation = item.selected
       this.selectedFils = lists
+    },
+    fileListItemMouseEnter(e, item) {
+      this.files.list.forEach(file => {
+        if (!file.selected) {
+          file.operation = false;
+        }
+      })
+      item.operation = true
+    },
+    fileListItemMouseLeave(e, item) {
+      this.files.list.forEach(file => {
+        if (!file.selected || this.selectedAllEnable) {
+          file.operation = false;
+        }
+      })
     },
     uploadFileDialogHandle(e) {
       this.uploadFileDialog = !this.uploadFileDialog
@@ -209,12 +240,40 @@ export default {
     filePreviewType(e, type) {
       alert(type)
     },
-    mkdirNewDir(e) {
+    mkdirNewDir(e, file) {
+      this.dirForm.parentId = file ? file._id : ''
       this.showMkdirmodal = true
     },
     closeModalBut(e) {
       this.showMkdirmodal = false
-    }
+      this.dirForm.name = '';
+      this.dirForm.parentId = '';
+    },
+    dirAdd(e) {
+      this.$axios({
+        method: 'POST',
+        url: '/api/directory/add',
+        data: this.dirForm
+      }).then(res => {
+        if (res.data.code && res.data.ok) {
+          this.$message({
+            type: 'success',
+            message: '文件上传成功'
+          })
+          this.showMkdirmodal = false
+          this.getFiles()
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getOne(e, file) {
+      this.files.id = file._id;
+      this.files.count = 0;
+      this.files.offset = 1;
+      this.files.nums = 20;
+      this.getFiles()
+    },
     formateDate(timer) {
       let nowDate = timer ? new Date(timer) : new Date()
       let fullYear = nowDate.getFullYear()
@@ -231,6 +290,7 @@ export default {
   },
   mounted() {
     this.user = JSON.parse(sessionStorage.getItem('userInfo'))
+    this.dirForm.uid = this.user._id
     this.getFiles()
   }
 }
@@ -471,7 +531,7 @@ export default {
 .operation-buts-box {
   display: block;
   float: right;
-  width: 160px;
+  width: auto;
   height: 40px;
 }
 
@@ -516,9 +576,10 @@ export default {
 }
 
 .mkdir-new-dir-dialog-body-header span {
-  width: 980%;
-  height: 40px;
-  lineh-height: 40px;
+  display: block;
+  width: 98%;
+  height: 50px;
+  line-height: 50px;
   padding: 0 0 0 2%;
 }
 
@@ -537,8 +598,15 @@ export default {
   height: auto;
 }
 
+.create-new-dir-form-items {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  margin: 0 0 30px 0;
+}
+
 .create-new-dir-form {
-  width: 96%;
+  width: 92%;
   height: auto;
   padding: 4%;
 }
@@ -592,6 +660,7 @@ export default {
   background: none;
   border: 1px solid #909399;
   border-radius: 5px;
+  margin: 0 50px 0 80px;
 }
 
 .mkdir-new-dir-dialog-body-footer {

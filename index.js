@@ -2,7 +2,7 @@
  * @Author: bluelife
  * @Date:   2019-10-10 23:41:42
  * @Last Modified by:   bluelife
- * @Last Modified time: 2019-12-12 00:19:03
+ * @Last Modified time: 2020-03-06 00:25:43
  */
 'use tsrict'
 const os = require('os')
@@ -15,6 +15,7 @@ const favicon = require('serve-favicon')
 const morgan = require('morgan')
 const rfs = require('rotating-file-stream')
 const http = require('http')
+const https = require('https')
 // 引入http2模块
 const http2 = require('spdy')
 const cookieParser = require('cookie-parser')
@@ -165,6 +166,7 @@ app.use('/api/active', require(path.join(__dirname, '/www/routers/api/active')))
 app.use('/api/target', require(path.join(__dirname, '/www/routers/api/target')))
 app.use('/api/active', require(path.join(__dirname, '/www/routers/api/active')))
 app.use('/api/file', require(path.join(__dirname, '/www/routers/api/file')))
+app.use('/api/directory', require(path.join(__dirname, '/www/routers/api/directory')))
 app.use('/captcha', require(path.join(__dirname, '/www/routers/api/captcha')))
 
 
@@ -178,11 +180,13 @@ mongoose.connect('mongodb://localhost:27017/console', {
     debug(err);
   } else {
     // 数据库连接成功后监听80/443端口
-    // app.listen(80);
-    http.createServer(app).listen(1003)
-    // https.createServer(options, app).listen(443);
+    app.listen(80);
+    // http.createServer(app).listen(1003)
+    console.log(111)
+    https.createServer(options, app).listen(443);
     // const server = http2.createServer(options, app);
     // server.listen(443);
+    console.log(222)
   }
 });
 

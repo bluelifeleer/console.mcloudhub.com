@@ -2,7 +2,7 @@
  * @Author: lipeng
  * @Date:   2019-10-24 08:56:58
  * @Last Modified by:   bluelife
- * @Last Modified time: 2019-12-11 00:20:34
+ * @Last Modified time: 2019-12-17 01:13:46
  */
 const path = require('path');
 const express = require('express');
@@ -30,12 +30,15 @@ router.get('/list', (req, res, next) => {
   let uid = req.query.uid
   let offset = parseInt(req.query.offset) || 1
   let nums = parseInt(req.query.nums) || 20
-  File.countDocuments({
+  let id = req.query.id
+  let where = id ? ({
+    uid: uid,
+    _id: id
+  }) : ({
     uid: uid
-  }, (err, count) => {
-    File.find({
-      uid: uid
-    }).populate([{
+  });
+  File.countDocuments(where, (err, count) => {
+    File.find(where).populate([{
       path: 'own',
       select: 'name'
     }, {
@@ -48,10 +51,10 @@ router.get('/list', (req, res, next) => {
           msg: 'SUCCESS',
           ok: true,
           data: {
-            count: count,
+            count: id ? files[0].directory.length : count,
             offset: offset,
             nums: nums,
-            list: files
+            list: id ? files[0].directory : files
           }
         };
         res.json(output);
@@ -81,9 +84,9 @@ router.post('/upload', (req, res, next) => {
         size: size,
         type: type,
         base64: base64,
-        directory_id: '',
         own: user,
-        directory: null,
+        parent_id: '',
+        directory: [],
         lastModifyDate: lastModifyDate,
         createTime: new Date(),
         modifyTime: new Date(),
