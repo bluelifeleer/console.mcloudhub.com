@@ -281,7 +281,7 @@ export default {
 }
 
 .meni-list-items-active {
-  background: #1890ff;
+  background: #C0C4CC;
   color: #FFF;
 }
 
@@ -293,7 +293,7 @@ export default {
 
 .menu-list-items-tap:hover {
   cursor: pointer;
-  background: #1890ff;
+  background: #C0C4CC;
   color: #FFF;
 }
 
@@ -331,15 +331,16 @@ export default {
 
 .menu-list-items-child-list-items-tap-hover {
   cursor: pointer;
-  background: #1890ff;
+  background: #C0C4CC;
   color: #FFF;
 }
 
 .menu-list-items-child-list-items-tap:hover {
   cursor: pointer;
-  background: #1890ff;
+  background: #C0C4CC;
   color: #FFF;
 }
+
 
 .menu-list-items-child-list-items-tap .menu-list-items-child-list-items-tap-text {
   height: 50px;

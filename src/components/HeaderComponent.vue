@@ -61,7 +61,7 @@ export default {
 .header-container {
   width: 100%;
   height: 50px;
-  background: #002140;
+  background: #fff;
   -opacity: .4;
   -filter: alpha(opacity:40);
   box-shadow: 0 0 8px #ccc;
