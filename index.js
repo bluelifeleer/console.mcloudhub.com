@@ -2,7 +2,7 @@
  * @Author: bluelife
  * @Date:   2019-10-10 23:41:42
  * @Last Modified by:   bluelife
- * @Last Modified time: 2020-03-26 19:38:53
+ * @Last Modified time: 2020-05-07 14:20:50
  */
 'use tsrict'
 const os = require('os')
@@ -72,8 +72,8 @@ app.use(cookieParser(credentials.cookieSecret, {
 }))
 
 const store = new MongoDBStore({
-  uri: 'mongodb://localhost:27017',
-  databaseName: 'console',
+  uri: 'mongodb://bluelife:91732810802745ab0ae1ebef2d4adcab@120.24.20.48:27017/workdata',
+  databaseName: 'workdata',
   collection: 'sessions'
 }, err => {
   if (err) throw err;
@@ -171,7 +171,7 @@ app.use('/captcha', require(path.join(__dirname, '/www/routers/api/captcha')))
 
 
 
-mongoose.connect('mongodb://localhost:27017/console', {
+mongoose.connect('mongodb://bluelife:91732810802745ab0ae1ebef2d4adcab@120.24.20.48:27017/workdata', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false
