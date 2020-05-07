@@ -2,7 +2,7 @@
  * @Author: bluelife
  * @Date:   2019-10-10 23:41:42
  * @Last Modified by:   bluelife
- * @Last Modified time: 2020-03-06 00:25:43
+ * @Last Modified time: 2020-03-26 19:38:53
  */
 'use tsrict'
 const os = require('os')
@@ -180,13 +180,11 @@ mongoose.connect('mongodb://localhost:27017/console', {
     debug(err);
   } else {
     // 数据库连接成功后监听80/443端口
-    app.listen(80);
-    // http.createServer(app).listen(1003)
-    console.log(111)
-    https.createServer(options, app).listen(443);
-    // const server = http2.createServer(options, app);
+    // app.listen(80);
+    http.createServer(app).listen(1003)
+    // https.createServer(options, app).listen(443);
+    const server = http2.createServer(options, app);
     // server.listen(443);
-    console.log(222)
   }
 });
 

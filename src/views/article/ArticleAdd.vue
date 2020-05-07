@@ -3,9 +3,9 @@
     <div class="article-add-body">
       <input type="hidden" name="uid" v-model="article.uid" />
       <div class="article-title">
-				<input type="text" name="article-title" value="" v-model="article.title" placeholder="输入文章标题" />
-				<a href="/article/list" class="goto-article-list">返回文章列表</a>
-				</div>
+        <input type="text" name="article-title" value="" v-model="article.title" placeholder="输入文章标题" />
+        <a href="/article/list" class="goto-article-list">返回文章列表</a>
+      </div>
       <div class="article-content-box">
         <mavon-editor v-model="article.content" @change="change" ref="markerdown" @imgAdd="updateLoadFile" />
       </div>
@@ -46,7 +46,7 @@
 <script>
 export default {
   name: 'ArticleAdd',
-  data () {
+  data() {
     return {
       user: {},
       targetAddDialog: false,
@@ -70,11 +70,11 @@ export default {
       targets: []
     }
   },
-  watch () {
+  watch() {
 
   },
   methods: {
-    getTargets () {
+    getTargets() {
       this.$axios({
         url: `/api/target/list?uid=${this.user._id}&offset=1&nums=100000&sort=`,
         method: 'get' // default
@@ -90,7 +90,7 @@ export default {
         console.log(err)
       })
     },
-    selectItems (item) {
+    selectItems(item) {
       this.article.targets = []
       item.selected = !item.selected
       this.targets.forEach((item) => {
@@ -99,7 +99,7 @@ export default {
         }
       })
     },
-    targetAddFormSubmit (e) {
+    targetAddFormSubmit(e) {
       this.targetAddDialog = false
       this.$axios({
         url: '/api/target/add',
@@ -118,16 +118,27 @@ export default {
         console.log(err)
       })
     },
-    updateLoadFile (pos, $file) {
+    updateLoadFile(pos, $file) {
       console.log(pos)
       console.log($file)
+      // this.$axios({
+      //   url: 'api/file/upload',
+      //   methos: 'post',
+      //   data: {
+
+      //   }
+      // }).then(res => {
+      //   console.log(err)
+      // }).catch(err => {
+      //   console.log(err)
+      // })
     },
-    change (value, render) {
+    change(value, render) {
       this.article.html = render
       this.article.content = value
       this.article.markDown = value
     },
-    articleFormSubmit (e) {
+    articleFormSubmit(e) {
       let _this = this
       // this.article.html.replace(/(\n|\r\n)/g,'<br/>')
       this.$axios({
@@ -141,7 +152,7 @@ export default {
             message: '文章添加成功'
             // center: true
           })
-          setTimeout(function () {
+          setTimeout(function() {
             _this.$router.push({ path: '/article/list' })
           }, 2000)
         }
@@ -150,7 +161,7 @@ export default {
       })
     }
   },
-  mounted () {
+  mounted() {
     this.user = JSON.parse(sessionStorage.getItem('userInfo'))
     this.addTargtForm.uid = this.article.uid = this.user._id
     this.getTargets()
@@ -173,7 +184,7 @@ export default {
 .article-title {
   width: 100%;
   height: 50px;
-	position:relative;
+  position: relative;
 }
 
 .article-title input {
@@ -183,19 +194,19 @@ export default {
   line-height: 50px;
   padding: 0 0 0 1%;
   border: none;
-	font-size:16px;
+  font-size: 16px;
 }
 
-.goto-article-list{
-	display:block;
-	width:120px;
-	height:30px;
-	line-height: 30px;
-	text-align:center;
-	color:#909399;
-	position:absolute;
-	right:0;
-	top:10px;
+.goto-article-list {
+  display: block;
+  width: 120px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: #909399;
+  position: absolute;
+  right: 0;
+  top: 10px;
 }
 
 .article-content-box {
