@@ -259,7 +259,7 @@ export default {
 .menu-component {
   width: auto;
   height: auto;
-  min-height: 680px;
+  min-height: 720px;
 }
 
 .menu-component a {
