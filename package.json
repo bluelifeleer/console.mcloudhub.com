@@ -28,7 +28,7 @@
     "express-session": "^1.17.0",
     "helmet": "^3.21.2",
     "image-size": "^0.8.3",
-    "mavon-editor": "^2.7.7",
+    "mavon-editor": "^2.8.2",
     "md5": "^2.2.1",
     "mongoose": "^5.7.10",
     "morgan": "^1.9.1",
